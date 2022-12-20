@@ -15,6 +15,14 @@ public class ConversaDireta {
 	public void removerAmigos(Perfil amigo) {
 		amigos.remove(amigo);
 	}
+	
+	public Perfil getAmigos(int posicao) {
+		return amigos.get(posicao);
+	}
+	
+	public int sizeConversas() {
+		return amigos.size() + grupos.size();
+	}
 
 	public void adicionarGrupos(Grupo grupo) {
 		grupos.add(grupo);
@@ -22,6 +30,10 @@ public class ConversaDireta {
 	
 	public void removerGrupo(Grupo grupo) {
 		grupos.remove(grupo);
+	}
+	
+	public Grupo getGrupo(int posicao) {
+		return grupos.get(posicao);
 	}
 	
 	public Perfil getConversaFixada() {

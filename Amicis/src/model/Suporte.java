@@ -14,6 +14,13 @@ public class Suporte {
 		tickets.remove(ticket);
 	}
 	
+	public int sizeTicket() {
+		return tickets.size();
+	}
+	
+	public Ticket getTicket(int posicao) {
+		return tickets.get(posicao);
+	}
 	
 	public String getPoliticas() {
 		return politicas;
