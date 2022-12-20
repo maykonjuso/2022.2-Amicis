@@ -45,7 +45,7 @@ public class ConversaDireta {
 	}
 	
 	public boolean responder() {
-		
+		return
 	}
 	
 	public boolean apagarConversa() {
