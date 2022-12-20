@@ -12,9 +12,6 @@ public class Cadastro {
 	private String senha;
 	private Contrato contrato;
 	
-	
-	
-	
 	public Cadastro() {
 		contrato = new Contrato();
 	}

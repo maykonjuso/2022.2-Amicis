@@ -16,11 +16,11 @@ public class ConversaDireta {
 		amigos.remove(amigo);
 	}
 
-	private void adicionarGrupos(Grupo grupo) {
+	public void adicionarGrupos(Grupo grupo) {
 		grupos.add(grupo);
 	}
 	
-	private void removerGrupo(Grupo grupo) {
+	public void removerGrupo(Grupo grupo) {
 		grupos.remove(grupo);
 	}
 	
@@ -31,8 +31,6 @@ public class ConversaDireta {
 	public void setConversaFixada(Perfil conversaFixada) {
 		this.conversaFixada = conversaFixada;
 	}
-
-	private 
 	
 	public boolean responder() {
 		
