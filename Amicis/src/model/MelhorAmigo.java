@@ -1,7 +1,7 @@
 package model;
 
 public class MelhorAmigo {
-	private Amigo amigo;
+	private Perfil amigo;
 	
 	
 }
