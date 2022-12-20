@@ -1,19 +1,28 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Seguindo {
-	private Perfil seguindo;
+	private ArrayList<Perfil> seguindo;
 	private Date tempoSeguindo;
 	
-	public Perfil getSeguindo() {
-		return seguindo;
+	public void adicionarSeguindo(Perfil seguindo) {
+		this.seguindo.add(seguindo);
 	}
-
-	public void setSeguindo(Perfil seguindo) {
-		this.seguindo = seguindo;
+	
+	public void removerSeguindo(Perfil seguindo) {
+		this.seguindo.remove(seguindo);
 	}
-
+	
+	public int sizeSeguindo() {
+		return this.seguindo.size();
+	}
+	
+	public Perfil getSeguindo(int posicao) {
+		return seguindo.get(posicao);
+	}
+	
 	public Date getTempoSeguindo() {
 		return tempoSeguindo;
 	}

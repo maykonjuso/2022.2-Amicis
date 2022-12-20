@@ -13,10 +13,10 @@ public class Preferencia {
 		this.idioma = idioma;
 	}
 	
-	public void adicionarBloqueado(Perfil perfil) {
-		bloqueados.add(perfil);
+	public void adicionarBloqueado(Perfil bloqueado) {
+		bloqueados.add(bloqueado);
 	}
-	public void removerBloqueado(Perfil perfil) {
-		bloqueados.remove(perfil);
+	public void removerBloqueado(Perfil bloqueado) {
+		bloqueados.remove(bloqueado);
 	}
 }

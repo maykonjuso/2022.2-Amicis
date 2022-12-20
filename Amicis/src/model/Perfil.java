@@ -7,20 +7,20 @@ public class Perfil {
 	private String usuario;
 	private Date data;
 	private Date dataIngresso;
-	private ArrayList<MelhorAmigo> melhoresAmigos;
+	private ArrayList<Perfil> melhoresAmigos;
 	private Foto foto;
 	
 	public Perfil() {
-		melhoresAmigos = new ArrayList<MelhorAmigo>();
+		melhoresAmigos = new ArrayList<Perfil>();
 	}
 	
-	public void adicionarMelhorAmigo(MelhorAmigo melhorAmigo) {
+	public void adicionarMelhorAmigo(Perfil melhorAmigo) {
 		melhoresAmigos.add(melhorAmigo);
 	}
-	public MelhorAmigo getMelhorAmigo(int posicao) {
+	public Perfil getMelhorAmigo(int posicao) {
 		return melhoresAmigos.get(posicao);
 	}
-	public void removerMelhorAmigo(MelhorAmigo melhorAmigo) {
+	public void removerMelhorAmigo(Perfil melhorAmigo) {
 		melhoresAmigos.remove(melhorAmigo);
 	}
 	public String getNome() {
