@@ -1,4 +1,4 @@
-package model;
+package br.com.amicis.model;
 
 import java.util.Date;
 
