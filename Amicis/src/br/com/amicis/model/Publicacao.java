@@ -1,4 +1,4 @@
-package model;
+package br.com.amicis.model;
 import java.util.Date;
 public class Publicacao {
 	
@@ -6,6 +6,7 @@ public class Publicacao {
 	private String conteudo;
 	private Date data;
 	private boolean melhoresAmigos;
+	private boolean coracao;
 	
 	public Perfil getPerfil() {
 		return perfil;
@@ -32,19 +33,19 @@ public class Publicacao {
 		this.melhoresAmigos = melhoresAmigos;
 	}
 	
-	public boolean colocarCoracao() {
-		
+	public void colocarCoracao() {
+		coracao = true;
 	}
 	
-	public boolean retirarCoracao() {
-		
+	public void retirarCoracao() {
+		coracao = false;
 	}
 	
 	public boolean enviar() {
 		
 	}
 	
-	public boolean excluir() {
+	public void excluir() {
 		
 	}
 }

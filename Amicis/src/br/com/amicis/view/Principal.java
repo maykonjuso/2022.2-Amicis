@@ -1,4 +1,4 @@
-package view;
+package br.com.amicis.view;
 
 import java.awt.EventQueue;
 

@@ -1,4 +1,4 @@
-package model;
+package br.com.amicis.model;
 
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ public class ConversaDireta {
 	}
 	
 	public boolean responder() {
-		return
+		
 	}
 	
 	public boolean apagarConversa() {
