@@ -5,7 +5,7 @@ public class Perfil {
 	
 	private String nome;
 	private String usuario;
-	private Date data;
+	private Date dataNascimento;
 	private Date dataIngresso;
 	private ArrayList<Perfil> melhoresAmigos;
 	private Foto foto;
