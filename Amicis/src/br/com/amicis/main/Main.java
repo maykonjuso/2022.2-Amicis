@@ -1,22 +1,15 @@
 package br.com.amicis.main;
 
-import java.util.Date;
-
-import br.com.amicis.dao.PerfilDAO;
-import br.com.amicis.model.Perfil;
+import br.com.amicis.dao.UsuarioDAO;
+import br.com.amicis.model.Usuario;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Perfil perfil = new Perfil();
-		PerfilDAO perfilDAO = new PerfilDAO();
 		
-		perfil.setNome("maykon");
-		perfil.setUsuario("maiiko_n");
-		perfil.setMelhorAmigo(false);
-		perfil.setDataNascimento(new Date());
-		perfil.setDataIngresso(new Date());
-		
-		perfilDAO.save(perfil);
+		Usuario usuario = new Usuario();
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+	
+		usuarioDAO.save(usuario);
 	}
 }

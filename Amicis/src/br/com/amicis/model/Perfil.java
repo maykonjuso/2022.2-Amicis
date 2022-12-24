@@ -1,64 +1,49 @@
 package br.com.amicis.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Perfil {
 	
-	private String nome;
-	private String usuario;
-	private Date dataNascimento;
-	private Date dataIngresso;
-	private Boolean melhorAmigo;
-	private Boolean bloqueado;
-	private ArrayList<Perfil> melhoresAmigos;
+	private Usuario usuario;
+	private String bio;
+	private Status status;
+	private ArrayList<Seguidor> seguidores;
+	private ArrayList<Seguindo> seguindo;
 	
-	public Perfil() {
-		melhoresAmigos = new ArrayList<Perfil>();
+	public void adicionarSeguidor(Seguidor seguidor) {
+		seguidores.add(seguidor);
 	}
-	public void adicionarMelhorAmigo(Perfil melhorAmigo) {
-		melhoresAmigos.add(melhorAmigo);
+	public void removerSeguidor(Seguidor seguidor) {
+		seguidores.remove(seguidor);
 	}
-	public Perfil getMelhorAmigo(int posicao) {
-		return melhoresAmigos.get(posicao);
+	public Seguidor getSeguidor(int posicao) {
+		return seguidores.get(posicao);
 	}
-	public void removerMelhorAmigo(Perfil melhorAmigo) {
-		melhoresAmigos.remove(melhorAmigo);
+	public void adicionarSeguindo(Seguindo seguindo) {
+		this.seguindo.add(seguindo);
 	}
-	public String getNome() {
-		return nome;
+	public void removerSeguindo(Seguindo seguindo) {
+		this.seguindo.remove(seguindo);
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public Seguindo getSeguindo(int posicao) {
+		return this.seguindo.get(posicao);
 	}
-	public String getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
-	public void setUsuario(String usuario) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public Date getDataIngresso() {
-		return dataIngresso;
+	public Status getStatus() {
+		return status;
 	}
-	public void setDataIngresso(Date dataIngresso) {
-		this.dataIngresso = dataIngresso;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
-	public Date getDataNascimento() {
-		return dataNascimento;
+	public String getBio() {
+		return bio;
 	}
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
-	public Boolean getMelhorAmigo() {
-		return melhorAmigo;
-	}
-	public void setMelhorAmigo(Boolean melhorAmigo) {
-		this.melhorAmigo = melhorAmigo;
-	}
-	public Boolean getBloqueado() {
-		return bloqueado;
-	}
-	public void setBloqueado(Boolean bloqueado) {
-		this.bloqueado = bloqueado;
+	public void setBio(String bio) {
+		this.bio = bio;
 	}
 }

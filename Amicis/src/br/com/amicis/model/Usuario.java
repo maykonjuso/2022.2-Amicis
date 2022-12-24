@@ -7,13 +7,18 @@ public class Usuario {
 	private String nome;
 	private String sobrenome;
 	private String usuario;
+	private Date dataCadastro;
 	private Date dataNascimeto;
 	private String telefone;
-	private Date dataCadastro;
 	private String email;
 	private Contrato contrato;
 	private String senha;
+	private Perfil perfil;
 	
+	public Usuario() {
+		perfil = new Perfil();
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -67,5 +72,12 @@ public class Usuario {
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 }
