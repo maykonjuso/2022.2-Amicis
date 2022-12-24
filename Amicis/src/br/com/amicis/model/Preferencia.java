@@ -3,6 +3,7 @@ package br.com.amicis.model;
 import java.util.ArrayList;
 
 public class Preferencia {
+	
 	private ArrayList<Perfil> bloqueados;
 	private String idioma;
 	
@@ -12,7 +13,6 @@ public class Preferencia {
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
 	}
-	
 	public void adicionarBloqueado(Perfil bloqueado) {
 		bloqueados.add(bloqueado);
 	}

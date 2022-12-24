@@ -1,11 +1,12 @@
 package br.com.amicis.model;
 
 public class Status {
+	
 	private boolean online;
 	private String relacionamento;
 	private String localidade;
 	
-	public boolean isOnline() {
+	public boolean getOnline() {
 		return online;
 	}
 	public void setOnline(boolean online) {
