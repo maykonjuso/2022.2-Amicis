@@ -1,32 +1,29 @@
 package br.com.amicis.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
-import br.com.amicis.model.Usuario;
+import br.com.amicis.model.Perfil;
 
-public class UsuarioDAO {
+public class AmigoDAO {
 	
-	public void save(Usuario usuario) {
+	public void save(Perfil perfil) {
 		
-		String sql = "INSERT INTO usuario(nome, sobrenome, this_usuario, telefone, email, senha) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO Amigo(amigo) VALUES (?)";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			// Criar uma conexão com o banco de dados
 			conn = ConnectionFactory.createConnectionToMySQL();
 			// Criado uma preparedStatement para que a query seja executada
+			
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			
-			pstm.setString(1, usuario.getNome());
-			pstm.setString(2, usuario.getSobrenome());
-			pstm.setString(3, usuario.getUsuario());
-			pstm.setString(4, usuario.getTelefone());
-			pstm.setString(5, usuario.getEmail());
-			pstm.setString(6, usuario.getSenha());
+			for (int i = 0; i < 2; i++) {
+				pstm.setString(1, perfil.getAmigo(i).getUsuario().getNome());
+			}
 			
 			// executando a query
 			pstm.execute();

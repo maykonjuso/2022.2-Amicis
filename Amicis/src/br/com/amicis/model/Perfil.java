@@ -4,35 +4,28 @@ import java.util.ArrayList;
 
 public class Perfil {
 	
-	private Usuario usuario;
 	private String bio;
 	private Status status;
-	private ArrayList<Seguidor> seguidores;
-	private ArrayList<Seguindo> seguindo;
+	private ArrayList<Perfil> amigos;
+	private Usuario usuario;
 	
-	public void adicionarSeguidor(Seguidor seguidor) {
-		seguidores.add(seguidor);
+	
+	
+	public Perfil() {
+		amigos = new ArrayList<Perfil>();
 	}
-	public void removerSeguidor(Seguidor seguidor) {
-		seguidores.remove(seguidor);
+	
+	public void adicionarAmigo(Perfil amigo) {
+		amigos.add(amigo);
 	}
-	public Seguidor getSeguidor(int posicao) {
-		return seguidores.get(posicao);
+	public void removerAmigo(Perfil amigo) {
+		amigos.remove(amigo);
 	}
-	public void adicionarSeguindo(Seguindo seguindo) {
-		this.seguindo.add(seguindo);
+	public Perfil getAmigo(int posicao) {
+		return amigos.get(posicao);
 	}
-	public void removerSeguindo(Seguindo seguindo) {
-		this.seguindo.remove(seguindo);
-	}
-	public Seguindo getSeguindo(int posicao) {
-		return this.seguindo.get(posicao);
-	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public int sizeAmigo() {
+		return amigos.size();
 	}
 	public Status getStatus() {
 		return status;
@@ -45,5 +38,13 @@ public class Perfil {
 	}
 	public void setBio(String bio) {
 		this.bio = bio;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

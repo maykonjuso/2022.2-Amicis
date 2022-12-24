@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Usuario {
 	
+	private Perfil perfil;
 	private String nome;
 	private String sobrenome;
 	private String usuario;
@@ -13,12 +14,14 @@ public class Usuario {
 	private String email;
 	private Contrato contrato;
 	private String senha;
-	private Perfil perfil;
 	
-	public Usuario() {
+	
+	
+	public Usuario () {
 		perfil = new Perfil();
+		perfil.setUsuario(this);
 	}
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -76,7 +79,6 @@ public class Usuario {
 	public Perfil getPerfil() {
 		return perfil;
 	}
-
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}

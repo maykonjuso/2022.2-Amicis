@@ -1,34 +1,31 @@
 create table usuario(
-	id int not null auto_increment primary key,
-	nome varchar(40) not null,
-	sobrenome varchar(40) not null,
-	this_usuario varchar(40) not null,
-	data_cadastro DATE not null,
-	data_nascimento DATE not null,
-	telefone varchar(20) not null,
-	email varchar(50) not null,
-	senha varchar(50) not null
+	id int auto_increment primary key,
+
+	nome varchar(40),
+	sobrenome varchar(40),
+	this_usuario varchar(40),
+	data_cadastro DATE,
+	data_nascimento DATE,
+	telefone varchar(20),
+	email varchar(50),
+	senha varchar(50)
 );
 
 create table perfil(
-	id int not null auto_increment primary key,
+	id int auto_increment primary key,
 	id_usuario int,
+
+	status_online boolean,
+	relacionamento varchar(50),
+	localidade varchar(50),
 	bio varchar(200),
-	id_usuario_seguidor varchar(40),
-	id_usuario_seguindo varchar(40),
-	
+
 	FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 
-create table seguidor(
-	id_perfil int,
+create table Amigo(
+	id_usuario int primary key,
+	amigo varchar(50),
+
 	FOREIGN KEY (id_perfil) REFERENCES usuario(id)
-);
-
-create table seguindo(
-
-);
-
-create table status(
-
 );
