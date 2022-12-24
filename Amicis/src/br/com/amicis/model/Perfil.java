@@ -7,6 +7,7 @@ public class Perfil {
 	private String usuario;
 	private Date dataNascimento;
 	private Date dataIngresso;
+	private Boolean melhorAmigo;
 	private ArrayList<Perfil> melhoresAmigos;
 	private Foto foto;
 	
@@ -35,12 +36,6 @@ public class Perfil {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-	public Date getData() {
-		return data;
-	}
-	public void setData(Date data) {
-		this.data = data;
-	}
 	public Date getDataIngresso() {
 		return dataIngresso;
 	}
@@ -68,5 +63,21 @@ public class Perfil {
 	
 	public boolean adicionarMelhorAmigo() {
 		
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public Boolean getMelhorAmigo() {
+		return melhorAmigo;
+	}
+
+	public void setMelhorAmigo(Boolean melhorAmigo) {
+		this.melhorAmigo = melhorAmigo;
 	}
 }
