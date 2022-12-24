@@ -11,7 +11,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --innodb_force_recovery=0
     volumes: 
-      - C:\Users\mayko\Documents\Projetos\dados:/var/lib/mysql
+      - CAMINHO/ONDE/SERA/SALVO:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
