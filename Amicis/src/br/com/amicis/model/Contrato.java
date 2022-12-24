@@ -3,6 +3,7 @@ package br.com.amicis.model;
 import java.util.Date;
 
 public class Contrato {
+	
 	private String termosUso;
 	private String politicas;
 	private Date dataValidade;

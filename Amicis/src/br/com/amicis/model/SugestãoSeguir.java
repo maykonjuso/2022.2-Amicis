@@ -1,9 +1,9 @@
 package br.com.amicis.model;
 
 public class SugestãoSeguir {
+	
 	private String perfil;
 	private boolean segueVoce;
-	
 	
 	public String getPerfil() {
 		return perfil;

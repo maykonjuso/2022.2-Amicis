@@ -1,11 +1,12 @@
 package br.com.amicis.model;
+
 import java.util.Date;
+
 public class Publicacao {
 	
 	private Perfil perfil;
 	private String conteudo;
 	private Date data;
-	private boolean melhoresAmigos;
 	private boolean coracao;
 	
 	public Perfil getPerfil() {
@@ -26,26 +27,10 @@ public class Publicacao {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	public boolean isMelhoresAmigos() {
-		return melhoresAmigos;
+	public boolean getCoracao() {
+		return coracao;
 	}
-	public void setMelhoresAmigos(boolean melhoresAmigos) {
-		this.melhoresAmigos = melhoresAmigos;
-	}
-	
-	public void colocarCoracao() {
-		coracao = true;
-	}
-	
-	public void retirarCoracao() {
-		coracao = false;
-	}
-	
-	public boolean enviar() {
-		
-	}
-	
-	public void excluir() {
-		
+	public void setCoracao(boolean coracao) {
+		this.coracao = coracao;
 	}
 }

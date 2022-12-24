@@ -1,5 +1,7 @@
 package br.com.amicis.model;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Perfil {
 	
@@ -8,13 +10,12 @@ public class Perfil {
 	private Date dataNascimento;
 	private Date dataIngresso;
 	private Boolean melhorAmigo;
+	private Boolean bloqueado;
 	private ArrayList<Perfil> melhoresAmigos;
-	private Foto foto;
 	
 	public Perfil() {
 		melhoresAmigos = new ArrayList<Perfil>();
 	}
-	
 	public void adicionarMelhorAmigo(Perfil melhorAmigo) {
 		melhoresAmigos.add(melhorAmigo);
 	}
@@ -42,42 +43,22 @@ public class Perfil {
 	public void setDataIngresso(Date dataIngresso) {
 		this.dataIngresso = dataIngresso;
 	}
-	public Foto getFoto() {
-		return foto;
-	}
-	public void setFoto(Foto foto) {
-		this.foto = foto;
-	}
-	
-	public boolean pedirParaSeguir() {
-		
-	}
-	
-	public boolean deixarDeSeguir() {
-		
-	}
-	
-	public boolean mudarStatus() {
-		
-	}
-	
-	public boolean adicionarMelhorAmigo() {
-		
-	}
-
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
-
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-
 	public Boolean getMelhorAmigo() {
 		return melhorAmigo;
 	}
-
 	public void setMelhorAmigo(Boolean melhorAmigo) {
 		this.melhorAmigo = melhorAmigo;
+	}
+	public Boolean getBloqueado() {
+		return bloqueado;
+	}
+	public void setBloqueado(Boolean bloqueado) {
+		this.bloqueado = bloqueado;
 	}
 }

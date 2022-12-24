@@ -3,35 +3,26 @@ package br.com.amicis.model;
 import java.util.Date;
 
 public class Notificacao {
-	private String nome;
+	private Perfil perfil;
 	private Date dataNoficacao;
 	private String conteudo;
 
-	public String getNome() {
-		return nome;
+	public Perfil getPerfil() {
+		return perfil;
 	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
-
 	public Date getDataNoficacao() {
 		return dataNoficacao;
 	}
-
 	public void setDataNoficacao(Date dataNoficacao) {
 		this.dataNoficacao = dataNoficacao;
 	}
-
 	public String getConteudo() {
 		return conteudo;
 	}
-
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
-	}
-	
-	private boolean apagar() {
-		
 	}
 }
