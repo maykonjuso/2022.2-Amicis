@@ -9,8 +9,6 @@ public class Perfil {
 	private ArrayList<Perfil> amigos;
 	private Usuario usuario;
 	
-	
-	
 	public Perfil() {
 		amigos = new ArrayList<Perfil>();
 	}

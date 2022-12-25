@@ -29,3 +29,4 @@ create table Amigo(
 
 	FOREIGN KEY (id_perfil) REFERENCES usuario(id)
 );
+
