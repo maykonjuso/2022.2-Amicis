@@ -15,11 +15,10 @@ public class Usuario {
 	private Contrato contrato;
 	private String senha;
 	
-	
-	
 	public Usuario () {
 		perfil = new Perfil();
 		perfil.setUsuario(this);
+		contrato = new Contrato();
 	}
 	
 	public String getNome() {
