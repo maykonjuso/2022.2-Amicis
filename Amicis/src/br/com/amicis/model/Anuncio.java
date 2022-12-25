@@ -5,6 +5,11 @@ public class Anuncio {
 	private Perfil anunciante;
 	private Publicacao publicacao;
 	
+	public Anuncio() {
+		anunciante = new Perfil();
+		publicacao = new Publicacao();
+	}
+	
 	public Perfil getAnunciante() {
 		return anunciante;
 	}
