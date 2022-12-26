@@ -1,24 +1,27 @@
 package br.com.amicis.model;
 
 public class Anuncio {
-	
-	private Perfil anunciante;
+
+	private Usuario anunciante;
 	private Publicacao publicacao;
-	
+
 	public Anuncio() {
-		anunciante = new Perfil();
+		anunciante = new Usuario();
 		publicacao = new Publicacao();
 	}
-	
-	public Perfil getAnunciante() {
+
+	public Usuario getAnunciante() {
 		return anunciante;
 	}
-	public void setAnunciante(Perfil anunciante) {
+
+	public void setAnunciante(Usuario anunciante) {
 		this.anunciante = anunciante;
 	}
+
 	public Publicacao getPublicacao() {
 		return publicacao;
 	}
+
 	public void setPublicacao(Publicacao publicacao) {
 		this.publicacao = publicacao;
 	}

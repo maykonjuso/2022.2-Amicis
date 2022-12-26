@@ -23,10 +23,19 @@ create table perfil(
 	FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 
-create table Amigo(
+create table amigo(
 	id_usuario int primary key,
 	amigo varchar(50),
 
 	FOREIGN KEY (id_perfil) REFERENCES usuario(id)
 );
+
+create table bloqueado(
+	id_usuario int primary key,
+	bloqueado varchar(50),
+
+	FOREIGN KEY (id_perfil) REFERENCES usuario(id)
+);
+
+
 
