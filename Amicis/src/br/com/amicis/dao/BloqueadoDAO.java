@@ -16,21 +16,22 @@ public class BloqueadoDAO {
 		PreparedStatement pstm = null;
 		try {
 			for (int i = 0; i < perfil.sizeBloqueado(); i++) {
-				
+
 				// Criar uma conexão com o banco de dados
 				conn = ConnectionFactory.createConnectionToMySQL();
 				// Criado uma preparedStatement para que a query seja executada
-	
+
 				pstm = (PreparedStatement) conn.prepareStatement(sql);
-	
+
 				pstm.setString(1, perfil.getUsuario().getUsuario());
 				pstm.setString(2, perfil.getBloqueado(i).getUsuario().getUsuario());
-	
+
 				// executando a query
 				pstm.execute();
-	
-				System.out.println(perfil.getUsuario().getNome()+" bloqueou " + perfil.getBloqueado(i).getUsuario().getNome() +" com sucesso.");
-				
+
+				System.out.println(perfil.getUsuario().getUsuario() + " bloqueou "
+						+ perfil.getBloqueado(i).getUsuario().getUsuario() + " com sucesso.");
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

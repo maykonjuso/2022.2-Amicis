@@ -14,7 +14,7 @@ public class Executar {
 
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-		usuario1.setUsuario("maykon");
+		usuario1.setUsuario("maykona");
 		usuario2.setUsuario("pedro");
 		usuario3.setUsuario("paulo");
 		usuario1.getPerfil().setBio("salve");
