@@ -11,11 +11,10 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --innodb_force_recovery=0
     volumes: 
-      - CAMINHO/ONDE/SERA/SALVO:/var/lib/mysql
+      - C:\Users\mayko\Documents\projetos\dados:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
-      MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: Banco123
       MYSQL_DATABASE: Amicis
       MYSQL_PASSWORD: Banco123

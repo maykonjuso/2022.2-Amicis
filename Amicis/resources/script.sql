@@ -24,17 +24,17 @@ create table perfil(
 );
 
 create table amigo(
-	id_usuario int primary key,
+	id_perfil int primary key,
 	amigo varchar(50),
 
-	FOREIGN KEY (id_perfil) REFERENCES usuario(id)
+	FOREIGN KEY (id_perfil) REFERENCES perfil(id)
 );
 
 create table bloqueado(
-	id_usuario int primary key,
+	id_perfil int primary key,
 	bloqueado varchar(50),
 
-	FOREIGN KEY (id_perfil) REFERENCES usuario(id)
+	FOREIGN KEY (id_perfil) REFERENCES perfil(id)
 );
 
 
