@@ -32,7 +32,7 @@ public class PerfilDAO {
 			// executando a query
 			pstm.execute();
 
-			System.out.println("Conexão realizada com sucesso.");
+			System.out.println("Perfil " + perfil.getUsuario().getNome() +" salvo com sucesso.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

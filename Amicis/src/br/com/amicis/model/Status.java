@@ -5,6 +5,17 @@ public class Status {
 	private boolean online;
 	private String relacionamento;
 	private String localidade;
+	private Perfil perfil;
+	
+	
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
 
 	public boolean getOnline() {
 		return online;

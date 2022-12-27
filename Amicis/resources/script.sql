@@ -3,7 +3,7 @@ create table usuario(
 
 	nome varchar(40),
 	sobrenome varchar(40),
-	this_usuario varchar(40),
+	this_usuario varchar(40) UNIQUE,
 	data_cadastro DATE,
 	data_nascimento DATE,
 	telefone varchar(20),
@@ -24,17 +24,15 @@ create table perfil(
 );
 
 create table amigo(
-	id_perfil int primary key,
-	amigo varchar(50),
-
-	FOREIGN KEY (id_perfil) REFERENCES perfil(id)
+	id int auto_increment primary key,
+	id_perfil int,
+	id_amigo int
 );
 
 create table bloqueado(
-	id_perfil int primary key,
-	bloqueado varchar(50),
-
-	FOREIGN KEY (id_perfil) REFERENCES perfil(id)
+	id int auto_increment primary key,
+	id_perfil int,
+	id_bloqueado int
 );
 
 
