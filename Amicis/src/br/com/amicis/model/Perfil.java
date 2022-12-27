@@ -12,6 +12,7 @@ public class Perfil {
 
 	public Perfil() {
 		status = new Status();
+		status.setPerfil(this);
 		amigos = new ArrayList<Perfil>();
 		bloqueados = new ArrayList<Perfil>();
 	}
@@ -42,6 +43,10 @@ public class Perfil {
 
 	public int sizeAmigo() {
 		return amigos.size();
+	}
+	
+	public int sizeBloqueado() {
+		return bloqueados.size();
 	}
 
 	public Status getStatus() {

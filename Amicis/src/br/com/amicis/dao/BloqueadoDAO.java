@@ -11,25 +11,27 @@ public class BloqueadoDAO {
 
 	public void save(Perfil perfil) {
 
-		String sql = "INSERT INTO bloqueado(bloqueado) VALUES (?)";
+		String sql = "INSERT INTO amigo(id_perfil, id_bloqueado) VALUES ((SELECT id FROM usuario WHERE nome = (?)), (SELECT id FROM usuario WHERE nome = (?)));";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
-			// Criar uma conexão com o banco de dados
-			conn = ConnectionFactory.createConnectionToMySQL();
-			// Criado uma preparedStatement para que a query seja executada
-
-			pstm = (PreparedStatement) conn.prepareStatement(sql);
-
-			for (int i = 0; i < 2; i++) {
-				pstm.setString(1, perfil.getBloqueado(i).getUsuario().getNome());
+			for (int i = 0; i < perfil.sizeBloqueado(); i++) {
+				
+				// Criar uma conexão com o banco de dados
+				conn = ConnectionFactory.createConnectionToMySQL();
+				// Criado uma preparedStatement para que a query seja executada
+	
+				pstm = (PreparedStatement) conn.prepareStatement(sql);
+	
+				pstm.setString(1, perfil.getUsuario().getUsuario());
+				pstm.setString(2, perfil.getBloqueado(i).getUsuario().getUsuario());
+	
+				// executando a query
+				pstm.execute();
+	
+				System.out.println(perfil.getUsuario().getNome()+" bloqueou " + perfil.getBloqueado(i).getUsuario().getNome() +" com sucesso.");
+				
 			}
-
-			// executando a query
-			pstm.execute();
-
-			System.out.println("Conexão realizada com sucesso.");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

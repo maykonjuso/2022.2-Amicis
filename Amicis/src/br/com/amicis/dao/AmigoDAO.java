@@ -11,24 +11,25 @@ public class AmigoDAO {
 	
 	public void save(Perfil perfil) {
 		
-		String sql = "INSERT INTO Amigo(amigo) VALUES (?)";
+		String sql = "INSERT INTO amigo(id_perfil, id_amigo) VALUES ((SELECT id FROM usuario WHERE nome = (?)), (SELECT id FROM usuario WHERE nome = (?)));";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
-			// Criar uma conexão com o banco de dados
-			conn = ConnectionFactory.createConnectionToMySQL();
-			// Criado uma preparedStatement para que a query seja executada
-			
-			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			
-			pstm.setString(1, perfil.getAmigo(1).getUsuario().getNome());
-			
-			
-			// executando a query
-			pstm.execute();
-			
-			System.out.println("Conexão realizada com sucesso.");
-			
+			for (int i = 0; i < perfil.sizeAmigo(); i++) {
+				// Criar uma conexão com o banco de dados
+				conn = ConnectionFactory.createConnectionToMySQL();
+				// Criado uma preparedStatement para que a query seja executada
+				
+				pstm = (PreparedStatement) conn.prepareStatement(sql);
+				
+				pstm.setString(1, perfil.getUsuario().getUsuario());
+				pstm.setString(2, perfil.getAmigo(i).getUsuario().getUsuario());
+				
+				// executando a query
+				pstm.execute();
+				
+				System.out.println(perfil.getUsuario().getNome()+" fez amizade com " + perfil.getAmigo(i).getUsuario().getNome() +" com sucesso.");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
