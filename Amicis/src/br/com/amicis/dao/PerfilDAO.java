@@ -15,7 +15,7 @@ public class PerfilDAO {
 
 	public void save(Perfil perfil) {
 
-		String sql = "INSERT INTO perfil(status_online, relacionamento, localidade, bio) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO perfil(status_online, relacionamento, localidade, bio, id_usuario) VALUES (?, ?, ?, ?, (SELECT id FROM usuario WHERE this_usuario = (?)))";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -28,10 +28,10 @@ public class PerfilDAO {
 			pstm.setString(2, perfil.getStatus().getRelacionamento());
 			pstm.setString(3, perfil.getStatus().getLocalidade());
 			pstm.setString(4, perfil.getBio());
+			pstm.setString(5, perfil.getUsuario().getUsuario());
 
 			// executando a query
 			pstm.execute();
-
 			System.out.println("Perfil " + perfil.getUsuario().getUsuario() + " salvo com sucesso.");
 
 		} catch (Exception e) {

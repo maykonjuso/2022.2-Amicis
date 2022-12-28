@@ -8,6 +8,7 @@ public class Executar {
 
 	public static void main(String[] args) {
 
+		AmigoDAO amigoDAO = new AmigoDAO();
 		Usuario usuario1 = new Usuario();
 		Usuario usuario2 = new Usuario();
 		Usuario usuario3 = new Usuario();
@@ -20,7 +21,6 @@ public class Executar {
 		usuario1.getPerfil().setBio("salve");
 		usuario1.getPerfil().getStatus().setLocalidade("japão");
 
-		AmigoDAO amigoDAO = new AmigoDAO();
 
 		usuario1.getPerfil().adicionarAmigo(usuario2.getPerfil());
 		usuario1.getPerfil().adicionarAmigo(usuario3.getPerfil());

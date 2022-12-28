@@ -11,7 +11,7 @@ public class BloqueadoDAO {
 
 	public void save(Perfil perfil) {
 
-		String sql = "INSERT INTO amigo(id_perfil, id_bloqueado) VALUES ((SELECT id FROM usuario WHERE nome = (?)), (SELECT id FROM usuario WHERE nome = (?)));";
+		String sql = "INSERT INTO bloqueados(id_perfil, id_bloqueado) VALUES ((SELECT id FROM usuario WHERE this_usuario = (?)), (SELECT id FROM usuario WHERE this_usuario = (?)));";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {

@@ -1,40 +1,38 @@
-create table usuario(
-	id int auto_increment primary key,
-
-	nome varchar(40),
-	sobrenome varchar(40),
-	this_usuario varchar(40) UNIQUE,
-	data_cadastro DATE,
-	data_nascimento DATE,
+CREATE TABLE usuario (
+	id INT auto_increment,
+	this_usuario varchar(100) UNIQUE,
+	nome varchar(50) ,
+	sobrenome varchar(50),
+	email varchar(100) UNIQUE,
 	telefone varchar(20),
-	email varchar(50),
-	senha varchar(50)
+	dataNascimento DATE,
+	senha varchar(100),
+	dataCadastro DATETIME DEFAULT NOW(),
+	CONSTRAINT id_PK PRIMARY KEY (id)
 );
 
-create table perfil(
-	id int auto_increment primary key,
-	id_usuario int,
-
-	status_online boolean,
-	relacionamento varchar(50),
-	localidade varchar(50),
-	bio varchar(200),
-
-	FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+CREATE TABLE perfil (
+  id_usuario int,
+  status_online boolean,
+  bio varchar(200),
+  relacionamento varchar(50),
+  localidade varchar(50),
+  PRIMARY KEY (id_usuario),
+  CONSTRAINT perfil_FK FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table amigo(
-	id_perfil int,
-	id_amigo int,
-	
-	CONSTRAINT amigos PRIMARY KEY (id_perfil, id_amigo)
+CREATE TABLE amigos (
+	id_perfil INT,
+	id_amigo INT,
+	CONSTRAINT amigos_PK PRIMARY KEY (id_perfil,id_amigo),
+	CONSTRAINT amigos_FK FOREIGN KEY (id_perfil) REFERENCES perfil(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT amigos_FK_1 FOREIGN KEY (id_amigo) REFERENCES perfil(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table bloqueado(
-	id int auto_increment primary key,
-	id_perfil int,
-	id_bloqueado int
+CREATE TABLE bloqueados (
+	id_perfil INT,
+	id_bloqueado INT,
+	CONSTRAINT bloqueados_PK PRIMARY KEY (id_perfil,id_bloqueado),
+	CONSTRAINT bloqueados_FK FOREIGN KEY (id_perfil) REFERENCES perfil(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT bloqueados_FK_1 FOREIGN KEY (id_bloqueado) REFERENCES perfil(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-
-

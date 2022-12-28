@@ -11,7 +11,7 @@ public class AmigoDAO {
 
 	public void save(Perfil perfil) {
 
-		String sql = "INSERT INTO amigo(id_perfil, id_amigo) VALUES ((SELECT id FROM usuario WHERE this_usuario = (?)), (SELECT id FROM usuario WHERE this_usuario = (?)));";
+		String sql = "INSERT INTO amigos(id_perfil, id_amigo) VALUES ((SELECT id FROM usuario WHERE this_usuario = (?)), (SELECT id FROM usuario WHERE this_usuario = (?)));";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
