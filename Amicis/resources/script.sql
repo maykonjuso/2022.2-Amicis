@@ -7,7 +7,7 @@ create table usuario(
 	data_cadastro DATE,
 	data_nascimento DATE,
 	telefone varchar(20),
-	email varchar(50) UNIQUE,
+	email varchar(50),
 	senha varchar(50)
 );
 
@@ -24,9 +24,10 @@ create table perfil(
 );
 
 create table amigo(
-	id int auto_increment primary key,
 	id_perfil int,
-	id_amigo int
+	id_amigo int,
+	
+	CONSTRAINT amigos PRIMARY KEY (id_perfil, id_amigo)
 );
 
 create table bloqueado(
