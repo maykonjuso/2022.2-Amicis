@@ -30,16 +30,20 @@ public class UsuarioDAO {
 			pstm.setString(4, usuario.getTelefone());
 			pstm.setString(5, usuario.getEmail());
 			pstm.setString(6, usuario.getSenha());
-			
+
 			PerfilDAO perfilDAO = new PerfilDAO();
-			
-			perfilDAO.save(usuario.getPerfil());
-			
+			AmigoDAO amigoDAO = new AmigoDAO();
+			BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
+
 			// executando a query
-			
+
 			pstm.execute();
 
-			System.out.println("Usuário " + usuario.getNome() + " salvo com sucesso.");
+			System.out.println("Usuário " + usuario.getUsuario() + " salvo com sucesso.");
+			
+			if (perfilDAO != null) {
+				perfilDAO.save(usuario.getPerfil());
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,8 +87,6 @@ public class UsuarioDAO {
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
 				usuario.setSenha(rset.getString("senha"));
-				
-				
 
 				usuarios.add(usuario);
 			}

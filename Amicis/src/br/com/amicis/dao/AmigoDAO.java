@@ -8,10 +8,10 @@ import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Perfil;
 
 public class AmigoDAO {
-	
+
 	public void save(Perfil perfil) {
-		
-		String sql = "INSERT INTO amigo(id_perfil, id_amigo) VALUES ((SELECT id FROM usuario WHERE nome = (?)), (SELECT id FROM usuario WHERE nome = (?)));";
+
+		String sql = "INSERT INTO amigos(id_perfil, id_amigo) VALUES ((SELECT id FROM usuario WHERE this_usuario = (?)), (SELECT id FROM usuario WHERE this_usuario = (?)));";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -19,27 +19,28 @@ public class AmigoDAO {
 				// Criar uma conexão com o banco de dados
 				conn = ConnectionFactory.createConnectionToMySQL();
 				// Criado uma preparedStatement para que a query seja executada
-				
+
 				pstm = (PreparedStatement) conn.prepareStatement(sql);
-				
+
 				pstm.setString(1, perfil.getUsuario().getUsuario());
 				pstm.setString(2, perfil.getAmigo(i).getUsuario().getUsuario());
-				
+
 				// executando a query
 				pstm.execute();
-				
-				System.out.println(perfil.getUsuario().getNome()+" fez amizade com " + perfil.getAmigo(i).getUsuario().getNome() +" com sucesso.");
+
+				System.out.println(perfil.getUsuario().getUsuario() + " fez amizade com "
+						+ perfil.getAmigo(i).getUsuario().getUsuario() + " com sucesso.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-			if(pstm!=null) {
-				pstm.close();
-			}
-			if (conn!=null) {
-				conn.close();
-			}
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
