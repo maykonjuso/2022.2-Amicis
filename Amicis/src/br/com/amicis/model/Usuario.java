@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class Usuario {
 	
-	private int id;
 	private Perfil perfil;
 	private String nome;
 	private String sobrenome;
@@ -100,13 +99,5 @@ public class Usuario {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 }

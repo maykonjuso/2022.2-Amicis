@@ -75,6 +75,7 @@ public class UsuarioDAO {
 			while (rset.next()) {
 				
 				Usuario usuario = new Usuario();
+				PerfilDAO perfilDAO = new PerfilDAO();
 				AmigoDAO amigoDAO = new AmigoDAO();
 				BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
 
@@ -88,11 +89,11 @@ public class UsuarioDAO {
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
 				usuario.setSenha(rset.getString("senha"));
-				usuario.setId(rset.getInt("id_usuario"));
 				
 				usuario.getPerfil().setAmigos(amigoDAO.getAmigos(usuario.getPerfil()));
 				usuario.getPerfil().setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
-
+				usuario.setPerfil(perfilDAO.getPerfil(usuario));
+				
 				usuarios.add(usuario);
 			}
 		} catch (Exception e) {

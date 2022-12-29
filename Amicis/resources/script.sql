@@ -12,13 +12,13 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE perfil (
-  id_usuario int,
+  usuario varchar(50),
   status_online boolean,
   bio varchar(200),
   relacionamento varchar(50),
   localidade varchar(50),
-  PRIMARY KEY (id_usuario),
-  CONSTRAINT perfil_FK FOREIGN KEY (id_usuario) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (usuario),
+  CONSTRAINT perfil_FK FOREIGN KEY (usuario) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE amigos (
