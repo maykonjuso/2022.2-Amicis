@@ -50,7 +50,7 @@ public class PerfilDAO {
 	}
 
 	public Perfil getPerfil(Usuario usuario) throws SQLException {
-		String sql = "SELECT * FROM perfil WHERE perfil = ?;";
+		String sql = "SELECT * FROM perfil WHERE usuario = ?;";
 		Perfil perfil = new Perfil();
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -63,13 +63,20 @@ public class PerfilDAO {
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, usuario.getUsuario());
 			rset = pstm.executeQuery();
-		
-			perfil.setBio(rset.getString("bio"));
-			perfil.getStatus().setOnline(rset.getBoolean("status_online"));
-			perfil.getStatus().setLocalidade(rset.getString("localidade"));
-			perfil.getStatus().setRelacionamento(rset.getString("relacionamento"));
-			perfil.setThis_usuario(rset.getString("usuario"));
-			
+
+			while (rset.next()) {
+				AmigoDAO amigoDAO = new AmigoDAO();
+				BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
+
+				perfil.setBio(rset.getString("bio"));
+				perfil.getStatus().setOnline(rset.getBoolean("status_online"));
+				perfil.getStatus().setLocalidade(rset.getString("localidade"));
+				perfil.getStatus().setRelacionamento(rset.getString("relacionamento"));
+				perfil.setThis_usuario(rset.getString("usuario"));
+
+				perfil.setAmigos(amigoDAO.getAmigos(usuario.getPerfil()));
+				perfil.setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
