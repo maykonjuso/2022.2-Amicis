@@ -22,17 +22,17 @@ CREATE TABLE perfil (
 );
 
 CREATE TABLE amigos (
-	id_perfil INT,
-	id_amigo INT,
-	CONSTRAINT amigos_PK PRIMARY KEY (id_perfil,id_amigo),
-	CONSTRAINT amigos_FK FOREIGN KEY (id_perfil) REFERENCES perfil(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT amigos_FK_1 FOREIGN KEY (id_amigo) REFERENCES perfil(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	perfil varchar(100),
+	amigo varchar(100),
+	CONSTRAINT amigos_PK PRIMARY KEY (perfil, amigo),
+	CONSTRAINT amigos_FK FOREIGN KEY (perfil) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT amigos_FK_1 FOREIGN KEY (amigo) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE bloqueados (
-	id_perfil INT,
-	id_bloqueado INT,
-	CONSTRAINT bloqueados_PK PRIMARY KEY (id_perfil,id_bloqueado),
-	CONSTRAINT bloqueados_FK FOREIGN KEY (id_perfil) REFERENCES perfil(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT bloqueados_FK_1 FOREIGN KEY (id_bloqueado) REFERENCES perfil(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	perfil varchar(100),
+	bloqueado varchar(100),
+	CONSTRAINT bloqueados_PK PRIMARY KEY (perfil, bloqueado),
+	CONSTRAINT bloqueados_FK FOREIGN KEY (perfil) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT bloqueados_FK_1 FOREIGN KEY (bloqueado) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 );

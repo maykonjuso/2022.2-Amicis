@@ -72,6 +72,7 @@ public class PerfilDAO {
 				perfil.getStatus().setOnline(rset.getBoolean("status_online"));
 				perfil.getStatus().setLocalidade(rset.getString("localidade"));
 				perfil.getStatus().setRelacionamento(rset.getString("relacionamento"));
+				perfil.setId(rset.getInt("id_usuario"));
 
 				perfis.add(perfil);
 			}
