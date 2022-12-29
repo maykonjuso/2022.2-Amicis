@@ -31,8 +31,8 @@ public class AmigoDAO {
 				// executando a query
 				pstm.execute();
 
-				System.out.println(perfil.getUsuario().getUsuario() + " fez amizade com "
-						+ perfil.getAmigo(i) + " com sucesso.");
+				System.out.println(
+						perfil.getUsuario().getUsuario() + " fez amizade com " + perfil.getAmigo(i) + " com sucesso.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class AmigoDAO {
 
 	public ArrayList<String> getAmigos(Perfil perfil) throws SQLException {
 		String sql = "SELECT amigo FROM amigos WHERE perfil = ?;";
-		
+
 		ArrayList<String> amigos = new ArrayList<String>();
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -61,7 +61,7 @@ public class AmigoDAO {
 		ResultSet rset = null;
 
 		try {
-			
+
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, perfil.getUsuario().getUsuario());

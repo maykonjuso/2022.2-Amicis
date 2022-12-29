@@ -37,7 +37,7 @@ public class UsuarioDAO {
 
 			pstm.execute();
 			System.out.println("Usuário " + usuario.getUsuario() + " salvo com sucesso.");
-			
+
 			if (perfilDAO != null) {
 				perfilDAO.save(usuario.getPerfil());
 			}
@@ -73,27 +73,19 @@ public class UsuarioDAO {
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
-				
 				Usuario usuario = new Usuario();
 				PerfilDAO perfilDAO = new PerfilDAO();
-				AmigoDAO amigoDAO = new AmigoDAO();
-				BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
 
-				// recuperar o id
-				
 				usuario.setNome(rset.getString("nome"));
 				usuario.setSobrenome(rset.getString("sobrenome"));
 				usuario.setUsuario(rset.getString("this_usuario"));
-				usuario.setDataCadastro(rset.getDate("data_cadastro"));
-				usuario.setDataCadastro(rset.getDate("data_nascimento"));
+				usuario.setDataCadastro(rset.getDate("dataCadastro"));
+				usuario.setDataCadastro(rset.getDate("dataNascimento"));
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
 				usuario.setSenha(rset.getString("senha"));
-				
-				usuario.getPerfil().setAmigos(amigoDAO.getAmigos(usuario.getPerfil()));
-				usuario.getPerfil().setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
+
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
-				
 				usuarios.add(usuario);
 			}
 		} catch (Exception e) {

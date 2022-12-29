@@ -5,7 +5,8 @@ import java.util.Date;
 public class Notificacao {
 
 	private Perfil perfil;
-	private Date dataNoficacao;
+	private String usuario;
+	private Date data;
 	private String conteudo;
 
 	public Perfil getPerfil() {
@@ -17,11 +18,11 @@ public class Notificacao {
 	}
 
 	public Date getDataNoficacao() {
-		return dataNoficacao;
+		return data;
 	}
 
-	public void setDataNoficacao(Date dataNoficacao) {
-		this.dataNoficacao = dataNoficacao;
+	public void setDataNoficacao(Date data) {
+		this.data = data;
 	}
 
 	public String getConteudo() {
@@ -30,5 +31,13 @@ public class Notificacao {
 
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 }
