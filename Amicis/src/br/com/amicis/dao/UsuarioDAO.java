@@ -32,13 +32,10 @@ public class UsuarioDAO {
 			pstm.setString(6, usuario.getSenha());
 
 			PerfilDAO perfilDAO = new PerfilDAO();
-			AmigoDAO amigoDAO = new AmigoDAO();
-			BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
 
 			// executando a query
 
 			pstm.execute();
-
 			System.out.println("Usuário " + usuario.getUsuario() + " salvo com sucesso.");
 			
 			if (perfilDAO != null) {
@@ -76,9 +73,13 @@ public class UsuarioDAO {
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
+				
 				Usuario usuario = new Usuario();
+				AmigoDAO amigoDAO = new AmigoDAO();
+				BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
 
 				// recuperar o id
+				
 				usuario.setNome(rset.getString("nome"));
 				usuario.setSobrenome(rset.getString("sobrenome"));
 				usuario.setUsuario(rset.getString("this_usuario"));
@@ -87,6 +88,10 @@ public class UsuarioDAO {
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
 				usuario.setSenha(rset.getString("senha"));
+				usuario.setId(rset.getInt("id_usuario"));
+				
+				usuario.getPerfil().setAmigos(amigoDAO.getAmigos(usuario.getPerfil()));
+				usuario.getPerfil().setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
 
 				usuarios.add(usuario);
 			}
