@@ -4,18 +4,39 @@ import java.util.ArrayList;
 
 public class Perfil {
 
+	private Usuario usuario;
+	private String this_usuario;
 	private String bio;
 	private Status status;
+	private Notificacao notificacao;
+	private Conversa conversa;
 	private ArrayList<String> amigos;
 	private ArrayList<String> bloqueados;
-	private String this_usuario;
-	private Usuario usuario;
 
 	public Perfil() {
 		status = new Status();
 		status.setPerfil(this);
-
+		notificacao = new Notificacao();
+		notificacao.setPerfil(this);
+		conversa = new Conversa();
 		amigos = new ArrayList<String>();
+		bloqueados = new ArrayList<String>();
+	}
+
+	public Notificacao getNotificacao() {
+		return notificacao;
+	}
+
+	public void setNotificacao(Notificacao notificacao) {
+		this.notificacao = notificacao;
+	}
+
+	public Conversa getConversaDireta() {
+		return conversa;
+	}
+
+	public void setConversaDireta(Conversa conversa) {
+		this.conversa = conversa;
 	}
 
 	public void adicionarAmigo(Perfil amigo) {

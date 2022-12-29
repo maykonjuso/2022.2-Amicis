@@ -9,9 +9,9 @@ import br.com.amicis.model.Usuario;
 public class Executar {
 
 	public static void main(String[] args) throws SQLException {
-
+		
 		// para salvar os dados no banco
-
+		
 		AmigoDAO amigoDAO = new AmigoDAO();
 		Usuario usuario1 = new Usuario();
 		Usuario usuario2 = new Usuario();

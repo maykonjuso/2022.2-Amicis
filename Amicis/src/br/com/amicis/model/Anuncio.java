@@ -1,28 +1,15 @@
 package br.com.amicis.model;
 
-public class Anuncio {
+public class Anuncio extends Publicacao {
 
-	private Usuario anunciante;
-	private Publicacao publicacao;
+	private boolean anuncio;
 
-	public Anuncio() {
-		anunciante = new Usuario();
-		publicacao = new Publicacao();
+	public boolean getAnuncio() {
+		return anuncio;
 	}
 
-	public Usuario getAnunciante() {
-		return anunciante;
+	public void setAnuncio(boolean anuncio) {
+		this.anuncio = anuncio;
 	}
 
-	public void setAnunciante(Usuario anunciante) {
-		this.anunciante = anunciante;
-	}
-
-	public Publicacao getPublicacao() {
-		return publicacao;
-	}
-
-	public void setPublicacao(Publicacao publicacao) {
-		this.publicacao = publicacao;
-	}
 }
