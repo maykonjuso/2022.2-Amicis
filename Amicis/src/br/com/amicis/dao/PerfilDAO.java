@@ -3,19 +3,18 @@ package br.com.amicis.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Perfil;
+import br.com.amicis.model.Usuario;
 
 public class PerfilDAO {
 
 	public void save(Perfil perfil) {
 
-		String sql = "INSERT INTO perfil(status_online, relacionamento, localidade, bio, id_usuario) VALUES (?, ?, ?, ?, (SELECT id FROM usuario WHERE this_usuario = (?)))";
+		String sql = "INSERT INTO perfil(status_online, relacionamento, localidade, bio, usuario) VALUES (?, ?, ?, ?, (SELECT this_usuario FROM usuario WHERE this_usuario = (?)))";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -50,9 +49,9 @@ public class PerfilDAO {
 		}
 	}
 
-	public List<Perfil> getPerfil() throws SQLException {
-		String sql = "SELECT * FROM perfil";
-		List<Perfil> perfis = new ArrayList<Perfil>();
+	public Perfil getPerfil(Usuario usuario) throws SQLException {
+		String sql = "SELECT * FROM perfil WHERE perfil = ?;";
+		Perfil perfil = new Perfil();
 		Connection conn = null;
 		PreparedStatement pstm = null;
 
@@ -62,20 +61,15 @@ public class PerfilDAO {
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, usuario.getUsuario());
 			rset = pstm.executeQuery();
-
-			while (rset.next()) {
-				Perfil perfil = new Perfil();
-
-				// recuperar o id
-				perfil.setBio(rset.getString("bio"));
-				perfil.getStatus().setOnline(rset.getBoolean("status_online"));
-				perfil.getStatus().setLocalidade(rset.getString("localidade"));
-				perfil.getStatus().setRelacionamento(rset.getString("relacionamento"));
-				perfil.setId(rset.getInt("id_usuario"));
-
-				perfis.add(perfil);
-			}
+		
+			perfil.setBio(rset.getString("bio"));
+			perfil.getStatus().setOnline(rset.getBoolean("status_online"));
+			perfil.getStatus().setLocalidade(rset.getString("localidade"));
+			perfil.getStatus().setRelacionamento(rset.getString("relacionamento"));
+			perfil.setThis_usuario(rset.getString("usuario"));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -94,7 +88,7 @@ public class PerfilDAO {
 				e.printStackTrace();
 			}
 		}
-		return perfis;
+		return perfil;
 	}
 
 }

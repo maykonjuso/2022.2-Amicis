@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Perfil {
 	
-	private int id;
 	private String bio;
 	private Status status;
 	private ArrayList<String> amigos;
 	private ArrayList<String> bloqueados;
+	private String this_usuario;
 	private Usuario usuario;
 
 	public Perfil() {
@@ -83,10 +83,12 @@ public class Perfil {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public int getId() {
-		return id;
+
+	public String getThis_usuario() {
+		return this_usuario;
 	}
-	public void setId(int id) {
-		this.id = id;
+
+	public void setThis_usuario(String this_usuario) {
+		this.this_usuario = this_usuario;
 	}
 }
