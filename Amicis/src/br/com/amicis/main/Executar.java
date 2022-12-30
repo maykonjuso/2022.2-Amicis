@@ -9,9 +9,9 @@ import br.com.amicis.model.Usuario;
 public class Executar {
 
 	public static void main(String[] args) throws SQLException {
-		
+
 		// para salvar os dados no banco
-		
+
 		AmigoDAO amigoDAO = new AmigoDAO();
 		Usuario usuario1 = new Usuario();
 		Usuario usuario2 = new Usuario();
@@ -43,10 +43,11 @@ public class Executar {
 		amigoDAO.save(usuario2.getPerfil());
 
 		// para listar os dados no banco
+//
 
-		for (Usuario usuario : usuarioDAO.getUsuarios()) {
-			System.out.println(usuario.getPerfil().getAmigo(0));
-		}
+//		for (Usuario usuario : usuarioDAO.getUsuarios()) {
+//			System.out.println(usuario.getUsuario());
+//		}
 
 	}
 

@@ -12,13 +12,13 @@ CREATE TABLE usuario (
 );
 
 CREATE TABLE perfil (
-  usuario varchar(50),
-  status_online boolean,
-  bio varchar(200),
-  relacionamento varchar(50),
-  localidade varchar(50),
-  PRIMARY KEY (usuario),
-  CONSTRAINT perfil_FK FOREIGN KEY (usuario) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	usuario varchar(50),
+    status_online boolean,
+	bio varchar(200),
+	relacionamento varchar(50),
+	localidade varchar(50),
+	PRIMARY KEY (usuario),
+	CONSTRAINT perfil_FK FOREIGN KEY (usuario) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE amigos (
@@ -35,4 +35,12 @@ CREATE TABLE bloqueados (
 	CONSTRAINT bloqueados_PK PRIMARY KEY (perfil, bloqueado),
 	CONSTRAINT bloqueados_FK FOREIGN KEY (perfil) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT bloqueados_FK_1 FOREIGN KEY (bloqueado) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE notificacao (
+	usuario varchar(50) NOT NULL,
+	data DATETIME DEFAULT NOW() NOT NULL,
+	conteudo varchar(100) NOT NULL,
+	CONSTRAINT usuario_FK FOREIGN KEY (usuario) REFERENCES usuario(this_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT notificacao_PK PRIMARY KEY (usuario)
 );
