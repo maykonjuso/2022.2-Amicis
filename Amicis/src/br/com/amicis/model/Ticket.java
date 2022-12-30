@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Ticket {
 
+	private String usuario;
 	private Date data;
 	private double protocolo;
 	private String status;
