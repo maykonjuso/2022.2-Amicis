@@ -12,6 +12,7 @@ public class Publicacao {
 
 	public Publicacao(Perfil perfil) {
 		this.setUsuario(perfil.getThis_usuario());
+		this.setPerfil(perfil);
 	}
 
 	public String getConteudo() {

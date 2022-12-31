@@ -53,7 +53,11 @@ public class Executar {
 //
 
 		for (Usuario usuario : usuarioDAO.getUsuarios()) {
-			System.out.println(usuario.getPerfil().getPublicacao(0).getConteudo());
+			try {
+				System.out.println(usuario.getPerfil().getPublicacao(0).getConteudo());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
