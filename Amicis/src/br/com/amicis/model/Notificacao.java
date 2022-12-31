@@ -9,6 +9,11 @@ public class Notificacao {
 	private Date data;
 	private String conteudo;
 
+	public Notificacao(Perfil perfil) {
+		setPerfil(perfil);
+		this.setUsuario(perfil.getUsuario().getUsuario());
+	}
+
 	public Perfil getPerfil() {
 		return perfil;
 	}

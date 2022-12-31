@@ -14,7 +14,7 @@ public class PerfilDAO {
 
 	public void save(Perfil perfil) {
 
-		String sql = "INSERT INTO perfil(status_online, relacionamento, localidade, bio, usuario, termos_uso, politicas) VALUES (?, ?, ?, ?, (SELECT this_usuario FROM usuario WHERE this_usuario = (?)), ?, ?);";
+		String sql = "INSERT INTO perfil(status_online, relacionamento, localidade, bio, usuario, termos_uso, politicas) VALUES (?, ?, ?, ?, (SELECT this_usuario FROM usuario WHERE this_usuario = ?), ?, ?);";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -70,6 +70,7 @@ public class PerfilDAO {
 				AmigoDAO amigoDAO = new AmigoDAO();
 				BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
 				PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
+				NotificacaoDAO notificacaoDAO = new NotificacaoDAO();
 
 				perfil.setBio(rset.getString("bio"));
 				perfil.getStatus().setOnline(rset.getBoolean("status_online"));
@@ -81,7 +82,9 @@ public class PerfilDAO {
 				perfil.setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
 				perfil.setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
 				perfil.setPublicacoes(publicacaoDAO.getPublicacoes(usuario.getPerfil()));
+				perfil.setNotificacoes(notificacaoDAO.getNotificacao(usuario.getPerfil()));
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

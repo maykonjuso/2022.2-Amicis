@@ -15,7 +15,7 @@ public class PublicacaoDAO {
 
 	public void save(Publicacao publicacao) {
 
-		String sql = "INSERT INTO publicacao(usuario, texto, coracao) VALUES ((SELECT usuario FROM perfil WHERE usuario = (?)), ?, ?);";
+		String sql = "INSERT INTO publicacao(usuario, texto, coracao) VALUES ((SELECT usuario FROM perfil WHERE usuario = ?), ?, ?);";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {

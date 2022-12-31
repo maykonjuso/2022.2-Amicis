@@ -55,10 +55,8 @@ CREATE TABLE conversa (
 	texto varchar(240),
 	data DATETIME DEFAULT NOW(),
 	CONSTRAINT id_PK PRIMARY KEY (id),
-	KEY conversa_FK (remetente),
-	KEY conversa_FK_1 (destinatario),
-	CONSTRAINT conversa_FK FOREIGN KEY (remetente) REFERENCES perfil (usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT conversa_FK_1 FOREIGN KEY (destinatario) REFERENCES perfil (usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	KEY conversas_FK (remetente,destinatario),
+	CONSTRAINT conversas_FK FOREIGN KEY (remetente, destinatario) REFERENCES amigos (perfil, amigo) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE publicacao (

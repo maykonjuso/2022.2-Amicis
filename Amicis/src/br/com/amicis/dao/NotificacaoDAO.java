@@ -8,32 +8,22 @@ import java.util.ArrayList;
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
+import br.com.amicis.model.Notificacao;
 import br.com.amicis.model.Perfil;
 
-public class AmigoDAO {
+public class NotificacaoDAO {
 
-	public void save(Perfil perfil) {
+	public void save(Notificacao notificacao) {
 
-		String sql = "INSERT INTO amigos(perfil, amigo) VALUES ((SELECT usuario FROM perfil WHERE usuario = ?), (SELECT usuario FROM perfil WHERE usuario = ?));";
+		String sql = "INSERT INTO notificacao(usuario, conteudo) VALUES ((SELECT usuario FROM perfil WHERE usuario = ?), ?);";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
-			for (int i = 0; i < perfil.sizeAmigos(); i++) {
-				// Criar uma conexão com o banco de dados
-				conn = ConnectionFactory.createConnectionToMySQL();
-				// Criado uma preparedStatement para que a query seja executada
-
-				pstm = (PreparedStatement) conn.prepareStatement(sql);
-
-				pstm.setString(1, perfil.getUsuario().getUsuario());
-				pstm.setString(2, perfil.getAmigo(i));
-
-				// executando a query
-				pstm.execute();
-
-				System.out.println(
-						perfil.getUsuario().getUsuario() + " fez amizade com " + perfil.getAmigo(i) + " com sucesso.");
-			}
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, notificacao.getUsuario());
+			pstm.setString(2, notificacao.getConteudo());
+			pstm.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -50,25 +40,30 @@ public class AmigoDAO {
 		}
 	}
 
-	public ArrayList<String> getAmigos(Perfil perfil) throws SQLException {
-		String sql = "SELECT amigo FROM amigos WHERE perfil = ?;";
+	public ArrayList<Notificacao> getNotificacao(Perfil perfil) throws SQLException {
+		String sql = "SELECT * FROM notificacao WHERE usuario = ?;";
 
-		ArrayList<String> amigos = new ArrayList<String>();
+		ArrayList<Notificacao> notificacoes = new ArrayList<Notificacao>();
 		Connection conn = null;
 		PreparedStatement pstm = null;
-
 		ResultSet rset = null;
 
 		try {
-
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, perfil.getUsuario().getUsuario());
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
-				amigos.add(rset.getString("amigo"));
+
+				Notificacao notificacao = new Notificacao(perfil);
+
+				notificacao.setConteudo(rset.getString("conteudo"));
+				notificacao.setDataNoficacao(rset.getDate("data"));
+
+				notificacoes.add(notificacao);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -87,7 +82,7 @@ public class AmigoDAO {
 				e.printStackTrace();
 			}
 		}
-		return amigos;
+		return notificacoes;
 	}
 
 }

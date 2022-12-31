@@ -8,10 +8,10 @@ public class Perfil {
 	private String this_usuario;
 	private String bio;
 	private Status status;
-	private Notificacao notificacao;
-	private Conversa conversa;
 	private Contrato contrato;
 	private Suporte suporte;
+	private ArrayList<Notificacao> notificacoes;
+	private ArrayList<Conversa> conversas;
 	private ArrayList<Publicacao> publicacoes;
 	private ArrayList<String> amigos;
 	private ArrayList<String> bloqueados;
@@ -19,33 +19,30 @@ public class Perfil {
 	public Perfil() {
 		status = new Status();
 		status.setPerfil(this);
-		notificacao = new Notificacao();
-		notificacao.setPerfil(this);
-		conversa = new Conversa();
 		contrato = new Contrato();
 		suporte = new Suporte();
+
 		amigos = new ArrayList<String>();
-
 		bloqueados = new ArrayList<String>();
-
+		notificacoes = new ArrayList<Notificacao>();
+		conversas = new ArrayList<Conversa>();
 		publicacoes = new ArrayList<Publicacao>();
-
 	}
 
-	public Notificacao getNotificacao() {
-		return notificacao;
+	public ArrayList<Notificacao> getNotificacoes() {
+		return notificacoes;
 	}
 
-	public void setNotificacao(Notificacao notificacao) {
-		this.notificacao = notificacao;
+	public void setNotificacoes(ArrayList<Notificacao> notificacoes) {
+		this.notificacoes = notificacoes;
 	}
 
-	public Conversa getConversaDireta() {
-		return conversa;
+	public ArrayList<Conversa> getConversas() {
+		return conversas;
 	}
 
-	public void setConversaDireta(Conversa conversa) {
-		this.conversa = conversa;
+	public void setConversas(ArrayList<Conversa> conversas) {
+		this.conversas = conversas;
 	}
 
 	public void adicionarAmigo(Perfil amigo) {
@@ -174,4 +171,35 @@ public class Perfil {
 		return publicacoes.get(posicao);
 	}
 
+	public void adicionarConversa(Conversa conversa) {
+		conversas.add(conversa);
+	}
+
+	public void removerConversa(Conversa conversa) {
+		conversas.remove(conversa);
+	}
+
+	public int sizeConversas() {
+		return conversas.size();
+	}
+
+	public Conversa getConversa(int posicao) {
+		return conversas.get(posicao);
+	}
+
+	public void adicionarNotificacao(Notificacao notificacao) {
+		notificacoes.add(notificacao);
+	}
+
+	public void removerNotificacao(Notificacao notificacao) {
+		notificacoes.remove(notificacao);
+	}
+
+	public int sizeNotificac() {
+		return notificacoes.size();
+	}
+
+	public Notificacao getNotificacao(int posicao) {
+		return notificacoes.get(posicao);
+	}
 }

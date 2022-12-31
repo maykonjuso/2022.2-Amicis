@@ -75,6 +75,7 @@ public class UsuarioDAO {
 			while (rset.next()) {
 				Usuario usuario = new Usuario();
 				PerfilDAO perfilDAO = new PerfilDAO();
+				ConversaDAO conversaDAO = new ConversaDAO();
 
 				usuario.setNome(rset.getString("nome"));
 				usuario.setSobrenome(rset.getString("sobrenome"));
@@ -86,6 +87,7 @@ public class UsuarioDAO {
 				usuario.setSenha(rset.getString("senha"));
 
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
+				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
 				usuarios.add(usuario);
 			}
 		} catch (Exception e) {

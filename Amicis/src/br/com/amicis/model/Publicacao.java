@@ -11,7 +11,7 @@ public class Publicacao {
 	private int coracao;
 
 	public Publicacao(Perfil perfil) {
-		this.setUsuario(perfil.getThis_usuario());
+		this.setUsuario(perfil.getUsuario().getUsuario());
 		this.setPerfil(perfil);
 	}
 

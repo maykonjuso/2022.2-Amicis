@@ -4,16 +4,30 @@ import java.util.Date;
 
 public class Conversa {
 
-	private Mensagem remetente;
-	private Mensagem destinatario;
+	private String remetente;
+	private String destinatario;
+	private String conteudo;
 	private Date data;
 
-	public Mensagem getRemetente() {
+	public Conversa(Perfil perfil, int amigo) {
+		this.setRemetente(perfil.getThis_usuario());
+		this.setDestinatario(perfil.getAmigo(amigo));
+	}
+
+	public String getRemetente() {
 		return remetente;
 	}
 
-	public void setRemetente(Mensagem remetente) {
+	public void setRemetente(String remetente) {
 		this.remetente = remetente;
+	}
+
+	public String getDestinatario() {
+		return destinatario;
+	}
+
+	public void setDestinatario(String destinatario) {
+		this.destinatario = destinatario;
 	}
 
 	public Date getData() {
@@ -24,11 +38,12 @@ public class Conversa {
 		this.data = data;
 	}
 
-	public Mensagem getDestinatario() {
-		return destinatario;
+	public String getConteudo() {
+		return conteudo;
 	}
 
-	public void setDestinatario(Mensagem destinatario) {
-		this.destinatario = destinatario;
+	public void setConteudo(String conteudo) {
+		this.conteudo = conteudo;
 	}
+
 }
