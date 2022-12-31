@@ -5,7 +5,6 @@ import java.util.Date;
 public class Contrato {
 
 	private String termosUso;
-	private String politicas;
 	private Date dataValidade;
 
 	public String getTermosUso() {
@@ -14,14 +13,6 @@ public class Contrato {
 
 	public void setTermosUso(String termosUso) {
 		this.termosUso = termosUso;
-	}
-
-	public String getPoliticas() {
-		return politicas;
-	}
-
-	public void setPoliticas(String politicas) {
-		this.politicas = politicas;
 	}
 
 	public Date getDataValidade() {

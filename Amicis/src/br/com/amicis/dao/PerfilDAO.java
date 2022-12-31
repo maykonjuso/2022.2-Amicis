@@ -14,7 +14,7 @@ public class PerfilDAO {
 
 	public void save(Perfil perfil) {
 
-		String sql = "INSERT INTO perfil(status_online, relacionamento, localidade, bio, usuario) VALUES (?, ?, ?, ?, (SELECT this_usuario FROM usuario WHERE this_usuario = (?)))";
+		String sql = "INSERT INTO perfil(status_online, relacionamento, localidade, bio, usuario, termos_uso, politicas) VALUES (?, ?, ?, ?, (SELECT this_usuario FROM usuario WHERE this_usuario = (?)), ?, ?);";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -28,6 +28,8 @@ public class PerfilDAO {
 			pstm.setString(3, perfil.getStatus().getLocalidade());
 			pstm.setString(4, perfil.getBio());
 			pstm.setString(5, perfil.getUsuario().getUsuario());
+			pstm.setString(6, perfil.getContrato().getTermosUso());
+			pstm.setString(7, perfil.getSuporte().getPoliticas());
 
 			// executando a query
 			pstm.execute();
@@ -67,6 +69,7 @@ public class PerfilDAO {
 			while (rset.next()) {
 				AmigoDAO amigoDAO = new AmigoDAO();
 				BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
+				PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
 
 				perfil.setBio(rset.getString("bio"));
 				perfil.getStatus().setOnline(rset.getBoolean("status_online"));
@@ -76,6 +79,8 @@ public class PerfilDAO {
 
 				perfil.setAmigos(amigoDAO.getAmigos(usuario.getPerfil()));
 				perfil.setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
+				perfil.setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
+				perfil.setPublicacoes(publicacaoDAO.getPublicacoes(usuario.getPerfil()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

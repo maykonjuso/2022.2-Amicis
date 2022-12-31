@@ -4,10 +4,15 @@ import java.util.Date;
 
 public class Publicacao {
 
+	private Perfil perfil;
 	private String usuario;
 	private String conteudo;
 	private Date data;
 	private int coracao;
+
+	public Publicacao(Perfil perfil) {
+		this.setUsuario(perfil.getThis_usuario());
+	}
 
 	public String getConteudo() {
 		return conteudo;
@@ -39,5 +44,13 @@ public class Publicacao {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 }

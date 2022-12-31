@@ -10,6 +10,9 @@ public class Perfil {
 	private Status status;
 	private Notificacao notificacao;
 	private Conversa conversa;
+	private Contrato contrato;
+	private Suporte suporte;
+	private ArrayList<Publicacao> publicacoes;
 	private ArrayList<String> amigos;
 	private ArrayList<String> bloqueados;
 
@@ -19,8 +22,11 @@ public class Perfil {
 		notificacao = new Notificacao();
 		notificacao.setPerfil(this);
 		conversa = new Conversa();
+		contrato = new Contrato();
+		suporte = new Suporte();
 		amigos = new ArrayList<String>();
 		bloqueados = new ArrayList<String>();
+		publicacoes = new ArrayList<Publicacao>();
 	}
 
 	public Notificacao getNotificacao() {
@@ -117,6 +123,22 @@ public class Perfil {
 		this.usuario = usuario;
 	}
 
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
+	}
+
+	public Suporte getSuporte() {
+		return suporte;
+	}
+
+	public void setSuporte(Suporte suporte) {
+		this.suporte = suporte;
+	}
+
 	public String getThis_usuario() {
 		return this_usuario;
 	}
@@ -124,4 +146,29 @@ public class Perfil {
 	public void setThis_usuario(String this_usuario) {
 		this.this_usuario = this_usuario;
 	}
+
+	public ArrayList<Publicacao> getPublicacoes() {
+		return publicacoes;
+	}
+
+	public void setPublicacoes(ArrayList<Publicacao> publicacoes) {
+		this.publicacoes = publicacoes;
+	}
+
+	public void adicionarPublicacao(Publicacao publicacao) {
+		publicacoes.add(publicacao);
+	}
+
+	public void removerPublicacao(Publicacao publicacao) {
+		publicacoes.remove(publicacao);
+	}
+
+	public int sizePublicacao() {
+		return publicacoes.size();
+	}
+
+	public Publicacao getPublicacao(int posicao) {
+		return publicacoes.get(posicao);
+	}
+
 }
