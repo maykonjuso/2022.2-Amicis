@@ -14,7 +14,7 @@ public class BloqueadoDAO {
 
 	public void save(Perfil perfil) {
 
-		String sql = "INSERT INTO bloqueados(perfil, bloqueado) VALUES ((SELECT this_usuario FROM usuario WHERE this_usuario = (?)), (SELECT this_usuario FROM usuario WHERE this_usuario = (?)));";
+		String sql = "INSERT INTO bloqueados(perfil, bloqueado) VALUES ((SELECT usuario FROM perfil WHERE usuario = (?)), (SELECT usuario FROM perfil WHERE usuario = (?)));";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -31,8 +31,8 @@ public class BloqueadoDAO {
 				// executando a query
 				pstm.execute();
 
-				System.out.println(perfil.getUsuario().getUsuario() + " fez bloqueou com "
-						+ perfil.getBloqueado(i) + " com sucesso.");
+				System.out.println(perfil.getUsuario().getUsuario() + " fez bloqueou com " + perfil.getBloqueado(i)
+						+ " com sucesso.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,10 +49,10 @@ public class BloqueadoDAO {
 			}
 		}
 	}
-	
+
 	public ArrayList<String> getBloqueados(Perfil perfil) throws SQLException {
 		String sql = "SELECT bloqueado FROM bloqueados WHERE perfil = ?;";
-		
+
 		ArrayList<String> bloqueados = new ArrayList<String>();
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -61,7 +61,7 @@ public class BloqueadoDAO {
 		ResultSet rset = null;
 
 		try {
-			
+
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, perfil.getUsuario().getUsuario());

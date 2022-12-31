@@ -41,4 +41,12 @@ public class Ticket {
 	public void setSeveridade(String severidade) {
 		this.severidade = severidade;
 	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 }

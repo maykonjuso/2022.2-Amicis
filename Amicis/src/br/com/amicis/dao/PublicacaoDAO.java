@@ -9,31 +9,22 @@ import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Perfil;
+import br.com.amicis.model.Publicacao;
 
-public class AmigoDAO {
+public class PublicacaoDAO {
 
-	public void save(Perfil perfil) {
+	public void save(Publicacao publicacao) {
 
-		String sql = "INSERT INTO amigos(perfil, amigo) VALUES ((SELECT usuario FROM perfil WHERE usuario = (?)), (SELECT usuario FROM perfil WHERE usuario = (?)));";
+		String sql = "INSERT INTO publicacao(usuario, texto, coracao) VALUES ((SELECT usuario FROM perfil WHERE usuario = (?)), ?, ?);";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
-			for (int i = 0; i < perfil.sizeAmigos(); i++) {
-				// Criar uma conexão com o banco de dados
-				conn = ConnectionFactory.createConnectionToMySQL();
-				// Criado uma preparedStatement para que a query seja executada
-
-				pstm = (PreparedStatement) conn.prepareStatement(sql);
-
-				pstm.setString(1, perfil.getUsuario().getUsuario());
-				pstm.setString(2, perfil.getAmigo(i));
-
-				// executando a query
-				pstm.execute();
-
-				System.out.println(
-						perfil.getUsuario().getUsuario() + " fez amizade com " + perfil.getAmigo(i) + " com sucesso.");
-			}
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, publicacao.getUsuario());
+			pstm.setString(2, publicacao.getConteudo());
+			pstm.setInt(3, publicacao.getCoracao());
+			pstm.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -50,24 +41,28 @@ public class AmigoDAO {
 		}
 	}
 
-	public ArrayList<String> getAmigos(Perfil perfil) throws SQLException {
-		String sql = "SELECT amigo FROM amigos WHERE perfil = ?;";
+	public ArrayList<Publicacao> getPublicacoes(Perfil perfil) throws SQLException {
+		String sql = "SELECT * FROM publicacao;";
 
-		ArrayList<String> amigos = new ArrayList<String>();
+		ArrayList<Publicacao> publicacoes = new ArrayList<Publicacao>();
+
 		Connection conn = null;
 		PreparedStatement pstm = null;
 
 		ResultSet rset = null;
 
 		try {
-
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, perfil.getUsuario().getUsuario());
 			rset = pstm.executeQuery();
-
 			while (rset.next()) {
-				amigos.add(rset.getString("amigo"));
+				Publicacao publicacao = new Publicacao(perfil);
+
+				publicacao.setConteudo(rset.getString("texto"));
+				publicacao.setCoracao(rset.getInt("coracao"));
+				publicacao.setPerfil(perfil);
+
+				publicacoes.add(publicacao);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,7 +82,7 @@ public class AmigoDAO {
 				e.printStackTrace();
 			}
 		}
-		return amigos;
+		return publicacoes;
 	}
 
 }
