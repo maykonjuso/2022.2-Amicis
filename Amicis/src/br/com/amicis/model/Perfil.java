@@ -25,8 +25,11 @@ public class Perfil {
 		contrato = new Contrato();
 		suporte = new Suporte();
 		amigos = new ArrayList<String>();
+
 		bloqueados = new ArrayList<String>();
+
 		publicacoes = new ArrayList<Publicacao>();
+
 	}
 
 	public Notificacao getNotificacao() {

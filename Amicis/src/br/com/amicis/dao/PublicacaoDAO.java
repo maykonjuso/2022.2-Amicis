@@ -42,28 +42,29 @@ public class PublicacaoDAO {
 	}
 
 	public ArrayList<Publicacao> getPublicacoes(Perfil perfil) throws SQLException {
-		String sql = "SELECT * FROM publicacao;";
+		String sql = "SELECT * FROM publicacao WHERE usuario = ?;";
 
 		ArrayList<Publicacao> publicacoes = new ArrayList<Publicacao>();
-
 		Connection conn = null;
 		PreparedStatement pstm = null;
-
 		ResultSet rset = null;
 
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, perfil.getUsuario().getUsuario());
 			rset = pstm.executeQuery();
+
 			while (rset.next()) {
+
 				Publicacao publicacao = new Publicacao(perfil);
 
 				publicacao.setConteudo(rset.getString("texto"));
 				publicacao.setCoracao(rset.getInt("coracao"));
-				publicacao.setPerfil(perfil);
 
 				publicacoes.add(publicacao);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
