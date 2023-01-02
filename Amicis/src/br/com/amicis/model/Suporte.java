@@ -22,7 +22,11 @@ public class Suporte {
 	public Ticket getTicket(int posicao) {
 		return tickets.get(posicao);
 	}
-
+	
+	public void setTicket(ArrayList<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+	
 	public String getPoliticas() {
 		return politicas;
 	}

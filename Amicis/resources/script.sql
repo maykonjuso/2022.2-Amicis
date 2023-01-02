@@ -71,10 +71,10 @@ CREATE TABLE publicacao (
 
 CREATE TABLE ticket (
 	usuario varchar(50) NOT NULL,
-	data DATETIME DEFAULT NOW(),
 	protocolo INT,
 	status varchar(100),
 	severidade varchar(100),
+	data DATETIME DEFAULT NOW(),
 	CONSTRAINT ticket_PK PRIMARY KEY (protocolo),
 	CONSTRAINT ticket_FK FOREIGN KEY (usuario) REFERENCES Amicis.perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
 )

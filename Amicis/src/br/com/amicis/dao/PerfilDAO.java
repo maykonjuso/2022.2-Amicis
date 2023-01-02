@@ -71,6 +71,7 @@ public class PerfilDAO {
 				BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
 				PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
 				NotificacaoDAO notificacaoDAO = new NotificacaoDAO();
+				TicketDAO ticketDAO = new TicketDAO();
 
 				perfil.setBio(rset.getString("bio"));
 				perfil.getStatus().setOnline(rset.getBoolean("status_online"));
@@ -83,6 +84,7 @@ public class PerfilDAO {
 				perfil.setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
 				perfil.setPublicacoes(publicacaoDAO.getPublicacoes(usuario.getPerfil()));
 				perfil.setNotificacoes(notificacaoDAO.getNotificacao(usuario.getPerfil()));
+				perfil.getSuporte().setTicket(ticketDAO.getTickets(usuario.getPerfil()));
 			}
 
 		} catch (Exception e) {
