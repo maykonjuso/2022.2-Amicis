@@ -3,13 +3,17 @@ package br.com.amicis.main;
 import java.sql.SQLException;
 
 import br.com.amicis.dao.AmigoDAO;
+import br.com.amicis.dao.BloqueadoDAO;
 import br.com.amicis.dao.ConversaDAO;
 import br.com.amicis.dao.NotificacaoDAO;
 import br.com.amicis.dao.PublicacaoDAO;
+import br.com.amicis.dao.TicketDAO;
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Conversa;
 import br.com.amicis.model.Notificacao;
 import br.com.amicis.model.Publicacao;
+import br.com.amicis.model.Suporte;
+import br.com.amicis.model.Ticket;
 import br.com.amicis.model.Usuario;
 
 public class Executar {
@@ -20,6 +24,7 @@ public class Executar {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 		AmigoDAO amigoDAO = new AmigoDAO();
+		BloqueadoDAO BloqueadoDAO = new BloqueadoDAO();
 		Usuario usuario1 = new Usuario();
 		Usuario usuario2 = new Usuario();
 		Usuario usuario3 = new Usuario();
@@ -35,13 +40,18 @@ public class Executar {
 		usuario1.getPerfil().adicionarAmigo(usuario2.getPerfil());
 		usuario1.getPerfil().adicionarAmigo(usuario3.getPerfil());
 		usuario1.getPerfil().adicionarAmigo(usuario4.getPerfil());
-
+		usuario1.getPerfil().adicionarBloqueado(usuario4.getPerfil());
+		
+		
 		usuarioDAO.save(usuario1);
 		usuarioDAO.save(usuario2);
 		usuarioDAO.save(usuario3);
 		usuarioDAO.save(usuario4);
 
 		amigoDAO.save(usuario1.getPerfil());
+		BloqueadoDAO.save(usuario1.getPerfil());
+		
+		
 
 		usuario2.getPerfil().setAmigos(amigoDAO.getAmigos(usuario1.getPerfil()));
 
@@ -68,17 +78,20 @@ public class Executar {
 		NotificacaoDAO notificacaoDAO = new NotificacaoDAO();
 
 		notificacao.setConteudo("bozo");
-
 		notificacaoDAO.save(notificacao);
+		
+		Ticket ticket = new Ticket(usuario1.getPerfil());
+		TicketDAO ticketDAO = new TicketDAO();
+		
+		ticket.setStatus("123");
+		ticketDAO.save(ticket);
 
 		for (Usuario usuario : usuarioDAO.getUsuarios()) {
 			try {
-				System.out.println(usuario.getPerfil().getNotificacao(0).getConteudo());
+				System.out.println(usuario.getPerfil().getBloqueado(0));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-
 	}
-
 }

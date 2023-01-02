@@ -80,7 +80,7 @@ public class Perfil {
 		this.bloqueados = bloqueados;
 	}
 
-	public void adicionarBloquueado(Perfil bloqueado) {
+	public void adicionarBloqueado(Perfil bloqueado) {
 		bloqueados.add(bloqueado.getUsuario().getUsuario());
 	}
 

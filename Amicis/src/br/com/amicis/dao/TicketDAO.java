@@ -17,7 +17,7 @@ public class TicketDAO {
 	public void save(Ticket ticket){
 		//inserir
 
-		String sql = "INSERT INTO ticket(status, protocolo, data, severidade) VALUES (?,?,?,?)";
+		String sql = "INSERT INTO ticket(usuario, status, protocolo, severidade) VALUES (?, ?, ?, ?)";
 
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -26,9 +26,9 @@ public class TicketDAO {
 			conn = ConnectionFactory.createConnectionToMySQL();
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, ticket.getStatus());
-			pstm.setDouble(2, ticket.getProtocolo());
-			pstm.setDate(3, new Date(ticket.getData().getTime()));
+			pstm.setString(1, ticket.getUsuario());
+			pstm.setString(2, ticket.getStatus());
+			pstm.setDouble(3, ticket.getProtocolo());
 			pstm.setString(4, ticket.getSeveridade());
 
 			pstm.execute();
@@ -52,7 +52,7 @@ public class TicketDAO {
 
 	//Leitura dos dados do ticket
 	public ArrayList<Ticket> getTickets(Perfil perfil){
-		String sql	= "SELECT * FROM tickets WHERE usuario = ?";
+		String sql	= "SELECT * FROM ticket WHERE usuario = ?";
 
 		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 
@@ -69,11 +69,11 @@ public class TicketDAO {
 
 			while (rset.next()) {
 
-				Ticket ticket = new Ticket();
+				Ticket ticket = new Ticket(perfil);
 
 				ticket.setStatus(rset.getString("status"));
 				ticket.setProtocolo(rset.getDouble("protocolo"));
-				ticket.setData(rset.getDate("datacadastro"));
+				ticket.setData(rset.getDate("data"));
 				ticket.setSeveridade(rset.getString("severidade"));
 				tickets.add(ticket);
 			}

@@ -7,6 +7,10 @@ public class Suporte {
 	private ArrayList<Ticket> tickets;
 	private String politicas;
 
+	
+	public Suporte() {
+		tickets = new ArrayList<Ticket>();
+	}
 	public void adicionarTicket(Ticket ticket) {
 		tickets.add(ticket);
 	}

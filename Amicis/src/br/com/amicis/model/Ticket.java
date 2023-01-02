@@ -9,7 +9,12 @@ public class Ticket {
 	private double protocolo;
 	private String status;
 	private String severidade;
-
+	
+	public Ticket (Perfil perfil) {
+		perfil.getSuporte().adicionarTicket(this);
+		this.setUsuario(perfil.getUsuario().getUsuario());
+	}
+	
 	public Date getData() {
 		return data;
 	}
