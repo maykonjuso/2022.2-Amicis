@@ -40,4 +40,5 @@ public class Status {
 	public void setLocalidade(String localidade) {
 		this.localidade = localidade;
 	}
+	
 }

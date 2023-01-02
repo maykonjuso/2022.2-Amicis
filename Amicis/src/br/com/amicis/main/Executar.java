@@ -12,7 +12,6 @@ import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Conversa;
 import br.com.amicis.model.Notificacao;
 import br.com.amicis.model.Publicacao;
-import br.com.amicis.model.Suporte;
 import br.com.amicis.model.Ticket;
 import br.com.amicis.model.Usuario;
 
