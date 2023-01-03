@@ -18,6 +18,7 @@ public class Usuario {
 	public Usuario() {
 		perfil = new Perfil();
 		perfil.setUsuario(this);
+		perfil.setThis_usuario(this.getUsuario());
 		contrato = new Contrato();
 	}
 
