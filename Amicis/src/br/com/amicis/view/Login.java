@@ -1,5 +1,6 @@
 package br.com.amicis.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Label;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
 
 public class Login extends JFrame {
 
@@ -65,6 +66,22 @@ public class Login extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JButton btnEntrar = new JButton("entrar");
+		btnEntrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RedeSocial frame;
+				try {
+					frame = new RedeSocial();
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+					dispose();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnEntrar.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		btnEntrar.setBounds(384, 366, 149, 29);
 		getContentPane().add(btnEntrar);

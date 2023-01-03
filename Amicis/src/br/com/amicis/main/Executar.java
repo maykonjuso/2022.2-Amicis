@@ -85,12 +85,6 @@ public class Executar {
 		ticket.setStatus("123");
 		ticketDAO.save(ticket);
 
-		for (Usuario usuario : usuarioDAO.getUsuarios()) {
-			try {
-				System.out.println(usuario.getPerfil().getBloqueado(0));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		
 	}
 }

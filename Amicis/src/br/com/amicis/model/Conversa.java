@@ -10,7 +10,7 @@ public class Conversa {
 	private Date data;
 
 	public Conversa(Perfil perfil, int amigo) {
-		this.setRemetente(perfil.getUsuario().getUsuario());
+		this.setRemetente(perfil.getThis_usuario());
 		this.setDestinatario(perfil.getAmigo(amigo));
 	}
 
