@@ -108,4 +108,69 @@ public class PerfilDAO {
 		return perfil;
 	}
 
+	public void update(Perfil perfil) {
+		String sql = "UPDATE perfil SET status_online = ?, relacionamento = ?, localidade = ?, bio = ?, usuario = (SELECT this_usuario FROM usuario WHERE this_usuario = ?), termos_uso = ?, politicas = ? WHERE usuario = ?;";
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		try {
+			
+			conn = ConnectionFactory.createConnectionToMySQL();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setBoolean(1, perfil.getStatus().getOnline());
+			pstm.setString(2, perfil.getStatus().getRelacionamento());
+			pstm.setString(3, perfil.getStatus().getLocalidade());
+			pstm.setString(4, perfil.getBio());
+			pstm.setString(5, perfil.getUsuario().getUsuario());
+			pstm.setString(6, perfil.getContrato().getTermosUso());
+			pstm.setString(7, perfil.getSuporte().getPoliticas());
+			pstm.setString(8, perfil.getUsuario().getUsuario());
+
+			pstm.executeUpdate();
+			System.out.println("Perfil " + perfil.getUsuario().getUsuario() + " atualizado com sucesso.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void delete(Perfil perfil) {
+		String sql = "DELETE FROM perfil WHERE usuario = ?;";
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		try {
+
+			conn = ConnectionFactory.createConnectionToMySQL();
+			
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, perfil.getUsuario().getUsuario());
+
+			pstm.execute();
+			System.out.println("Perfil " + perfil.getUsuario().getUsuario() + " excluído com sucesso.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

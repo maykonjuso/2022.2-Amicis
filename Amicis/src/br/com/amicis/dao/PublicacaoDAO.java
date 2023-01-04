@@ -85,5 +85,68 @@ public class PublicacaoDAO {
 		}
 		return publicacoes;
 	}
-
+	
+	public void update(Publicacao publicacao) {
+		String sql = "UPDATE publicacao SET usuario = (SELECT usuario FROM perfil WHERE usuario = ?), texto = ?, coracao = ? WHERE usuario = ?;";
+		
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, publicacao.getUsuario());
+			pstm.setString(2, publicacao.getConteudo());
+			pstm.setInt(3, publicacao.getCoracao());
+			pstm.setString(4, publicacao.getUsuario());
+			
+			pstm.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void delete(Publicacao publicacao) {
+		String sql = "DELETE FROM publicacao WHERE usuario = ? AND texto = ?;";
+		
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, publicacao.getUsuario());
+			pstm.setString(2, publicacao.getConteudo());
+			
+			pstm.execute();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

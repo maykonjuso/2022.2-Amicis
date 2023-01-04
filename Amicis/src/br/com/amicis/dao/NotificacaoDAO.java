@@ -1,6 +1,7 @@
 package br.com.amicis.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -84,5 +85,74 @@ public class NotificacaoDAO {
 		}
 		return notificacoes;
 	}
-
+	public void update(Notificacao notificacao) {
+		String sql = "UPDATE notificacao SET conteudo = ? WHERE usuario = ? AND data = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, notificacao.getConteudo());
+			pstm.setString(2, notificacao.getUsuario());
+			
+			// converter util.date para sql.Date
+			java.util.Date utilDate = notificacao.getDataNoficacao();
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			pstm.setDate(3, sqlDate);
+			
+			pstm.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void delete(Notificacao notificacao) {
+	    String sql = "DELETE FROM notificacao WHERE usuario = ? AND data = ?";
+	    
+	    Connection conn = null;
+	    PreparedStatement pstm = null;
+	    
+	    try {
+	        conn = ConnectionFactory.createConnectionToMySQL();
+	        pstm = (PreparedStatement) conn.prepareStatement(sql);
+	        pstm.setString(1, notificacao.getUsuario());
+	        
+	        // Conversão
+	        java.util.Date utilDate = notificacao.getDataNoficacao();
+	        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+	        pstm.setDate(2, sqlDate); pstm.setObject(2, notificacao.getDataNoficacao());
+	        
+	        pstm.execute();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        
+	    } finally {
+	        try {
+	            if (pstm != null) {
+	                pstm.close();
+	            }
+	            if (conn != null) {
+	                conn.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
 }
