@@ -69,9 +69,9 @@ public class Login extends JFrame {
 		btnEntrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RedeSocial frame;
+				Home frame;
 				try {
-					frame = new RedeSocial();
+					frame = new Home();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
