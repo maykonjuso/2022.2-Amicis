@@ -18,11 +18,9 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-/bin/
-
-/.settings/org.eclipse.jdt.core.prefs
+**/target/
+/target/
+*/target/*
+.classpath
 .project
-/null/Documentos/indice-lucene/write.lock
-/config.properties
+.settings
