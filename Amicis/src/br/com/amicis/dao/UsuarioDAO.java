@@ -1,7 +1,6 @@
 package br.com.amicis.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,9 +58,9 @@ public class UsuarioDAO {
 		}
 	}
 	
-public void update(Usuario usuario) {
+	public void update(Usuario usuario) {
 		
-		String sql = "UPDATE usuario SET this_usuario = ?, nome = ?, sobrenome = ?, email= ?, telefone = ?, dataNascimento = ?, senha = ?, dataCadastro = ? " + "WHERE id = ?";
+		String sql = "UPDATE usuario SET nome = ?, sobrenome = ?, telefone = ?, senha = ? WHERE id = ?";
 		
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -72,16 +71,11 @@ public void update(Usuario usuario) {
 			
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			
-			
-			pstm.setString(1, usuario.getUsuario());
-			pstm.setString(2, usuario.getNome());
-			pstm.setString(3, usuario.getSobrenome());
-			pstm.setString(4, usuario.getEmail());
-			pstm.setString(5, usuario.getTelefone());
-			pstm.setDate(6, new Date(usuario.getDataNascimeto().getTime()));
-			pstm.setString(7, usuario.getSenha());
-			pstm.setDate(8, new Date(usuario.getDataCadastro().getTime()));
-			pstm.setInt(9, usuario.getId());
+			pstm.setString(1, usuario.getNome());
+			pstm.setString(2, usuario.getSobrenome());
+			pstm.setString(3, usuario.getTelefone());
+			pstm.setString(4, String.valueOf(usuario.getSenha()));
+			pstm.setInt(5, usuario.getId());
 			
 			pstm.execute();
 			
@@ -111,47 +105,47 @@ public void update(Usuario usuario) {
 		}
 	}
 
-	public void deletarPelaID(int id) {
+	public void delete(Usuario usuario) {
 	
-	String sql = "DELETE FROM usuario WHERE id = ?";
-	
-	Connection conn = null;
-	
-	PreparedStatement pstm = null;
-	
-	try {
-		conn = ConnectionFactory.createConnectionToMySQL();
+		String sql = "DELETE FROM usuario WHERE id = ?";
 		
-		pstm = (PreparedStatement) conn.prepareStatement(sql);
+		Connection conn = null;
 		
-		pstm.setInt(1, id);
-		
-		pstm.execute();
-	
-		
-	} catch (Exception e) {
-		
-		e.printStackTrace();
-	}
-	
-	finally {
+		PreparedStatement pstm = null;
 		
 		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
 			
-			if(pstm!=null) {
-				pstm.close();
-			}
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			
-			if(conn!=null) {
-				conn.close();
-			}
-		}
+			pstm.setInt(1, usuario.getId());
+			
+			pstm.execute();
 		
-		catch (Exception e) {
+			
+		} catch (Exception e) {
+			
 			e.printStackTrace();
 		}
+		
+		finally {
+			
+			try {
+				
+				if(pstm!=null) {
+					pstm.close();
+				}
+				
+				if(conn!=null) {
+					conn.close();
+				}
+			}
+			
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
-}
 
 	public List<Usuario> getUsuarios() throws SQLException {
 		String sql = "SELECT * FROM usuario";

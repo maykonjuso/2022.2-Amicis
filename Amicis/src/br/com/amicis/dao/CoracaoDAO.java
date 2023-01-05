@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
+import br.com.amicis.model.Perfil;
 import br.com.amicis.model.Publicacao;
 
 public class CoracaoDAO {
@@ -86,5 +87,47 @@ public class CoracaoDAO {
 		}
 		return coracoes;
 	}
-
+	
+	public void delete(Publicacao publicacao, Perfil perfil) {
+		
+		String sql = "DELETE FROM coracoes WHERE id = ? AND amigo = ?";
+		
+		Connection conn = null;
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			
+			pstm.setInt(1, publicacao.getId());
+			pstm.setString(2, perfil.getThis_usuario());
+			
+			pstm.execute();
+		
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		finally {
+			
+			try {
+				
+				if(pstm!=null) {
+					pstm.close();
+				}
+				
+				if(conn!=null) {
+					conn.close();
+				}
+			}
+			
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
