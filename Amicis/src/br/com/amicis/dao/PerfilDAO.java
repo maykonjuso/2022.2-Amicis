@@ -109,7 +109,7 @@ public class PerfilDAO {
 	}
 
 	public void update(Perfil perfil) {
-		String sql = "UPDATE perfil SET status_online = ?, relacionamento = ?, localidade = ?, bio = ?, usuario = (SELECT this_usuario FROM usuario WHERE this_usuario = ?), termos_uso = ?, politicas = ? WHERE usuario = ?;";
+		String sql = "UPDATE perfil SET status_online = ?, relacionamento = ?, localidade = ?, bio = ?, termos_uso = ?, politicas = ? WHERE usuario = ?;";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -121,10 +121,9 @@ public class PerfilDAO {
 			pstm.setString(2, perfil.getStatus().getRelacionamento());
 			pstm.setString(3, perfil.getStatus().getLocalidade());
 			pstm.setString(4, perfil.getBio());
-			pstm.setString(5, perfil.getUsuario().getUsuario());
-			pstm.setString(6, perfil.getContrato().getTermosUso());
-			pstm.setString(7, perfil.getSuporte().getPoliticas());
-			pstm.setString(8, perfil.getUsuario().getUsuario());
+			pstm.setString(5, perfil.getContrato().getTermosUso());
+			pstm.setString(6, perfil.getSuporte().getPoliticas());
+			pstm.setString(7, perfil.getUsuario().getUsuario());
 
 			pstm.executeUpdate();
 			System.out.println("Perfil " + perfil.getUsuario().getUsuario() + " atualizado com sucesso.");

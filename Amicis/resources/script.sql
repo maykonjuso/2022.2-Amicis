@@ -69,9 +69,30 @@ CREATE TABLE publicacao (
 	CONSTRAINT publicacao_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE coracoes (
+	id_publicacao int,
+	amigo varchar(100),
+	CONSTRAINT coracao_PK PRIMARY KEY (id_publicacao, amigo),
+	CONSTRAINT coracao_FK FOREIGN KEY (id_publicacao) REFERENCES publicacao(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT coracao_FK_1 FOREIGN KEY (amigo) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE resposta (
+	id_publicacao INT,
+	id INT auto_increment NOT NULL,
+	usuario varchar(50),
+	texto varchar(240),
+	coracao INT,
+	data DATETIME DEFAULT NOW(),
+	CONSTRAINT publicacao_PK PRIMARY KEY (id),
+	CONSTRAINT publicacao1_FK FOREIGN KEY (id_publicacao) REFERENCES publicacao(id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT publicacao_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE ticket (
 	usuario varchar(50) NOT NULL,
-	protocolo INT,
+	protocolo INT NOT NULL AUTO_INCREMENT,
+    conteudo varchar(240),
 	status varchar(100),
 	severidade varchar(100),
 	data DATETIME DEFAULT NOW(),
