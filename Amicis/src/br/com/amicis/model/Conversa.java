@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Conversa {
 
+	private int Id;
 	private String remetente;
 	private String destinatario;
 	private String conteudo;
@@ -20,6 +21,14 @@ public class Conversa {
 
 	public void setRemetente(String remetente) {
 		this.remetente = remetente;
+	}
+	
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
 	}
 
 	public String getDestinatario() {

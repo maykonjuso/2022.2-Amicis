@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Usuario {
 	
+	private int Id;
 	private Perfil perfil;
 	private String nome;
 	private String sobrenome;
@@ -28,6 +29,14 @@ public class Usuario {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
 	}
 
 	public String getSobrenome() {
