@@ -1,7 +1,6 @@
 package br.com.amicis.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,15 +55,12 @@ public class NotificacaoDAO {
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
-
 				Notificacao notificacao = new Notificacao(perfil);
-
+				notificacao.setId(rset.getInt("id"));
 				notificacao.setConteudo(rset.getString("conteudo"));
 				notificacao.setDataNoficacao(rset.getDate("data"));
-
 				notificacoes.add(notificacao);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -86,7 +82,7 @@ public class NotificacaoDAO {
 		return notificacoes;
 	}
 	public void update(Notificacao notificacao) {
-		String sql = "UPDATE notificacao SET conteudo = ? WHERE usuario = ? AND data = ?";
+		String sql = "UPDATE notificacao SET conteudo = ? WHERE usuario = ?";
 		
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -98,9 +94,9 @@ public class NotificacaoDAO {
 			pstm.setString(2, notificacao.getUsuario());
 			
 			// converter util.date para sql.Date
-			java.util.Date utilDate = notificacao.getDataNoficacao();
-			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-			pstm.setDate(3, sqlDate);
+//			java.util.Date utilDate = notificacao.getDataNoficacao();
+//			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+//			pstm.setDate(3, sqlDate);
 			
 			pstm.executeUpdate();
 			
@@ -123,7 +119,7 @@ public class NotificacaoDAO {
 	}
 	
 	public void delete(Notificacao notificacao) {
-	    String sql = "DELETE FROM notificacao WHERE usuario = ? AND data = ?";
+	    String sql = "DELETE FROM notificacao WHERE id = ?";
 	    
 	    Connection conn = null;
 	    PreparedStatement pstm = null;
@@ -131,17 +127,10 @@ public class NotificacaoDAO {
 	    try {
 	        conn = ConnectionFactory.createConnectionToMySQL();
 	        pstm = (PreparedStatement) conn.prepareStatement(sql);
-	        pstm.setString(1, notificacao.getUsuario());
-	        
-	        // Conversão
-	        java.util.Date utilDate = notificacao.getDataNoficacao();
-	        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-	        pstm.setDate(2, sqlDate); pstm.setObject(2, notificacao.getDataNoficacao());
-	        
+	        pstm.setInt(1, notificacao.getId());     
 	        pstm.execute();
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        
 	    } finally {
 	        try {
 	            if (pstm != null) {

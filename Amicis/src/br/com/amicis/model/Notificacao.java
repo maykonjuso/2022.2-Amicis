@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Notificacao {
 
+	private int id;
 	private Perfil perfil;
 	private String usuario;
 	private Date data;
@@ -44,5 +45,13 @@ public class Notificacao {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

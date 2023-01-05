@@ -8,21 +8,22 @@ import java.util.ArrayList;
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
-import br.com.amicis.model.Perfil;
 import br.com.amicis.model.Publicacao;
 
-public class PublicacaoDAO {
+public class RespostaDAO {
 
 	public void save(Publicacao publicacao) {
 
-		String sql = "INSERT INTO publicacao(usuario, texto) VALUES ((SELECT usuario FROM perfil WHERE usuario = ?), ?);";
+		String sql = "INSERT INTO resposta(id_publicacao, usuario, texto) VALUES ((SELECT id FROM publicacao WHERE id = ?), (SELECT usuario FROM perfil WHERE usuario = ?), ?);";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, publicacao.getUsuario());
-			pstm.setString(2, publicacao.getConteudo());
+			
+			pstm.setInt(1, publicacao.getId());
+			pstm.setString(2, publicacao.getUsuario());
+			pstm.setString(3, publicacao.getConteudo());
 			
 			CoracaoDAO coracaoDAO = new CoracaoDAO();
 			coracaoDAO.save(publicacao);
@@ -44,10 +45,10 @@ public class PublicacaoDAO {
 		}
 	}
 
-	public ArrayList<Publicacao> getPublicacoes(Perfil perfil) throws SQLException {
-		String sql = "SELECT * FROM publicacao WHERE usuario = ?;";
+	public ArrayList<Publicacao> getRespostas(Publicacao publicacao) throws SQLException {
+		String sql = "SELECT * FROM resposta WHERE usuario = ?;";
 
-		ArrayList<Publicacao> publicacoes = new ArrayList<Publicacao>();
+		ArrayList<Publicacao> Respostas = new ArrayList<Publicacao>();
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
@@ -55,23 +56,19 @@ public class PublicacaoDAO {
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, perfil.getUsuario().getUsuario());
+			pstm.setString(1, publicacao.getUsuario());
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
 
-				Publicacao publicacao = new Publicacao(perfil);
+				Publicacao resposta = new Publicacao(publicacao.getPerfil());
+				resposta.setId(rset.getInt("id"));
+				resposta.setConteudo(rset.getString("texto"));
 
-				publicacao.setId(rset.getInt("id"));
-				publicacao.setConteudo(rset.getString("texto"));
-				
-				RespostaDAO respostaDAO = new RespostaDAO();
-				publicacao.setRespostas(respostaDAO.getRespostas(publicacao));
-				
 				CoracaoDAO coracaoDAO = new CoracaoDAO();
 				publicacao.setCoracoes(coracaoDAO.getCoracoes(publicacao));
 				
-				publicacoes.add(publicacao);
+				Respostas.add(resposta);
 			}
 
 		} catch (Exception e) {
@@ -92,11 +89,11 @@ public class PublicacaoDAO {
 				e.printStackTrace();
 			}
 		}
-		return publicacoes;
+		return Respostas;
 	}
 	
 	public void update(Publicacao publicacao) {
-		String sql = "UPDATE publicacao SET texto = ? WHERE id = ?;";
+		String sql = "UPDATE resposta SET texto = ? WHERE id = ?;";
 		
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -105,9 +102,11 @@ public class PublicacaoDAO {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			
 			pstm.setString(1, publicacao.getConteudo());
+			
 			pstm.setInt(2, publicacao.getId());
-	
+			
 			pstm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

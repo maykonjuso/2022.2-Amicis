@@ -5,6 +5,7 @@ import java.util.Date;
 public class Ticket {
 
 	private String usuario;
+	private String conteudo;
 	private Date data;
 	private double protocolo;
 	private String status;
@@ -53,5 +54,13 @@ public class Ticket {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getConteudo() {
+		return conteudo;
+	}
+
+	public void setConteudo(String conteudo) {
+		this.conteudo = conteudo;
 	}
 }

@@ -16,7 +16,7 @@ public class TicketDAO {
 	public void save(Ticket ticket){
 		//inserir
 
-		String sql = "INSERT INTO ticket(usuario, status, protocolo, severidade) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO ticket(usuario, status, conteudo, severidade) VALUES (?, ?, ?, ?)";
 
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -27,7 +27,7 @@ public class TicketDAO {
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, ticket.getUsuario());
 			pstm.setString(2, ticket.getStatus());
-			pstm.setDouble(3, ticket.getProtocolo());
+			pstm.setString(3, ticket.getConteudo());
 			pstm.setString(4, ticket.getSeveridade());
 
 			pstm.execute();
@@ -72,6 +72,7 @@ public class TicketDAO {
 
 				ticket.setStatus(rset.getString("status"));
 				ticket.setProtocolo(rset.getDouble("protocolo"));
+				ticket.setConteudo(rset.getString("conteudo"));
 				ticket.setData(rset.getDate("data"));
 				ticket.setSeveridade(rset.getString("severidade"));
 				tickets.add(ticket);
@@ -97,18 +98,16 @@ public class TicketDAO {
 	}
 	
 	public void update(Ticket ticket) {
-		String sql = "UPDATE ticket SET usuario = ?, status = ?, protocolo = ?, severidade = ? WHERE usuario = ? AND protocolo = ?;";
+		String sql = "UPDATE ticket SET status = ?, severidade = ?, conteudo = ? WHERE protocolo = ?;";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, ticket.getUsuario());
-			pstm.setString(2, ticket.getStatus());
-			pstm.setDouble(3, ticket.getProtocolo());
-			pstm.setString(4, ticket.getSeveridade());
-			pstm.setString(5, ticket.getUsuario());
-			pstm.setDouble(6, ticket.getProtocolo());
+			pstm.setString(1, ticket.getStatus());
+			pstm.setString(2, ticket.getSeveridade());
+			pstm.setString(3, ticket.getConteudo());
+			pstm.setDouble(4, ticket.getProtocolo());
 			
 			pstm.executeUpdate();
 		} catch (Exception e) {
@@ -127,7 +126,7 @@ public class TicketDAO {
 		}
 	}
 	public void delete(Ticket ticket) {
-		String sql = "DELETE FROM ticket WHERE usuario = ? AND protocolo = ?;";
+		String sql = "DELETE FROM ticket WHERE protocolo = ?;";
 		
 		Connection conn = null;
 		PreparedStatement pstm = null;
