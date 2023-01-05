@@ -199,15 +199,14 @@ public class Home extends JFrame {
         lblEncontreNovosAmigos.setFont(new Font("Roboto", Font.PLAIN, 18));
         lblEncontreNovosAmigos.setBounds(65, 30, 169, 39);
         conversas.add(lblEncontreNovosAmigos);
-        
-        
+       
     	UsuarioDAO usuarioDAO = new UsuarioDAO();
+    	
     	for (Usuario usuario : usuarioDAO.getUsuarios()) {
 			try {
 				JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getPerfil().getThis_usuario());
 				publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 				publicacoesPanel.add(publicacaoPanel);	
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
