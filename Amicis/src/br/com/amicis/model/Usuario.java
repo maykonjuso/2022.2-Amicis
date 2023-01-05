@@ -13,7 +13,7 @@ public class Usuario {
 	private String telefone;
 	private String email;
 	private Contrato contrato;
-	private String senha;
+	private char[] senha;
 
 	public Usuario() {
 		perfil = new Perfil();
@@ -86,12 +86,12 @@ public class Usuario {
 		this.contrato = contrato;
 	}
 
-	public String getSenha() {
+	public char[] getSenha() {
 		return senha;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setSenha(char[] cs) {
+		this.senha = cs;
 	}
 
 	public Perfil getPerfil() {

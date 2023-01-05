@@ -29,7 +29,7 @@ public class UsuarioDAO {
 			pstm.setString(3, usuario.getUsuario());
 			pstm.setString(4, usuario.getTelefone());
 			pstm.setString(5, usuario.getEmail());
-			pstm.setString(6, usuario.getSenha());
+			pstm.setString(6, String.valueOf(usuario.getSenha()));
 
 			PerfilDAO perfilDAO = new PerfilDAO();
 
@@ -84,8 +84,11 @@ public class UsuarioDAO {
 				usuario.setDataCadastro(rset.getDate("dataNascimento"));
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
-				usuario.setSenha(rset.getString("senha"));
-
+				
+				String senha = rset.getString("senha");
+				char [] cs = senha.toCharArray();
+				usuario.setSenha(cs);
+				
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
 				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
 				usuarios.add(usuario);

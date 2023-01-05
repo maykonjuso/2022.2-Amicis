@@ -6,6 +6,7 @@ import java.awt.Label;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -201,6 +202,8 @@ public class Cadastro extends JFrame {
 		senha.setBounds(186, 428, 162, 29);
 		fundo.add(senha);
 		
+		
+		
 		repetirSenha = new JPasswordField();
 		repetirSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		repetirSenha.setBounds(368, 428, 162, 29);
@@ -228,30 +231,46 @@ public class Cadastro extends JFrame {
 					JOptionPane.showMessageDialog(fundo, "Preencha todas as informações." );
 				}
 				else {
-				
-					Usuario usuario = new Usuario();
 					
-					usuario.setNome(nome.getText());
-					usuario.setSobrenome(sobrenome.getText());
-					usuario.setUsuario(thisUsuario.getText());
-					usuario.setDataNascimeto(new Date());
-					usuario.setTelefone(telefone.getText());
-					usuario.setEmail(email.getText());
+					char[] senha_ = senha.getPassword();
+					char[] repetirSenha_ = repetirSenha.getPassword();
 					
-					UsuarioDAO usuarioDAO = new UsuarioDAO();
-					
-					usuarioDAO.save(usuario);
-					
-					if (aceitarTermos.isSelected()) {
-						Login frame = new Login();
-						frame.setVisible(true);
-						frame.setLocationRelativeTo(null);
-						frame.setResizable(false);
-						dispose();
-						JOptionPane.showMessageDialog(frame, "Usuário cadastrado com sucesso." );
+					if(Arrays.equals(senha_, repetirSenha_)) {
+						
+						if(senha_.length >= 4) {
+							
+							Usuario usuario = new Usuario();
+							
+							usuario.setNome(nome.getText());
+							usuario.setSobrenome(sobrenome.getText());
+							usuario.setUsuario(thisUsuario.getText());
+							usuario.setDataNascimeto(new Date());
+							usuario.setTelefone(telefone.getText());
+							usuario.setEmail(email.getText());
+							
+							usuario.setSenha(senha.getPassword());
+							
+							UsuarioDAO usuarioDAO = new UsuarioDAO();
+							
+							usuarioDAO.save(usuario);
+							
+							if (aceitarTermos.isSelected()) {
+								Login frame = new Login();
+								frame.setVisible(true);
+								frame.setLocationRelativeTo(null);
+								frame.setResizable(false);
+								dispose();
+								JOptionPane.showMessageDialog(frame, "Usuário cadastrado com sucesso." );
+							} else {
+								JOptionPane.showMessageDialog(fundo, "Aceite os Termos de Uso e Política de Privacidade.");
+							}
+						} else {
+							JOptionPane.showMessageDialog(fundo, "A senha precisa conter 8 caracteres ou mais.");
+						}
 					} else {
-						JOptionPane.showMessageDialog(fundo, "Aceite os Termos de Uso e Política de Privacidade.");
+						JOptionPane.showMessageDialog(fundo, "As senhas devem ser iguais.");
 					}
+					
 				}
 			}
 		});
