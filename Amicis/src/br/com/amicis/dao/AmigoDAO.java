@@ -89,5 +89,48 @@ public class AmigoDAO {
 		}
 		return amigos;
 	}
+	
+	public void delete(Perfil perfil, Perfil amigo) {
+		
+		String sql = "DELETE FROM amigos WHERE perfil = ? AND amigo = ?";
+		
+		Connection conn = null;
+		
+		PreparedStatement pstm = null;
+		
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			
+			pstm.setString(1, perfil.getUsuario().getUsuario());
+			pstm.setString(2, perfil.getUsuario().getUsuario());
+			
+			pstm.execute();
+		
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		finally {
+			
+			try {
+				
+				if(pstm!=null) {
+					pstm.close();
+				}
+				
+				if(conn!=null) {
+					conn.close();
+				}
+			}
+			
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 }
