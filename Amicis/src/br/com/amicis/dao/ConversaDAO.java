@@ -42,6 +42,95 @@ public class ConversaDAO {
 			}
 		}
 	}
+	
+public void update(Conversa conversa) {
+		
+		String sql = "UPDATE conversa SET remetente = ?, destinatario = ?, texto = ? " + "WHERE id = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		
+		try {
+			
+			conn = ConnectionFactory.createConnectionToMySQL();
+			
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			
+			
+			pstm.setString(1, conversa.getRemetente());
+			pstm.setString(2, conversa.getDestinatario());
+			pstm.setString(3, conversa.getConteudo());
+			pstm.setInt(4, conversa.getId());
+			
+			pstm.execute();
+			
+		}
+		
+		catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		finally {
+			
+			try {
+				
+				if(pstm!=null) {
+					pstm.close();
+				}
+				
+				if(conn!=null) {
+					conn.close();
+				}
+			}
+			
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void deletarPelaID(int id) {
+	
+	String sql = "DELETE FROM conversa WHERE id = ?";
+	
+	Connection conn = null;
+	
+	PreparedStatement pstm = null;
+	
+	try {
+		conn = ConnectionFactory.createConnectionToMySQL();
+		
+		pstm = (PreparedStatement) conn.prepareStatement(sql);
+		
+		pstm.setInt(1, id);
+		
+		pstm.execute();
+	
+		
+	} catch (Exception e) {
+		
+		e.printStackTrace();
+	}
+	
+	finally {
+		
+		try {
+			
+			if(pstm!=null) {
+				pstm.close();
+			}
+			
+			if(conn!=null) {
+				conn.close();
+			}
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
 
 	public ArrayList<Conversa> getConversa(Perfil perfil) throws SQLException {
 		String sql = "SELECT * FROM conversa WHERE remetente = ? and destinatario = ?";
