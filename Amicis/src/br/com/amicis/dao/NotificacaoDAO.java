@@ -81,28 +81,24 @@ public class NotificacaoDAO {
 		}
 		return notificacoes;
 	}
+
 	public void update(Notificacao notificacao) {
 		String sql = "UPDATE notificacao SET conteudo = ? WHERE usuario = ?";
-		
+
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
-			
+
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, notificacao.getConteudo());
 			pstm.setString(2, notificacao.getUsuario());
-			
-			// converter util.date para sql.Date
-//			java.util.Date utilDate = notificacao.getDataNoficacao();
-//			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-//			pstm.setDate(3, sqlDate);
-			
+
 			pstm.executeUpdate();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		} finally {
 			try {
 				if (pstm != null) {
@@ -111,37 +107,37 @@ public class NotificacaoDAO {
 				if (conn != null) {
 					conn.close();
 				}
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public void delete(Notificacao notificacao) {
-	    String sql = "DELETE FROM notificacao WHERE id = ?";
-	    
-	    Connection conn = null;
-	    PreparedStatement pstm = null;
-	    
-	    try {
-	        conn = ConnectionFactory.createConnectionToMySQL();
-	        pstm = (PreparedStatement) conn.prepareStatement(sql);
-	        pstm.setInt(1, notificacao.getId());     
-	        pstm.execute();
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        try {
-	            if (pstm != null) {
-	                pstm.close();
-	            }
-	            if (conn != null) {
-	                conn.close();
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
+		String sql = "DELETE FROM notificacao WHERE id = ?";
+
+		Connection conn = null;
+		PreparedStatement pstm = null;
+
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setInt(1, notificacao.getId());
+			pstm.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

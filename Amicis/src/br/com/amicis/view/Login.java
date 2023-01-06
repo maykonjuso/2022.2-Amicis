@@ -31,6 +31,7 @@ public class Login extends JFrame {
 	private JPanel fundo;
 	private JTextField textField;
 	private JPasswordField passwordField;
+
 	/**
 	 * Launch the application.
 	 */
@@ -54,7 +55,8 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\mayko\\git\\Amicis\\Amicis\\resources\\pngwing.com.png"));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage("C:\\Users\\mayko\\git\\Amicis\\Amicis\\resources\\pngwing.com.png"));
 		setTitle("Login");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +66,7 @@ public class Login extends JFrame {
 
 		setContentPane(fundo);
 		getContentPane().setLayout(null);
-		
+
 		JButton btnEntrar = new JButton("entrar");
 		btnEntrar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -85,7 +87,7 @@ public class Login extends JFrame {
 		btnEntrar.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		btnEntrar.setBounds(384, 366, 149, 29);
 		getContentPane().add(btnEntrar);
-		
+
 		JButton btnCadastrarUsurio = new JButton("cadastrar usuário");
 		btnCadastrarUsurio.addMouseListener(new MouseAdapter() {
 			@Override
@@ -95,8 +97,6 @@ public class Login extends JFrame {
 				frame.setLocationRelativeTo(null);
 				frame.setResizable(false);
 				dispose();
-				
-				
 			}
 		});
 		btnCadastrarUsurio.addActionListener(new ActionListener() {
@@ -106,48 +106,50 @@ public class Login extends JFrame {
 		btnCadastrarUsurio.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		btnCadastrarUsurio.setBounds(384, 406, 149, 29);
 		getContentPane().add(btnCadastrarUsurio);
-		
+
 		JLabel T_nome = new JLabel("usuário");
 		T_nome.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		T_nome.setBounds(327, 224, 262, 16);
 		getContentPane().add(T_nome);
-		
+
 		textField = new JTextField();
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textField.setColumns(10);
 		textField.setBounds(327, 250, 262, 29);
 		getContentPane().add(textField);
-		
+
 		JLabel T_nome_1 = new JLabel("senha");
 		T_nome_1.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		T_nome_1.setBounds(327, 290, 262, 16);
 		getContentPane().add(T_nome_1);
-		
+
 		Label T_conhecendoVoce = new Label("Acesse seu perfil");
 		T_conhecendoVoce.setAlignment(Label.CENTER);
 		T_conhecendoVoce.setFont(new Font("Dialog", Font.PLAIN, 24));
 		T_conhecendoVoce.setBounds(352, 141, 210, 36);
 		getContentPane().add(T_conhecendoVoce);
-		
+
 		JLabel emojiUm = new JLabel("🤠");
 		emojiUm.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 28));
 		emojiUm.setBounds(418, 92, 78, 63);
 		getContentPane().add(emojiUm);
-		
+
 		passwordField = new JPasswordField();
 		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordField.setBounds(327, 313, 262, 29);
 		fundo.add(passwordField);
-		
-		JTextArea lblNewJText = new JTextArea("Copyright©2022-2023, Amicis. Todos os direitos reservados. Todos os textos, imagens, gráficos, animações, vídeos, músicas, sons e outros materiais são protegidos por direitos autorais.");
+
+		JTextArea lblNewJText = new JTextArea(
+				"Copyright©2022-2023, Amicis. Todos os direitos reservados. Todos os textos, imagens, gráficos, animações, vídeos, músicas, sons e outros materiais são protegidos por direitos autorais.");
 		lblNewJText.setBackground(new Color(1, 1, 1, 0.5f));
 		lblNewJText.setForeground(new Color(128, 128, 128));
 		lblNewJText.setFont(new Font("Arial", Font.PLAIN, 10));
-		lblNewJText.setEditable(false); 
+		lblNewJText.setEditable(false);
 		lblNewJText.setLineWrap(true);
 		lblNewJText.setBounds(238, 565, 439, 36);
 		fundo.add(lblNewJText);
 	}
+
 }
