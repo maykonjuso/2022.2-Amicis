@@ -33,7 +33,6 @@ public class PerfilDAO {
 
 			// executando a query
 			pstm.execute();
-			System.out.println("Perfil " + perfil.getUsuario().getUsuario() + " salvo com sucesso.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,7 +112,7 @@ public class PerfilDAO {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
-			
+
 			conn = ConnectionFactory.createConnectionToMySQL();
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
@@ -126,7 +125,6 @@ public class PerfilDAO {
 			pstm.setString(7, perfil.getUsuario().getUsuario());
 
 			pstm.executeUpdate();
-			System.out.println("Perfil " + perfil.getUsuario().getUsuario() + " atualizado com sucesso.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,6 +141,7 @@ public class PerfilDAO {
 			}
 		}
 	}
+
 	public void delete(Perfil perfil) {
 		String sql = "DELETE FROM perfil WHERE usuario = ?;";
 		Connection conn = null;
@@ -150,12 +149,11 @@ public class PerfilDAO {
 		try {
 
 			conn = ConnectionFactory.createConnectionToMySQL();
-			
+
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, perfil.getUsuario().getUsuario());
 
 			pstm.execute();
-			System.out.println("Perfil " + perfil.getUsuario().getUsuario() + " excluído com sucesso.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
