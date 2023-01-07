@@ -60,13 +60,12 @@ public class Home extends JFrame {
 		JScrollPane timeline = new JScrollPane();
 		timeline.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
 		timeline.setBackground(new Color(255, 255, 255));
-		timeline.setPreferredSize(new Dimension(1000, 350));
+		timeline.setPreferredSize(new Dimension(500, 350));
 
 		publicacoesPanel = new JPanel();
 
 		publicacoesPanel.setLayout(new BoxLayout(publicacoesPanel, BoxLayout.Y_AXIS));
 		publicacoesPanel.setBackground(new Color(255, 255, 255));
-		publicacoesPanel.setPreferredSize(new Dimension(10, 35));
 		timeline.setViewportView(publicacoesPanel);
 
 		JPanel publicacoes = new JPanel();
@@ -182,7 +181,7 @@ public class Home extends JFrame {
 
 		JButton btnConversas = new JButton("conversas");
 		btnConversas.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		btnConversas.setBounds(0, 591, 300, 29);
+		btnConversas.setBounds(0, 591, 297, 29);
 		conversas.add(btnConversas);
 
 		textField = new JTextField();
@@ -206,6 +205,7 @@ public class Home extends JFrame {
 			try {
 				JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getPerfil().getThis_usuario());
 				publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
+				publicacaoPanel.setPreferredSize(new Dimension(100, 85));
 				publicacoesPanel.add(publicacaoPanel);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -218,7 +218,6 @@ public class Home extends JFrame {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setPreferredSize(new Dimension(10, 10));
 
 		JLabel label = new JLabel(nome);
 		label.setPreferredSize(new Dimension(100, 100));

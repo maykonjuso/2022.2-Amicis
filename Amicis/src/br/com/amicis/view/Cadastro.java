@@ -8,8 +8,6 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +24,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import com.toedter.calendar.JDateChooser;
+
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Usuario;
 
@@ -38,7 +38,6 @@ public class Cadastro extends JFrame {
 	private JPanel fundo;
 	private JTextField sobrenome;
 	private JTextField thisUsuario;
-	private JTextField dataNascimento;
 	private JTextField telefone;
 	private JTextField email;
 	private JPasswordField repetirSenha;
@@ -130,13 +129,6 @@ public class Cadastro extends JFrame {
 		thisUsuario.setBounds(186, 270, 262, 29);
 		fundo.add(thisUsuario);
 
-		dataNascimento = new JTextField();
-		dataNascimento.setFont(new Font("Roboto", Font.PLAIN, 12));
-		dataNascimento.setHorizontalAlignment(SwingConstants.LEFT);
-		dataNascimento.setColumns(10);
-		dataNascimento.setBounds(468, 270, 262, 29);
-		fundo.add(dataNascimento);
-
 		JLabel T_dataNascimento = new JLabel("data de nascimento");
 		T_dataNascimento.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		T_dataNascimento.setBounds(468, 247, 262, 13);
@@ -227,13 +219,18 @@ public class Cadastro extends JFrame {
 		btnVoltar.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		btnVoltar.setBounds(517, 508, 78, 29);
 		fundo.add(btnVoltar);
+		
+		JDateChooser dataNascimento = new JDateChooser();
+		dataNascimento.setDateFormatString("dd/MM/yyyy");
+		dataNascimento.setBounds(468, 270, 262, 29);
+		fundo.add(dataNascimento);
 
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		criarUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				UsuarioDAO usuarioDAO = new UsuarioDAO();
 				if (nome.getText().trim().isEmpty() || sobrenome.getText().trim().isEmpty()
-						|| thisUsuario.getText().trim().isEmpty() || dataNascimento.getText().trim().isEmpty()
+						|| thisUsuario.getText().trim().isEmpty() || dataNascimento.getDate().equals(null)
 						|| telefone.getText().trim().isEmpty() || email.getText().trim().isEmpty()) {
 					JOptionPane.showMessageDialog(fundo, "Preencha todas as informações.");
 				} else {
@@ -251,8 +248,7 @@ public class Cadastro extends JFrame {
 											usuario.setNome(nome.getText());
 											usuario.setSobrenome(sobrenome.getText());
 											usuario.setUsuario(thisUsuario.getText());
-											SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-											usuario.setDataNascimeto(formato.parse(dataNascimento.getText()));
+											usuario.setDataNascimeto(dataNascimento.getDate());
 											usuario.setTelefone(telefone.getText());
 											usuario.setEmail(email.getText());
 											usuario.setSenha(senha.getPassword());
@@ -288,15 +284,9 @@ public class Cadastro extends JFrame {
 
 					} catch (HeadlessException | SQLException e1) {
 						e1.printStackTrace();
-					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
-						JOptionPane.showMessageDialog(fundo, "Data inválida, coloque no formato dd/mm/yyyy.");
-						e1.printStackTrace();
-
-					}
 				}
 			}
-		});
+		}});
 	}
 
 	public static boolean validarEmail(String email) {
