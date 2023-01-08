@@ -43,9 +43,9 @@ public class ConversaDAO {
 		}
 	}
 	
-public void update(Conversa conversa) {
+	public void update(Conversa conversa) {
 		
-		String sql = "UPDATE conversa SET remetente = ?, destinatario = ?, texto = ? " + "WHERE id = ?";
+		String sql = "UPDATE conversa SET remetente = ?, destinatario = ?, texto = ? WHERE id = ?";
 		
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -90,47 +90,47 @@ public void update(Conversa conversa) {
 		}
 	}
 
-	public void deletarPelaID(int id) {
+	public void delete(int id) {
 	
-	String sql = "DELETE FROM conversa WHERE id = ?";
-	
-	Connection conn = null;
-	
-	PreparedStatement pstm = null;
-	
-	try {
-		conn = ConnectionFactory.createConnectionToMySQL();
+		String sql = "DELETE FROM conversa WHERE id = ?";
 		
-		pstm = (PreparedStatement) conn.prepareStatement(sql);
+		Connection conn = null;
 		
-		pstm.setInt(1, id);
-		
-		pstm.execute();
-	
-		
-	} catch (Exception e) {
-		
-		e.printStackTrace();
-	}
-	
-	finally {
+		PreparedStatement pstm = null;
 		
 		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
 			
-			if(pstm!=null) {
-				pstm.close();
-			}
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			
-			if(conn!=null) {
-				conn.close();
-			}
-		}
+			pstm.setInt(1, id);
+			
+			pstm.execute();
 		
-		catch (Exception e) {
+			
+		} catch (Exception e) {
+			
 			e.printStackTrace();
 		}
+		
+		finally {
+			
+			try {
+				
+				if(pstm!=null) {
+					pstm.close();
+				}
+				
+				if(conn!=null) {
+					conn.close();
+				}
+			}
+			
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
-}
 
 	public ArrayList<Conversa> getConversa(Perfil perfil) throws SQLException {
 		String sql = "SELECT * FROM conversa WHERE remetente = ? and destinatario = ?";

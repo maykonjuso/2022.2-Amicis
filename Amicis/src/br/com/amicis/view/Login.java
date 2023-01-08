@@ -162,48 +162,51 @@ public class Login extends JFrame {
 		lblNewJText.setBounds(238, 565, 439, 36);
 		fundo.add(lblNewJText);
 	}
-private void autenticarLogin() {
-		
-		try {
-			String nome_usuario, senha_usuario;
-			
-			nome_usuario = textField.getText();
-			senha_usuario = passwordField.getText();
-			
-			UsuarioDTO usuarioDTO = new UsuarioDTO();
-			
-			usuarioDTO.setNome_usuario(nome_usuario);
-			usuarioDTO.setSenha_usuario(senha_usuario);
-		
-			UsuarioDAO usuarioDAO = new UsuarioDAO();
-			
-			ResultSet resultDAO = usuarioDAO.autenticacaoUsuario(usuarioDTO);
-			
-			if(resultDAO.next()) {
-				
-				Home home = new Home();
-				
-				home.setVisible(true);
-				
-				dispose();
-			
-			}else {
-				JOptionPane.showMessageDialog(null, "Usuário ou Senha Inválida");
+  <<<<<<< felipe
+  private void autenticarLogin() {
 
-				
-			}
-			
-			
-		}catch (SQLException erro1) {
-			
-			JOptionPane.showMessageDialog(null, "LOGINVIEW" + erro1);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-	}
-		
-		
-		
-		
-	}
+      try {
+        String nome_usuario, senha_usuario;
+
+        nome_usuario = textField.getText();
+        senha_usuario = passwordField.getText();
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+
+        usuarioDTO.setNome_usuario(nome_usuario);
+        usuarioDTO.setSenha_usuario(senha_usuario);
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+        ResultSet resultDAO = usuarioDAO.autenticacaoUsuario(usuarioDTO);
+
+        if(resultDAO.next()) {
+
+          Home home = new Home();
+
+          home.setVisible(true);
+
+          dispose();
+
+        }else {
+          JOptionPane.showMessageDialog(null, "Usuário ou Senha Inválida");
+
+
+        }
+
+
+      }catch (SQLException erro1) {
+
+        JOptionPane.showMessageDialog(null, "LOGINVIEW" + erro1);
+      } catch (Exception e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+    }
+
+
+
+
+    }
+  =======
+  >>>>>>> main
