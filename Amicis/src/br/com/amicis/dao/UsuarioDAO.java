@@ -6,8 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.PreparedStatement;
 
+import br.com.amicis.DTO.UsuarioDTO;
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Usuario;
 
@@ -203,4 +206,36 @@ public class UsuarioDAO {
 		}
 		return usuarios;
 	}
+	
+	public ResultSet autenticacaoUsuario(UsuarioDTO usuarioDTO) throws Exception  {
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = ConnectionFactory.createConnectionToMySQL();
+
+			
+			String sql = "Select * from usuario where this_usuario = ? and senha = ? ";
+			
+			PreparedStatement pstm111 = (PreparedStatement) conn.prepareStatement(sql);
+			
+			pstm111.setString(1, usuarioDTO.getNome_usuario());
+			pstm111.setString(2, usuarioDTO.getSenha_usuario());
+			
+			ResultSet rs = pstm111.executeQuery();
+			return rs;
+				
+		}catch (SQLException erro) {
+			
+			JOptionPane.showMessageDialog(null, "UsuarioDAO: " + erro);
+			return null;
+			
+		}
+		
+		
+		
+		
+	}
 }
+

@@ -9,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
@@ -21,6 +23,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
+import br.com.amicis.DTO.UsuarioDTO;
+import br.com.amicis.dao.UsuarioDAO;
 
 public class Login extends JFrame {
 
@@ -68,6 +73,12 @@ public class Login extends JFrame {
 		getContentPane().setLayout(null);
 
 		JButton btnEntrar = new JButton("entrar");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				autenticarLogin();
+			}
+		});
 		btnEntrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -151,5 +162,51 @@ public class Login extends JFrame {
 		lblNewJText.setBounds(238, 565, 439, 36);
 		fundo.add(lblNewJText);
 	}
+  <<<<<<< felipe
+  private void autenticarLogin() {
 
-}
+      try {
+        String nome_usuario, senha_usuario;
+
+        nome_usuario = textField.getText();
+        senha_usuario = passwordField.getText();
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+
+        usuarioDTO.setNome_usuario(nome_usuario);
+        usuarioDTO.setSenha_usuario(senha_usuario);
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+        ResultSet resultDAO = usuarioDAO.autenticacaoUsuario(usuarioDTO);
+
+        if(resultDAO.next()) {
+
+          Home home = new Home();
+
+          home.setVisible(true);
+
+          dispose();
+
+        }else {
+          JOptionPane.showMessageDialog(null, "Usuário ou Senha Inválida");
+
+
+        }
+
+
+      }catch (SQLException erro1) {
+
+        JOptionPane.showMessageDialog(null, "LOGINVIEW" + erro1);
+      } catch (Exception e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+    }
+
+
+
+
+    }
+  =======
+  >>>>>>> main
