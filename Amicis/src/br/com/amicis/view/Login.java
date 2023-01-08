@@ -24,8 +24,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import br.com.amicis.DTO.UsuarioDTO;
 import br.com.amicis.dao.UsuarioDAO;
+import br.com.amicis.model.Usuario;
 
 public class Login extends JFrame {
 
@@ -34,8 +34,8 @@ public class Login extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel fundo;
-	private JTextField textField;
-	private JPasswordField passwordField;
+	private JTextField thisUsuario;
+	private JPasswordField senha;
 
 	/**
 	 * Launch the application.
@@ -75,7 +75,7 @@ public class Login extends JFrame {
 		JButton btnEntrar = new JButton("entrar");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				autenticarLogin();
 			}
 		});
@@ -90,7 +90,6 @@ public class Login extends JFrame {
 					frame.setResizable(false);
 					dispose();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -118,22 +117,22 @@ public class Login extends JFrame {
 		btnCadastrarUsurio.setBounds(384, 406, 149, 29);
 		getContentPane().add(btnCadastrarUsurio);
 
-		JLabel T_nome = new JLabel("usuário");
-		T_nome.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		T_nome.setBounds(327, 224, 262, 16);
-		getContentPane().add(T_nome);
+		JLabel T_thisUsuario = new JLabel("usuário");
+		T_thisUsuario.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
+		T_thisUsuario.setBounds(327, 224, 262, 16);
+		getContentPane().add(T_thisUsuario);
 
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setFont(new Font("Roboto", Font.PLAIN, 12));
-		textField.setColumns(10);
-		textField.setBounds(327, 250, 262, 29);
-		getContentPane().add(textField);
+		thisUsuario = new JTextField();
+		thisUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		thisUsuario.setFont(new Font("Roboto", Font.PLAIN, 12));
+		thisUsuario.setColumns(10);
+		thisUsuario.setBounds(327, 250, 262, 29);
+		getContentPane().add(thisUsuario);
 
-		JLabel T_nome_1 = new JLabel("senha");
-		T_nome_1.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		T_nome_1.setBounds(327, 290, 262, 16);
-		getContentPane().add(T_nome_1);
+		JLabel T_senha = new JLabel("senha");
+		T_senha.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
+		T_senha.setBounds(327, 290, 262, 16);
+		getContentPane().add(T_senha);
 
 		Label T_conhecendoVoce = new Label("Acesse seu perfil");
 		T_conhecendoVoce.setAlignment(Label.CENTER);
@@ -147,10 +146,10 @@ public class Login extends JFrame {
 		emojiUm.setBounds(418, 92, 78, 63);
 		getContentPane().add(emojiUm);
 
-		passwordField = new JPasswordField();
-		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
-		passwordField.setBounds(327, 313, 262, 29);
-		fundo.add(passwordField);
+		senha = new JPasswordField();
+		senha.setHorizontalAlignment(SwingConstants.CENTER);
+		senha.setBounds(327, 313, 262, 29);
+		fundo.add(senha);
 
 		JTextArea lblNewJText = new JTextArea(
 				"Copyright©2022-2023, Amicis. Todos os direitos reservados. Todos os textos, imagens, gráficos, animações, vídeos, músicas, sons e outros materiais são protegidos por direitos autorais.");
@@ -162,51 +161,30 @@ public class Login extends JFrame {
 		lblNewJText.setBounds(238, 565, 439, 36);
 		fundo.add(lblNewJText);
 	}
-  <<<<<<< felipe
-  private void autenticarLogin() {
 
-      try {
-        String nome_usuario, senha_usuario;
+	private void autenticarLogin() {
+		try {
+			Usuario usuario = new Usuario();
+			usuario.setUsuario(thisUsuario.getText());
+			usuario.setSenha(senha.getPassword());
+			UsuarioDAO usuarioDAO = new UsuarioDAO();
+			ResultSet resultDAO = usuarioDAO.autenticacaoUsuario(usuario);
 
-        nome_usuario = textField.getText();
-        senha_usuario = passwordField.getText();
+			if (resultDAO.next()) {
+				Home frame = new Home();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(null);
+				frame.setResizable(false);
+				dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, "Usuário ou Senha Inválida");
+			}
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
+		} catch (SQLException e1) {
+			JOptionPane.showMessageDialog(null, "LOGINVIEW");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
-        usuarioDTO.setNome_usuario(nome_usuario);
-        usuarioDTO.setSenha_usuario(senha_usuario);
-
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-
-        ResultSet resultDAO = usuarioDAO.autenticacaoUsuario(usuarioDTO);
-
-        if(resultDAO.next()) {
-
-          Home home = new Home();
-
-          home.setVisible(true);
-
-          dispose();
-
-        }else {
-          JOptionPane.showMessageDialog(null, "Usuário ou Senha Inválida");
-
-
-        }
-
-
-      }catch (SQLException erro1) {
-
-        JOptionPane.showMessageDialog(null, "LOGINVIEW" + erro1);
-      } catch (Exception e1) {
-        // TODO Auto-generated catch block
-        e1.printStackTrace();
-      }
-    }
-
-
-
-
-    }
-  =======
-  >>>>>>> main
+	}
+}
