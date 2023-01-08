@@ -1,14 +1,16 @@
 package br.com.amicis.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.PreparedStatement;
 
+import br.com.amicis.DTO.UsuarioDTO;
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Usuario;
 
@@ -16,7 +18,7 @@ public class UsuarioDAO {
 
 	public void save(Usuario usuario) {
 
-		String sql = "INSERT INTO usuario(nome, sobrenome, this_usuario, telefone, email, senha) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO usuario(nome, sobrenome, this_usuario, telefone, email, senha, dataNascimento) VALUES (?, ?, ?, ?, ?, ?,?)";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -31,13 +33,15 @@ public class UsuarioDAO {
 			pstm.setString(4, usuario.getTelefone());
 			pstm.setString(5, usuario.getEmail());
 			pstm.setString(6, String.valueOf(usuario.getSenha()));
-
+			// converter util.date para sql.Date
+			java.util.Date utilDate = usuario.getDataNascimeto();
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			pstm.setDate(7, sqlDate);
 			PerfilDAO perfilDAO = new PerfilDAO();
 
 			// executando a query
 
 			pstm.execute();
-			System.out.println("Usuário " + usuario.getUsuario() + " salvo com sucesso.");
 
 			if (perfilDAO != null) {
 				perfilDAO.save(usuario.getPerfil());
@@ -58,100 +62,94 @@ public class UsuarioDAO {
 			}
 		}
 	}
-	
-public void update(Usuario usuario) {
-		
-		String sql = "UPDATE usuario SET this_usuario = ?, nome = ?, sobrenome = ?, email= ?, telefone = ?, dataNascimento = ?, senha = ?, dataCadastro = ? " + "WHERE id = ?";
-		
+
+	public void update(Usuario usuario) {
+
+		String sql = "UPDATE usuario SET nome = ?, sobrenome = ?, telefone = ?, senha = ? WHERE id = ?";
+
 		Connection conn = null;
 		PreparedStatement pstm = null;
-		
+
 		try {
-			
+
 			conn = ConnectionFactory.createConnectionToMySQL();
-			
+
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			
-			
-			pstm.setString(1, usuario.getUsuario());
-			pstm.setString(2, usuario.getNome());
-			pstm.setString(3, usuario.getSobrenome());
-			pstm.setString(4, usuario.getEmail());
-			pstm.setString(5, usuario.getTelefone());
-			pstm.setDate(6, new Date(usuario.getDataNascimeto().getTime()));
-			pstm.setString(7, usuario.getSenha());
-			pstm.setDate(8, new Date(usuario.getDataCadastro().getTime()));
-			pstm.setInt(9, usuario.getId());
-			
+
+			pstm.setString(1, usuario.getNome());
+			pstm.setString(2, usuario.getSobrenome());
+			pstm.setString(3, usuario.getTelefone());
+			pstm.setString(4, String.valueOf(usuario.getSenha()));
+			pstm.setInt(5, usuario.getId());
+
 			pstm.execute();
-			
+
 		}
-		
+
 		catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 		finally {
-			
+
 			try {
-				
-				if(pstm!=null) {
+
+				if (pstm != null) {
 					pstm.close();
 				}
-				
-				if(conn!=null) {
+
+				if (conn != null) {
 					conn.close();
 				}
 			}
-			
+
 			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void deletarPelaID(int id) {
-	
-	String sql = "DELETE FROM usuario WHERE id = ?";
-	
-	Connection conn = null;
-	
-	PreparedStatement pstm = null;
-	
-	try {
-		conn = ConnectionFactory.createConnectionToMySQL();
-		
-		pstm = (PreparedStatement) conn.prepareStatement(sql);
-		
-		pstm.setInt(1, id);
-		
-		pstm.execute();
-	
-		
-	} catch (Exception e) {
-		
-		e.printStackTrace();
-	}
-	
-	finally {
-		
+	public void delete(Usuario usuario) {
+
+		String sql = "DELETE FROM usuario WHERE id = ?";
+
+		Connection conn = null;
+
+		PreparedStatement pstm = null;
+
 		try {
-			
-			if(pstm!=null) {
-				pstm.close();
-			}
-			
-			if(conn!=null) {
-				conn.close();
-			}
-		}
-		
-		catch (Exception e) {
+			conn = ConnectionFactory.createConnectionToMySQL();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+
+			pstm.setInt(1, usuario.getId());
+
+			pstm.execute();
+
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
+
+		finally {
+
+			try {
+
+				if (pstm != null) {
+					pstm.close();
+				}
+
+				if (conn != null) {
+					conn.close();
+				}
+			}
+
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
-}
 
 	public List<Usuario> getUsuarios() throws SQLException {
 		String sql = "SELECT * FROM usuario";
@@ -179,11 +177,11 @@ public void update(Usuario usuario) {
 				usuario.setDataCadastro(rset.getDate("dataNascimento"));
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
-				
+
 				String senha = rset.getString("senha");
-				char [] cs = senha.toCharArray();
+				char[] cs = senha.toCharArray();
 				usuario.setSenha(cs);
-				
+
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
 				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
 				usuarios.add(usuario);
@@ -208,4 +206,36 @@ public void update(Usuario usuario) {
 		}
 		return usuarios;
 	}
+	
+	public ResultSet autenticacaoUsuario(UsuarioDTO usuarioDTO) throws Exception  {
+		
+		Connection conn = null;
+		
+		try {
+			
+			conn = ConnectionFactory.createConnectionToMySQL();
+
+			
+			String sql = "Select * from usuario where this_usuario = ? and senha = ? ";
+			
+			PreparedStatement pstm111 = (PreparedStatement) conn.prepareStatement(sql);
+			
+			pstm111.setString(1, usuarioDTO.getNome_usuario());
+			pstm111.setString(2, usuarioDTO.getSenha_usuario());
+			
+			ResultSet rs = pstm111.executeQuery();
+			return rs;
+				
+		}catch (SQLException erro) {
+			
+			JOptionPane.showMessageDialog(null, "UsuarioDAO: " + erro);
+			return null;
+			
+		}
+		
+		
+		
+		
+	}
 }
+
