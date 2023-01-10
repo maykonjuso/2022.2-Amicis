@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
@@ -51,7 +53,7 @@ public class Home extends JFrame {
 		getContentPane().setBackground(new Color(255, 255, 255));
 
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("C:\\Users\\mayko\\git\\Amicis\\Amicis\\resources\\pngwing.com.png"));
+				.getImage("Amicis\\resources\\pngwing.com.png"));
 		setTitle("Home");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		setBounds(100, 100, 1118, 660);
@@ -103,6 +105,15 @@ public class Home extends JFrame {
 		menu.setPreferredSize(new Dimension(300, 100));
 
 		JButton perfil = new JButton("perfil");
+		perfil.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Perfil frame = new Perfil();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(null);
+				frame.setResizable(false);
+			}
+		});
 		perfil.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		perfil.setBounds(94, 105, 156, 33);
 		menu.add(perfil);

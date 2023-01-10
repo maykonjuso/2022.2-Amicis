@@ -61,7 +61,7 @@ public class Login extends JFrame {
 	 */
 	public Login() {
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("C:\\Users\\mayko\\git\\Amicis\\Amicis\\resources\\pngwing.com.png"));
+				.getImage("Amicis\\resources\\pngwing.com.png"));
 		setTitle("Login");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -137,7 +137,7 @@ public class Login extends JFrame {
 		Label T_conhecendoVoce = new Label("Acesse seu perfil");
 		T_conhecendoVoce.setAlignment(Label.CENTER);
 		T_conhecendoVoce.setFont(new Font("Dialog", Font.PLAIN, 24));
-		T_conhecendoVoce.setBounds(352, 141, 210, 36);
+		T_conhecendoVoce.setBounds(307, 141, 302, 36);
 		getContentPane().add(T_conhecendoVoce);
 
 		JLabel emojiUm = new JLabel("🤠");

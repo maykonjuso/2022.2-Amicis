@@ -68,7 +68,7 @@ public class Cadastro extends JFrame {
 	 */
 	public Cadastro() {
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("C:\\Users\\mayko\\git\\Amicis\\Amicis\\resources\\pngwing.com.png"));
+				.getImage("Amicis\\resources\\pngwing.com.png"));
 
 		setTitle("Cadastrar usuário");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
