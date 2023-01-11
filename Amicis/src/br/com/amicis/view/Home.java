@@ -52,8 +52,7 @@ public class Home extends JFrame {
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
 
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("Amicis\\resources\\pngwing.com.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
 		setTitle("Home");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		setBounds(100, 100, 1118, 660);
@@ -62,7 +61,7 @@ public class Home extends JFrame {
 		JScrollPane timeline = new JScrollPane();
 		timeline.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
 		timeline.setBackground(new Color(255, 255, 255));
-		timeline.setPreferredSize(new Dimension(500, 350));
+		timeline.setPreferredSize(new Dimension(10000, 350));
 
 		publicacoesPanel = new JPanel();
 
@@ -214,31 +213,34 @@ public class Home extends JFrame {
 
 		for (Usuario usuario : usuarioDAO.getUsuarios()) {
 			try {
-				JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getPerfil().getThis_usuario());
-				publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
-				publicacaoPanel.setPreferredSize(new Dimension(100, 85));
-				publicacoesPanel.add(publicacaoPanel);
+				for (int i = 0; i < usuario.getPerfil().sizePublicacao(); i++) {
+					JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getUsuario(),
+							usuario.getPerfil().getPublicacao(i).getConteudo());
+					publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
+					publicacaoPanel.setPreferredSize(new Dimension(100, 85));
+					publicacoesPanel.add(publicacaoPanel);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private JPanel criarPublicacaoPanel(String nome) {
+	private JPanel criarPublicacaoPanel(String nome, String publicacao) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
 		panel.setBackground(new Color(255, 255, 255));
 
 		JLabel label = new JLabel(nome);
+		label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
 		label.setPreferredSize(new Dimension(100, 100));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBackground(new Color(200, 200, 200));
 		panel.add(label);
 
 		JLabel textArea = new JLabel();
-		textArea.setText(
-				"Pego minha caneca de café cheia, acendo meu ultimo cigarro e corro pra velha janela do quarto. Observo a noite fria e chuvosa, até parece confortável por um momento, se não fossem as dezenas de preocupações que me desmotivam a cada dia.");
+		textArea.setText(publicacao);
 		textArea.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textArea.setBackground(new Color(255, 255, 255));
 
