@@ -2,6 +2,7 @@ package br.com.amicis.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -9,10 +10,13 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,12 +35,13 @@ public class Home extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel publicacoesPanel;
 	private JTextField textField;
+	private Usuario usuarioTela;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Home frame = new Home();
+					Home frame = new Home("teste");
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
@@ -48,7 +53,13 @@ public class Home extends JFrame {
 		});
 	}
 
-	public Home() throws SQLException {
+	public Home(String nomeUsuario) throws SQLException {
+		
+		UsuarioDAO usuarioDAOTela = new UsuarioDAO();
+		
+		usuarioTela = usuarioDAOTela.getUsuario(nomeUsuario);
+		
+		
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
 
@@ -67,6 +78,7 @@ public class Home extends JFrame {
 
 		publicacoesPanel.setLayout(new BoxLayout(publicacoesPanel, BoxLayout.Y_AXIS));
 		publicacoesPanel.setBackground(new Color(255, 255, 255));
+		publicacoesPanel.setAlignmentY(CENTER_ALIGNMENT);
 		timeline.setViewportView(publicacoesPanel);
 
 		JPanel publicacoes = new JPanel();
@@ -167,9 +179,9 @@ public class Home extends JFrame {
 		emojiUm_1_2_1.setBounds(10, 514, 78, 63);
 		menu.add(emojiUm_1_2_1);
 
-		JLabel lblNewLabel = new JLabel("Olá, Maykon");
+		JLabel lblNewLabel = new JLabel("Olá, " + usuarioTela.getUsuario() + "!");
 		lblNewLabel.setFont(new Font("Roboto", Font.PLAIN, 18));
-		lblNewLabel.setBounds(101, 30, 98, 39);
+		lblNewLabel.setBounds(55, 30, 189, 39);
 		menu.add(lblNewLabel);
 
 		JPanel publicacao = new JPanel();
@@ -208,17 +220,31 @@ public class Home extends JFrame {
 		lblEncontreNovosAmigos.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblEncontreNovosAmigos.setBounds(65, 30, 169, 39);
 		conversas.add(lblEncontreNovosAmigos);
+		UsuarioDAO usuarioDAO1 = new UsuarioDAO();
 
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
-
-		for (Usuario usuario : usuarioDAO.getUsuarios()) {
+		for (Usuario usuario : usuarioDAO1.getUsuarios()) {
 			try {
 				for (int i = 0; i < usuario.getPerfil().sizePublicacao(); i++) {
+					JPanel div = new JPanel();
+					div.setBackground(new Color(255, 255, 255));
+					div.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
+					div.setLayout(new BoxLayout(div, BoxLayout.PAGE_AXIS));
+					
+					JLabel espaço = new JLabel();
+					espaço.setPreferredSize(new Dimension(20, 20));
+					espaço.setBackground(new Color(255, 255, 255));
+					
+					div.add(espaço);
+					
 					JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getUsuario(),
-							usuario.getPerfil().getPublicacao(i).getConteudo());
+							usuario.getPerfil().getPublicacao(i).getConteudo(), usuario.getFoto());
 					publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
-					publicacaoPanel.setPreferredSize(new Dimension(100, 85));
-					publicacoesPanel.add(publicacaoPanel);
+					publicacaoPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+					publicacaoPanel.setPreferredSize(new Dimension(120, 110));
+					
+					div.add(publicacaoPanel);
+					publicacoesPanel.add(div);
+					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -226,26 +252,47 @@ public class Home extends JFrame {
 		}
 	}
 
-	private JPanel criarPublicacaoPanel(String nome, String publicacao) {
+	private JPanel criarPublicacaoPanel(String nome, String publicacao, String foto) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-		panel.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
+		panel.setPreferredSize(new Dimension(500, 500));
+		panel.setMaximumSize(getPreferredSize());
 		panel.setBackground(new Color(255, 255, 255));
+		
+		try {
+			JPanel perfil = new JPanel();
+			perfil.setPreferredSize(new Dimension(125, 200));
+			perfil.setBackground(new Color(255, 255, 255));
+			perfil.setMaximumSize(getPreferredSize());
+			perfil.setAlignmentY(Component.CENTER_ALIGNMENT);
+			perfil.setLayout(new BoxLayout(perfil, BoxLayout.PAGE_AXIS));
+			panel.add(perfil);
+			
+			URL url = new URL(foto);
+			ImageIcon imgIcon = new ImageIcon(url);
+			JLabel jLabel = new JLabel(imgIcon);
+			jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			perfil.add(jLabel);
+			
+			JLabel label = new JLabel(nome);
+			label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
+			label.setAlignmentX(Component.CENTER_ALIGNMENT);
+			label.setBackground(new Color(200, 200, 200));
+			perfil.add(label);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		
 
-		JLabel label = new JLabel(nome);
-		label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
-		label.setPreferredSize(new Dimension(100, 100));
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setBackground(new Color(200, 200, 200));
-		panel.add(label);
-
-		JLabel textArea = new JLabel();
+		
+		JTextArea textArea= new JTextArea();
 		textArea.setText(publicacao);
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
 		textArea.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textArea.setBackground(new Color(255, 255, 255));
-
-		textArea.setPreferredSize(new Dimension(250, 250));
-		textArea.setHorizontalAlignment(SwingConstants.LEFT);
+		textArea.setPreferredSize(new Dimension(100, 100));
 		panel.add(textArea);
 
 		JPanel botoes = new JPanel();
@@ -275,4 +322,13 @@ public class Home extends JFrame {
 
 		return panel;
 	}
+
+	public Usuario getUsuarioTela() {
+		return usuarioTela;
+	}
+
+	public void setUsuarioTela(Usuario usuarioTela) {
+		this.usuarioTela = usuarioTela;
+	}
+
 }
