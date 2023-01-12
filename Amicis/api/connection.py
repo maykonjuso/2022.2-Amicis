@@ -2,13 +2,13 @@ import mysql.connector
 from mysql.connector import Error
 
 
-def salvarUsuario(nome):
+def salvarUsuario(nome, foto):
 
     con = mysql.connector.connect(
         host='localhost', database='Amicis', user='root', password='Banco123')
 
-    sql = "INSERT INTO usuario (this_usuario, senha) VALUES (%s, %s)"
-    val = (nome, 1234)
+    sql = "INSERT INTO usuario (this_usuario, foto, senha) VALUES (%s, %s, %s)"
+    val = (nome, foto, 1234)
 
     try:
         cursor = con.cursor()

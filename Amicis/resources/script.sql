@@ -1,6 +1,7 @@
 CREATE TABLE usuario (
 	id INT auto_increment,
 	this_usuario varchar(100) UNIQUE,
+	foto varchar(200),
 	nome varchar(50) ,
 	sobrenome varchar(50),
 	email varchar(100) UNIQUE,

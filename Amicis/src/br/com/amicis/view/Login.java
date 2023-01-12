@@ -84,7 +84,7 @@ public class Login extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				Home frame;
 				try {
-					frame = new Home();
+					frame = new Home("teste");
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
@@ -171,7 +171,8 @@ public class Login extends JFrame {
 			ResultSet resultDAO = usuarioDAO.autenticacaoUsuario(usuario);
 
 			if (resultDAO.next()) {
-				Home frame = new Home();
+				
+				Home frame = new Home(resultDAO.getString("this_usuario"));
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);
 				frame.setResizable(false);

@@ -9,6 +9,7 @@ public class Usuario {
 	private String nome;
 	private String sobrenome;
 	private String usuario;
+	private String foto;
 	private Date dataCadastro;
 	private Date dataNascimeto;
 	private String telefone;
@@ -109,6 +110,14 @@ public class Usuario {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 }
