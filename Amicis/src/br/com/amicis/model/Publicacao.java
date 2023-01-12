@@ -14,7 +14,7 @@ public class Publicacao {
 	private ArrayList<String> coracoes;
 
 	public Publicacao(Perfil perfil) {
-		this.setUsuario(perfil.getUsuario().getUsuario());
+		this.setUsuario(perfil.getThis_usuario());
 		this.setPerfil(perfil);
 	}
 

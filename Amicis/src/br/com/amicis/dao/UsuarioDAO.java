@@ -17,7 +17,7 @@ public class UsuarioDAO {
 
 	public void save(Usuario usuario) {
 
-		String sql = "INSERT INTO usuario(nome, sobrenome, this_usuario, telefone, email, senha, dataNascimento) VALUES (?, ?, ?, ?, ?, ?,?)";
+		String sql = "INSERT INTO usuario(nome, sobrenome, this_usuario, telefone, email, senha, dataNascimento, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -37,6 +37,10 @@ public class UsuarioDAO {
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 			pstm.setDate(7, sqlDate);
 			PerfilDAO perfilDAO = new PerfilDAO();
+			
+			usuario.setFoto("https://pbs.twimg.com/profile_images/1552677834795147266/d79hRwU1_normal.jpg");
+			
+			pstm.setString(8, usuario.getFoto());
 
 			// executando a query
 

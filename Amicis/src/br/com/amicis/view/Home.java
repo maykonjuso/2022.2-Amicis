@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -27,7 +28,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import br.com.amicis.dao.PublicacaoDAO;
 import br.com.amicis.dao.UsuarioDAO;
+import br.com.amicis.model.Publicacao;
 import br.com.amicis.model.Usuario;
 
 public class Home extends JFrame {
@@ -91,10 +94,6 @@ public class Home extends JFrame {
 		publicacoes.add(novaPublicacao);
 		novaPublicacao.setLayout(null);
 
-		JButton publicar = new JButton("publicar");
-		publicar.setBackground(UIManager.getColor("InternalFrame.borderColor"));
-		publicar.setBounds(405, 107, 89, 23);
-		novaPublicacao.add(publicar);
 
 		JTextArea textArea = new JTextArea();
 		textArea.setForeground(UIManager.getColor("InternalFrame.activeTitleForeground"));
@@ -102,6 +101,37 @@ public class Home extends JFrame {
 		textArea.setBounds(10, 11, 482, 87);
 		novaPublicacao.add(textArea);
 
+		JButton publicar = new JButton("publicar");
+		publicar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(textArea.getText().equals(null)) {
+					JOptionPane.showMessageDialog(publicacoes, "Publicação vazia.");
+				}
+				Publicacao publicacao = new Publicacao(usuarioTela.getPerfil());
+				PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
+				publicacao.setConteudo(textArea.getText());
+				publicacaoDAO.save(publicacao);
+				JOptionPane.showMessageDialog(publicacoes, "Publicação realizada com sucesso.");
+				textArea.setText("");
+				try {
+					Home frame = new Home(usuarioTela.getNome());
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+					dispose();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		publicar.setBackground(UIManager.getColor("InternalFrame.borderColor"));
+		publicar.setBounds(405, 107, 89, 23);
+		novaPublicacao.add(publicar);
+		
+		
 		JButton apagar = new JButton("apagar");
 		apagar.setBackground(SystemColor.menu);
 		apagar.setBounds(307, 107, 89, 23);
@@ -236,7 +266,7 @@ public class Home extends JFrame {
 					
 					div.add(espaço);
 					
-					JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getUsuario(),
+					JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getPerfil().getThis_usuario(),
 							usuario.getPerfil().getPublicacao(i).getConteudo(), usuario.getFoto());
 					publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 					publicacaoPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
