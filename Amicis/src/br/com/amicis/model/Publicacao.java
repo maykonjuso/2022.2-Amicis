@@ -16,6 +16,8 @@ public class Publicacao {
 	public Publicacao(Perfil perfil) {
 		this.setUsuario(perfil.getThis_usuario());
 		this.setPerfil(perfil);
+		respostas = new ArrayList<Publicacao>();
+		coracoes = new ArrayList<String>();
 	}
 
 	public String getConteudo() {

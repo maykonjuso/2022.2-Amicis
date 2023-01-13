@@ -49,7 +49,7 @@ public class CoracaoDAO {
 	}
 
 	public ArrayList<String> getCoracoes(Publicacao publicacao) throws SQLException {
-		String sql = "SELECT amigo FROM coracoes WHERE id = ?;";
+		String sql = "SELECT amigo FROM coracoes WHERE id_publicacao = ?;";
 
 		ArrayList<String> coracoes = new ArrayList<String>();
 		Connection conn = null;

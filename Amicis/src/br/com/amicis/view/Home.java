@@ -112,10 +112,11 @@ public class Home extends JFrame {
 				PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
 				publicacao.setConteudo(textArea.getText());
 				publicacaoDAO.save(publicacao);
+				
 				JOptionPane.showMessageDialog(publicacoes, "Publicação realizada com sucesso.");
 				textArea.setText("");
 				try {
-					Home frame = new Home(usuarioTela.getNome());
+					Home frame = new Home(usuarioTela.getUsuario());
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
@@ -210,6 +211,7 @@ public class Home extends JFrame {
 		menu.add(emojiUm_1_2_1);
 
 		JLabel lblNewLabel = new JLabel("Olá, " + usuarioTela.getUsuario() + "!");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblNewLabel.setBounds(55, 30, 189, 39);
 		menu.add(lblNewLabel);
@@ -267,10 +269,10 @@ public class Home extends JFrame {
 					div.add(espaço);
 					
 					JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getPerfil().getThis_usuario(),
-							usuario.getPerfil().getPublicacao(i).getConteudo(), usuario.getFoto());
+							usuario.getPerfil().getPublicacao(i).getConteudo(), usuario.getFoto(), usuario.getPerfil().getPublicacao(i).sizeCoracoes(), usuario.getPerfil().getPublicacao(i).sizeRespostas());
 					publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 					publicacaoPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-					publicacaoPanel.setPreferredSize(new Dimension(120, 110));
+					publicacaoPanel.setPreferredSize(new Dimension(120, 120));
 					
 					div.add(publicacaoPanel);
 					publicacoesPanel.add(div);
@@ -282,7 +284,7 @@ public class Home extends JFrame {
 		}
 	}
 
-	private JPanel criarPublicacaoPanel(String nome, String publicacao, String foto) {
+	private JPanel criarPublicacaoPanel(String nome, String publicacao, String foto, int numCurtidas, int numRespostas) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.setPreferredSize(new Dimension(500, 500));
@@ -309,6 +311,46 @@ public class Home extends JFrame {
 			label.setAlignmentX(Component.CENTER_ALIGNMENT);
 			label.setBackground(new Color(200, 200, 200));
 			perfil.add(label);
+			
+			
+			JPanel interecao = new JPanel();
+			interecao.setPreferredSize(new Dimension(125, 200));
+			interecao.setBackground(new Color(255, 255, 255));
+			interecao.setMaximumSize(getPreferredSize());
+			interecao.setAlignmentX(Component.CENTER_ALIGNMENT);
+			interecao.setLayout(new BoxLayout(interecao, BoxLayout.X_AXIS));
+			perfil.add(interecao);
+			
+			JLabel curtidas = new JLabel(" 🖤");
+			curtidas.setHorizontalAlignment(SwingConstants.CENTER);
+			curtidas.setFont(new Font("Noto Emoji Medium", Font.BOLD, 14));
+			curtidas.setAlignmentX(Component.CENTER_ALIGNMENT);
+			interecao.add(curtidas);
+			
+			JLabel numeroCurtidas = new JLabel(String.valueOf(numCurtidas));
+			numeroCurtidas.setHorizontalAlignment(SwingConstants.CENTER);
+			numeroCurtidas.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 14));
+			numeroCurtidas.setAlignmentX(Component.CENTER_ALIGNMENT);
+			interecao.add(numeroCurtidas);
+			
+			
+			
+			JLabel respostas = new JLabel(" 🗨");
+			respostas.setHorizontalAlignment(SwingConstants.CENTER);
+			respostas.setFont(new Font("Noto Emoji Medium", Font.BOLD, 14));
+			respostas.setAlignmentX(Component.CENTER_ALIGNMENT);
+			interecao.add(respostas);
+			
+			JLabel numeroRespostas = new JLabel(String.valueOf(numRespostas));
+			numeroRespostas.setHorizontalAlignment(SwingConstants.CENTER);
+			numeroRespostas.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 14));
+			numeroRespostas.setAlignmentX(Component.CENTER_ALIGNMENT);
+			interecao.add(numeroRespostas);
+			
+			
+			
+			
+	
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
