@@ -19,4 +19,5 @@ for tweet in response.data:
         user = users[tweet.author_id]
         connection.salvarUsuario(user.username, user.profile_image_url)
         connection.salvarPerfil(user.username)
-        connection.salvarTweet(user.username, tweet.text)
+        connection.salvarTweet(user.username, tweet.text,
+                               user.profile_image_url)

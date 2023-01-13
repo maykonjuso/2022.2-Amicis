@@ -252,32 +252,30 @@ public class Home extends JFrame {
 		lblEncontreNovosAmigos.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblEncontreNovosAmigos.setBounds(65, 30, 169, 39);
 		conversas.add(lblEncontreNovosAmigos);
-		UsuarioDAO usuarioDAO1 = new UsuarioDAO();
+		PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
+		
 
-		for (Usuario usuario : usuarioDAO1.getUsuarios()) {
+		for (Publicacao publicacao2: publicacaoDAO.getPublicacoesData()) {
 			try {
-				for (int i = 0; i < usuario.getPerfil().sizePublicacao(); i++) {
-					JPanel div = new JPanel();
-					div.setBackground(new Color(255, 255, 255));
-					div.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
-					div.setLayout(new BoxLayout(div, BoxLayout.PAGE_AXIS));
-					
-					JLabel espaço = new JLabel();
-					espaço.setPreferredSize(new Dimension(20, 20));
-					espaço.setBackground(new Color(255, 255, 255));
-					
-					div.add(espaço);
-					
-					JPanel publicacaoPanel = criarPublicacaoPanel(usuario.getPerfil().getThis_usuario(),
-							usuario.getPerfil().getPublicacao(i).getConteudo(), usuario.getFoto(), usuario.getPerfil().getPublicacao(i).sizeCoracoes(), usuario.getPerfil().getPublicacao(i).sizeRespostas());
-					publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
-					publicacaoPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-					publicacaoPanel.setPreferredSize(new Dimension(120, 120));
-					
-					div.add(publicacaoPanel);
-					publicacoesPanel.add(div);
-					
-				}
+				JPanel div = new JPanel();
+				div.setBackground(new Color(255, 255, 255));
+				div.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
+				div.setLayout(new BoxLayout(div, BoxLayout.PAGE_AXIS));
+				
+				JLabel espaço = new JLabel();
+				espaço.setPreferredSize(new Dimension(20, 20));
+				espaço.setBackground(new Color(255, 255, 255));
+				
+				div.add(espaço);
+				
+				JPanel publicacaoPanel = criarPublicacaoPanel(publicacao2.getUsuario(),
+						publicacao2.getConteudo(), publicacao2.getFoto(), publicacao2.sizeCoracoes(), publicacao2.sizeRespostas());
+				publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
+				publicacaoPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+				publicacaoPanel.setPreferredSize(new Dimension(120, 120));
+				
+				div.add(publicacaoPanel);
+				publicacoesPanel.add(div);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

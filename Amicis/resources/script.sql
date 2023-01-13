@@ -62,6 +62,7 @@ CREATE TABLE conversa (
 
 CREATE TABLE publicacao (
 	id INT auto_increment NOT NULL,
+	foto varchar(200),
 	usuario varchar(50),
 	texto varchar(240),
 	coracao INT,
