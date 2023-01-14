@@ -45,6 +45,7 @@ public class Home extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+
 					Home frame = new Home("teste");
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
@@ -207,13 +208,13 @@ public class Home extends JFrame {
 
 		JButton notificacoes_1 = new JButton("configurações");
 		notificacoes_1.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		notificacoes_1.setBounds(94, 529, 156, 33);
+		notificacoes_1.setBounds(94, 495, 156, 33);
 		menu.add(notificacoes_1);
 
 		JLabel emojiUm_1_2_1 = new JLabel("⚙️");
 		emojiUm_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_1_2_1.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
-		emojiUm_1_2_1.setBounds(10, 514, 78, 63);
+		emojiUm_1_2_1.setBounds(10, 480, 78, 63);
 		menu.add(emojiUm_1_2_1);
 
 		JLabel lblNewLabel = new JLabel("Olá, " + usuarioTela.getUsuario() + "!");
@@ -221,6 +222,27 @@ public class Home extends JFrame {
 		lblNewLabel.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblNewLabel.setBounds(55, 30, 189, 39);
 		menu.add(lblNewLabel);
+
+		JButton sair = new JButton("sair");
+		sair.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Login frame = new Login();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(null);
+				frame.setResizable(false);
+				dispose();
+			}
+		});
+		sair.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
+		sair.setBounds(94, 554, 156, 33);
+		menu.add(sair);
+
+		JLabel emojiUm_1_2_1_1 = new JLabel("😔");
+		emojiUm_1_2_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		emojiUm_1_2_1_1.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
+		emojiUm_1_2_1_1.setBounds(10, 539, 78, 63);
+		menu.add(emojiUm_1_2_1_1);
 
 		JPanel publicacao = new JPanel();
 		publicacao.setBackground(new Color(255, 255, 255));
@@ -394,11 +416,13 @@ public class Home extends JFrame {
 				descurtir.setVisible(true);
 				curtir.setVisible(false);
 				curtiu = true;
+				curtidas.setText("🖤");
 			}
 
 			if (!publicacao2.getCoracao(i).equals(usuarioTela.getUsuario()) && curtiu == false) {
 				curtir.setVisible(true);
 				descurtir.setVisible(false);
+				curtidas.setText("🤍");
 			}
 		}
 
@@ -410,6 +434,7 @@ public class Home extends JFrame {
 				descurtir.setVisible(true);
 				CoracaoDAO coracaoDAO = new CoracaoDAO();
 				coracaoDAO.save(publicacao2, usuarioTela.getPerfil());
+				curtidas.setText("🖤");
 				if (numeroCurtidas.getText().equals(String.valueOf(numCurtidas))) {
 					numeroCurtidas.setText(String.valueOf(numCurtidas + 1));
 				} else {
@@ -422,11 +447,12 @@ public class Home extends JFrame {
 		descurtir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				publicacao2.removerCoracao(usuarioTela.getNome());
+				publicacao2.removerCoracao(usuarioTela.getUsuario());
 				descurtir.setVisible(false);
 				curtir.setVisible(true);
 				CoracaoDAO coracaoDAO = new CoracaoDAO();
 				coracaoDAO.delete(publicacao2, usuarioTela.getPerfil());
+				curtidas.setText("🤍");
 				if (numeroCurtidas.getText().equals(String.valueOf(numCurtidas))) {
 					numeroCurtidas.setText(String.valueOf(numCurtidas - 1));
 				} else {
@@ -459,5 +485,4 @@ public class Home extends JFrame {
 	public void setUsuarioTela(Usuario usuarioTela) {
 		this.usuarioTela = usuarioTela;
 	}
-
 }
