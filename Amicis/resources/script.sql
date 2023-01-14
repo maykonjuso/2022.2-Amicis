@@ -28,16 +28,16 @@ CREATE TABLE amigos (
 	perfil varchar(100),
 	amigo varchar(100),
 	CONSTRAINT amigos_PK PRIMARY KEY (perfil, amigo),
-	CONSTRAINT amigos_FK FOREIGN KEY (perfil) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT amigos_FK_1 FOREIGN KEY (amigo) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT amigos_FK FOREIGN KEY (perfil) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT amigos_FK_1 FOREIGN KEY (amigo) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE bloqueados (
 	perfil varchar(100),
 	bloqueado varchar(100),
 	CONSTRAINT bloqueados_PK PRIMARY KEY (perfil, bloqueado),
-	CONSTRAINT bloqueados_FK FOREIGN KEY (perfil) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT bloqueados_FK_1 FOREIGN KEY (bloqueado) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT bloqueados_FK FOREIGN KEY (perfil) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT bloqueados_FK_1 FOREIGN KEY (bloqueado) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE notificacao (
@@ -46,7 +46,7 @@ CREATE TABLE notificacao (
 	conteudo varchar(100),
 	data DATETIME DEFAULT NOW(),
 	CONSTRAINT id_PK PRIMARY KEY (id),
-	CONSTRAINT usuario_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT usuario_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE conversa (
@@ -57,7 +57,7 @@ CREATE TABLE conversa (
 	data DATETIME DEFAULT NOW(),
 	CONSTRAINT id_PK PRIMARY KEY (id),
 	KEY conversas_FK (remetente,destinatario),
-	CONSTRAINT conversas_FK FOREIGN KEY (remetente, destinatario) REFERENCES amigos (perfil, amigo) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT conversas_FK FOREIGN KEY (remetente, destinatario) REFERENCES amigos (perfil, amigo) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE publicacao (
@@ -68,15 +68,15 @@ CREATE TABLE publicacao (
 	coracao INT,
 	data DATETIME DEFAULT NOW(),
 	CONSTRAINT publicacao_PK PRIMARY KEY (id),
-	CONSTRAINT publicacao_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT publicacao_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE coracoes (
 	id_publicacao int,
 	amigo varchar(100),
 	CONSTRAINT coracao_PK PRIMARY KEY (id_publicacao, amigo),
-	CONSTRAINT coracao_FK FOREIGN KEY (id_publicacao) REFERENCES publicacao(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT coracao_FK_1 FOREIGN KEY (amigo) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT coracao_FK FOREIGN KEY (id_publicacao) REFERENCES publicacao(id) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT coracao_FK_1 FOREIGN KEY (amigo) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE resposta (
@@ -87,8 +87,8 @@ CREATE TABLE resposta (
 	coracao INT,
 	data DATETIME DEFAULT NOW(),
 	CONSTRAINT publicacao_PK PRIMARY KEY (id),
-	CONSTRAINT publicacao111_FK FOREIGN KEY (id_publicacao) REFERENCES publicacao(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT publicacao11_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT publicacao111_FK FOREIGN KEY (id_publicacao) REFERENCES publicacao(id) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT publicacao11_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE ticket (
@@ -99,5 +99,5 @@ CREATE TABLE ticket (
 	severidade varchar(100),
 	data DATETIME DEFAULT NOW(),
 	CONSTRAINT ticket_PK PRIMARY KEY (protocolo),
-	CONSTRAINT ticket_FK FOREIGN KEY (usuario) REFERENCES Amicis.perfil(usuario) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT ticket_FK FOREIGN KEY (usuario) REFERENCES Amicis.perfil(usuario) ON UPDATE NO ACTION ON DELETE NO ACTION
 )

@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import br.com.amicis.dao.CoracaoDAO;
 import br.com.amicis.dao.PublicacaoDAO;
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Publicacao;
@@ -105,27 +106,28 @@ public class Home extends JFrame {
 		publicar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(textArea.getText().equals(null)) {
+				if(textArea.getText().equals("")) {
 					JOptionPane.showMessageDialog(publicacoes, "Publicação vazia.");
-				}
-				Publicacao publicacao = new Publicacao(usuarioTela.getPerfil());
-				PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
-				publicacao.setConteudo(textArea.getText());
-				publicacaoDAO.save(publicacao);
-				
-				JOptionPane.showMessageDialog(publicacoes, "Publicação realizada com sucesso.");
-				textArea.setText("");
+				} else {
+					Publicacao publicacao = new Publicacao(usuarioTela.getPerfil());
+					PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
+					publicacao.setConteudo(textArea.getText());
+					publicacaoDAO.save(publicacao);
+	
+					JOptionPane.showMessageDialog(publicacoes, "Publicação realizada com sucesso.");
+					textArea.setText("");
 				try {
 					Home frame = new Home(usuarioTela.getUsuario());
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
+					publicacaoDAO.getPublicacoes(usuarioTela.getPerfil());
 					dispose();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
+			}
 			}
 		});
 		publicar.setBackground(UIManager.getColor("InternalFrame.borderColor"));
@@ -134,6 +136,12 @@ public class Home extends JFrame {
 		
 		
 		JButton apagar = new JButton("apagar");
+		apagar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textArea.setText("");
+			}
+		});
 		apagar.setBackground(SystemColor.menu);
 		apagar.setBounds(307, 107, 89, 23);
 		novaPublicacao.add(apagar);
@@ -161,6 +169,7 @@ public class Home extends JFrame {
 		menu.add(perfil);
 
 		JButton status = new JButton("status");
+		
 		status.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		status.setBounds(94, 164, 156, 33);
 		menu.add(status);
@@ -249,8 +258,9 @@ public class Home extends JFrame {
 		conversas.add(perfil_1);
 
 		JLabel lblEncontreNovosAmigos = new JLabel("Faça novos amigos...");
+		lblEncontreNovosAmigos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEncontreNovosAmigos.setFont(new Font("Roboto", Font.PLAIN, 18));
-		lblEncontreNovosAmigos.setBounds(65, 30, 169, 39);
+		lblEncontreNovosAmigos.setBounds(50, 30, 199, 39);
 		conversas.add(lblEncontreNovosAmigos);
 		PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
 		
@@ -269,7 +279,7 @@ public class Home extends JFrame {
 				div.add(espaço);
 				
 				JPanel publicacaoPanel = criarPublicacaoPanel(publicacao2.getUsuario(),
-						publicacao2.getConteudo(), publicacao2.getFoto(), publicacao2.sizeCoracoes(), publicacao2.sizeRespostas());
+						publicacao2.getConteudo(), publicacao2.getFoto(), publicacao2.sizeCoracoes(), publicacao2.sizeRespostas(), publicacao2);
 				publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 				publicacaoPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 				publicacaoPanel.setPreferredSize(new Dimension(120, 120));
@@ -282,79 +292,70 @@ public class Home extends JFrame {
 		}
 	}
 
-	private JPanel criarPublicacaoPanel(String nome, String publicacao, String foto, int numCurtidas, int numRespostas) {
+	private JPanel criarPublicacaoPanel(String nome, String publicacao, String foto, int numCurtidas, int numRespostas, Publicacao publicacao2) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.setPreferredSize(new Dimension(500, 500));
 		panel.setMaximumSize(getPreferredSize());
 		panel.setBackground(new Color(255, 255, 255));
 		
+		JPanel perfil = new JPanel();
+		perfil.setPreferredSize(new Dimension(125, 200));
+		perfil.setBackground(new Color(255, 255, 255));
+		perfil.setMaximumSize(getPreferredSize());
+		perfil.setAlignmentY(Component.CENTER_ALIGNMENT);
+		perfil.setLayout(new BoxLayout(perfil, BoxLayout.PAGE_AXIS));
+		panel.add(perfil);
+		
+		URL url;
 		try {
-			JPanel perfil = new JPanel();
-			perfil.setPreferredSize(new Dimension(125, 200));
-			perfil.setBackground(new Color(255, 255, 255));
-			perfil.setMaximumSize(getPreferredSize());
-			perfil.setAlignmentY(Component.CENTER_ALIGNMENT);
-			perfil.setLayout(new BoxLayout(perfil, BoxLayout.PAGE_AXIS));
-			panel.add(perfil);
-			
-			URL url = new URL(foto);
+			url = new URL(foto);
 			ImageIcon imgIcon = new ImageIcon(url);
 			JLabel jLabel = new JLabel(imgIcon);
 			jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			perfil.add(jLabel);
-			
-			JLabel label = new JLabel(nome);
-			label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
-			label.setAlignmentX(Component.CENTER_ALIGNMENT);
-			label.setBackground(new Color(200, 200, 200));
-			perfil.add(label);
-			
-			
-			JPanel interecao = new JPanel();
-			interecao.setPreferredSize(new Dimension(125, 200));
-			interecao.setBackground(new Color(255, 255, 255));
-			interecao.setMaximumSize(getPreferredSize());
-			interecao.setAlignmentX(Component.CENTER_ALIGNMENT);
-			interecao.setLayout(new BoxLayout(interecao, BoxLayout.X_AXIS));
-			perfil.add(interecao);
-			
-			JLabel curtidas = new JLabel(" 🖤");
-			curtidas.setHorizontalAlignment(SwingConstants.CENTER);
-			curtidas.setFont(new Font("Noto Emoji Medium", Font.BOLD, 14));
-			curtidas.setAlignmentX(Component.CENTER_ALIGNMENT);
-			interecao.add(curtidas);
-			
-			JLabel numeroCurtidas = new JLabel(String.valueOf(numCurtidas));
-			numeroCurtidas.setHorizontalAlignment(SwingConstants.CENTER);
-			numeroCurtidas.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 14));
-			numeroCurtidas.setAlignmentX(Component.CENTER_ALIGNMENT);
-			interecao.add(numeroCurtidas);
-			
-			
-			
-			JLabel respostas = new JLabel(" 🗨");
-			respostas.setHorizontalAlignment(SwingConstants.CENTER);
-			respostas.setFont(new Font("Noto Emoji Medium", Font.BOLD, 14));
-			respostas.setAlignmentX(Component.CENTER_ALIGNMENT);
-			interecao.add(respostas);
-			
-			JLabel numeroRespostas = new JLabel(String.valueOf(numRespostas));
-			numeroRespostas.setHorizontalAlignment(SwingConstants.CENTER);
-			numeroRespostas.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 14));
-			numeroRespostas.setAlignmentX(Component.CENTER_ALIGNMENT);
-			interecao.add(numeroRespostas);
-			
-			
-			
-			
-	
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
 		}
 		
-
+		JLabel label = new JLabel(nome);
+		label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		label.setBackground(new Color(200, 200, 200));
+		label.setPreferredSize(new Dimension(250, 250));
+		perfil.add(label);
 		
+		JPanel interecao = new JPanel();
+		interecao.setBackground(new Color(255, 255, 255));
+		interecao.setAlignmentX(Component.CENTER_ALIGNMENT);
+		interecao.setLayout(new BoxLayout(interecao, BoxLayout.X_AXIS));
+		interecao.setPreferredSize(new Dimension(300,300));
+		perfil.add(interecao);
+		
+		JLabel curtidas = new JLabel("🤍");
+		curtidas.setHorizontalAlignment(SwingConstants.CENTER);
+		curtidas.setFont(new Font("Noto Emoji Medium", Font.BOLD, 11));
+		curtidas.setAlignmentX(Component.CENTER_ALIGNMENT);
+		interecao.add(curtidas);
+		
+		JLabel numeroCurtidas = new JLabel(String.valueOf(numCurtidas));
+		numeroCurtidas.setHorizontalAlignment(SwingConstants.CENTER);
+		numeroCurtidas.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 14));
+		numeroCurtidas.setAlignmentX(Component.CENTER_ALIGNMENT);
+		interecao.add(numeroCurtidas);
+		
+		JLabel respostas = new JLabel("🗨");
+		respostas.setHorizontalAlignment(SwingConstants.CENTER);
+		respostas.setFont(new Font("Noto Emoji Medium", Font.BOLD, 14));
+		respostas.setAlignmentX(Component.CENTER_ALIGNMENT);
+		interecao.add(respostas);
+		
+		JLabel numeroRespostas = new JLabel(String.valueOf(numRespostas));
+		numeroRespostas.setHorizontalAlignment(SwingConstants.CENTER);
+		numeroRespostas.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 14));
+		numeroRespostas.setAlignmentX(Component.CENTER_ALIGNMENT);
+		interecao.add(numeroRespostas);
+	
 		JTextArea textArea= new JTextArea();
 		textArea.setText(publicacao);
 		textArea.setEditable(false);
@@ -374,7 +375,62 @@ public class Home extends JFrame {
 		curtir.setPreferredSize(new Dimension(80, 21));
 		curtir.setBackground(new Color(255, 255, 255));
 		curtir.setHorizontalAlignment(SwingConstants.CENTER);
+		curtir.setVisible(false);
 		botoes.add(curtir, BorderLayout.CENTER);
+		
+		
+		JButton descurtir = new JButton("descurtir");
+		descurtir.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
+		descurtir.setPreferredSize(new Dimension(80, 21));
+		descurtir.setBackground(new Color(255, 255, 255));
+		descurtir.setHorizontalAlignment(SwingConstants.CENTER);
+		descurtir.setVisible(false);
+		botoes.add(descurtir, BorderLayout.CENTER);
+		
+		if(publicacao2.sizeCoracoes() == 0) {
+			curtir.setVisible(true);
+		}
+		
+		for (int i = 0; i < publicacao2.sizeCoracoes(); i++) {
+			if (publicacao2.getCoracao(i).equals(usuarioTela.getNome())) {
+				curtir.setVisible(true);
+			} else {
+				descurtir.setVisible(true);
+			}
+		}
+		
+		curtir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				publicacao2.adicionarCoracao(usuarioTela.getUsuario());
+				curtir.setVisible(false);
+				descurtir.setVisible(true);
+				CoracaoDAO coracaoDAO = new CoracaoDAO();
+				coracaoDAO.save(publicacao2, usuarioTela.getPerfil());
+				if (numeroCurtidas.getText().equals(String.valueOf(numCurtidas))) {
+					numeroCurtidas.setText(String.valueOf(numCurtidas+1));
+				} else {
+					numeroCurtidas.setText(String.valueOf(numCurtidas));
+				}
+				
+			}
+		});
+		
+		descurtir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				publicacao2.removerCoracao(usuarioTela.getNome());
+				descurtir.setVisible(false);
+				curtir.setVisible(true);
+				CoracaoDAO coracaoDAO = new CoracaoDAO();
+				coracaoDAO.delete(publicacao2, usuarioTela.getPerfil());
+				if (numeroCurtidas.getText().equals(String.valueOf(numCurtidas))) {
+					numeroCurtidas.setText(String.valueOf(numCurtidas-1));
+				} else {
+					numeroCurtidas.setText(String.valueOf(numCurtidas));
+				}
+			}
+		});
 
 		JButton resposta = new JButton("respostas");
 		resposta.setFont(new Font("Roboto Medium", Font.PLAIN, 10));

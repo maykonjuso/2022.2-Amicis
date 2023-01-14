@@ -6,7 +6,7 @@ import connection
 
 client = tweepy.Client(bearer_token=config.BAERER_TOKEN)
 
-query = "flamengo -is:retweet -is:reply"
+query = "congresso nacional -is:retweet -is:reply"
 
 
 response = client.search_recent_tweets(query=query, max_results=10, tweet_fields=[

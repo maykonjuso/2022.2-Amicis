@@ -26,7 +26,7 @@ public class RespostaDAO {
 			pstm.setString(3, publicacao.getConteudo());
 			
 			CoracaoDAO coracaoDAO = new CoracaoDAO();
-			coracaoDAO.save(publicacao);
+			coracaoDAO.save(publicacao, publicacao.getPerfil());
 			
 			pstm.execute();
 		} catch (Exception e) {

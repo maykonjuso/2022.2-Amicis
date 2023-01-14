@@ -24,11 +24,7 @@ public class PublicacaoDAO {
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, publicacao.getUsuario());
 			pstm.setString(2, publicacao.getConteudo());
-			pstm.setString(3, publicacao.getUsuario());
-			
-			CoracaoDAO coracaoDAO = new CoracaoDAO();
-			coracaoDAO.save(publicacao);
-			
+			pstm.setString(3, publicacao.getUsuario());	
 			pstm.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,7 +53,7 @@ public class PublicacaoDAO {
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, perfil.getUsuario().getUsuario());
+			pstm.setString(1, perfil.getThis_usuario());
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
