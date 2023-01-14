@@ -37,9 +37,9 @@ public class UsuarioDAO {
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 			pstm.setDate(7, sqlDate);
 			PerfilDAO perfilDAO = new PerfilDAO();
-			
-			usuario.setFoto("https://pbs.twimg.com/profile_images/1552677834795147266/d79hRwU1_normal.jpg");
-			
+
+			usuario.setFoto("https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png");
+
 			pstm.setString(8, usuario.getFoto());
 
 			// executando a query
@@ -181,7 +181,6 @@ public class UsuarioDAO {
 				usuario.setDataCadastro(rset.getDate("dataNascimento"));
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
-				
 
 				String senha = rset.getString("senha");
 				char[] cs = senha.toCharArray();
@@ -255,7 +254,6 @@ public class UsuarioDAO {
 				usuario.setDataCadastro(rset.getDate("dataNascimento"));
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
-				
 
 				String senha = rset.getString("senha");
 				char[] cs = senha.toCharArray();
