@@ -24,7 +24,7 @@ public class PublicacaoDAO {
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, publicacao.getUsuario());
 			pstm.setString(2, publicacao.getConteudo());
-			pstm.setString(3, publicacao.getUsuario());	
+			pstm.setString(3, publicacao.getUsuario());
 			pstm.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,16 +61,16 @@ public class PublicacaoDAO {
 				Publicacao publicacao = new Publicacao(perfil);
 
 				publicacao.setId(rset.getInt("id"));
-				
+
 				publicacao.setConteudo(rset.getString("texto"));
 				publicacao.setData(rset.getDate("data"));
 				publicacao.setFoto(rset.getString("foto"));
 				RespostaDAO respostaDAO = new RespostaDAO();
-				publicacao.setRespostas(respostaDAO.getRespostas(publicacao));
-				
+				publicacao.setRespostas(respostaDAO.getRespostaData(publicacao));
+
 				CoracaoDAO coracaoDAO = new CoracaoDAO();
 				publicacao.setCoracoes(coracaoDAO.getCoracoes(publicacao));
-				
+
 				publicacoes.add(publicacao);
 			}
 
@@ -94,7 +94,7 @@ public class PublicacaoDAO {
 		}
 		return publicacoes;
 	}
-	
+
 	public ArrayList<Publicacao> getPublicacoesData() throws SQLException {
 		String sql = "SELECT * FROM publicacao ORDER BY data DESC;";
 
@@ -110,7 +110,7 @@ public class PublicacaoDAO {
 
 			while (rset.next()) {
 				Usuario usuario1 = new Usuario();
-				
+
 				Publicacao publicacao = new Publicacao(usuario1.getPerfil());
 
 				publicacao.setId(rset.getInt("id"));
@@ -118,13 +118,13 @@ public class PublicacaoDAO {
 				publicacao.setFoto(rset.getString("foto"));
 				publicacao.setConteudo(rset.getString("texto"));
 				publicacao.setData(rset.getDate("data"));
-				
+
 				RespostaDAO respostaDAO = new RespostaDAO();
-				publicacao.setRespostas(respostaDAO.getRespostas(publicacao));
-				
+				publicacao.setRespostas(respostaDAO.getRespostaData(publicacao));
+
 				CoracaoDAO coracaoDAO = new CoracaoDAO();
 				publicacao.setCoracoes(coracaoDAO.getCoracoes(publicacao));
-				
+
 				publicacoes.add(publicacao);
 			}
 
@@ -148,20 +148,20 @@ public class PublicacaoDAO {
 		}
 		return publicacoes;
 	}
-	
+
 	public void update(Publicacao publicacao) {
 		String sql = "UPDATE publicacao SET texto = ? WHERE id = ?;";
-		
+
 		Connection conn = null;
 		PreparedStatement pstm = null;
-		
+
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
-			
+
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, publicacao.getConteudo());
 			pstm.setInt(2, publicacao.getId());
-	
+
 			pstm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -178,24 +178,24 @@ public class PublicacaoDAO {
 			}
 		}
 	}
-	
+
 	public void delete(Publicacao publicacao) {
 		String sql = "DELETE FROM publicacao WHERE id = ?";
-		
+
 		Connection conn = null;
 		PreparedStatement pstm = null;
-		
+
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
-			
+
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setInt(1, publicacao.getId());
-			
+
 			pstm.execute();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		} finally {
 			try {
 				if (pstm != null) {

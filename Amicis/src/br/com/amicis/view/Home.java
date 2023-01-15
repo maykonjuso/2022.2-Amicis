@@ -45,7 +45,6 @@ public class Home extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-
 					Home frame = new Home("teste");
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
@@ -61,7 +60,6 @@ public class Home extends JFrame {
 	public Home(String nomeUsuario) throws SQLException {
 
 		UsuarioDAO usuarioDAOTela = new UsuarioDAO();
-
 		usuarioTela = usuarioDAOTela.getUsuario(nomeUsuario);
 
 		setBackground(new Color(255, 255, 255));
@@ -123,7 +121,6 @@ public class Home extends JFrame {
 						publicacaoDAO.getPublicacoes(usuarioTela.getPerfil());
 						dispose();
 					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -474,6 +471,20 @@ public class Home extends JFrame {
 		expandir.setBackground(new Color(255, 255, 255));
 		botoes.add(expandir, BorderLayout.CENTER);
 		panel.add(botoes, BorderLayout.CENTER);
+		expandir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				expandirPublicacao frame;
+				try {
+					frame = new expandirPublicacao(publicacao2, panel, usuarioTela);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		return panel;
 	}

@@ -60,8 +60,7 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("Amicis\\resources\\pngwing.com.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
 		setTitle("Login");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -171,7 +170,7 @@ public class Login extends JFrame {
 			ResultSet resultDAO = usuarioDAO.autenticacaoUsuario(usuario);
 
 			if (resultDAO.next()) {
-				
+
 				Home frame = new Home(resultDAO.getString("this_usuario"));
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);
