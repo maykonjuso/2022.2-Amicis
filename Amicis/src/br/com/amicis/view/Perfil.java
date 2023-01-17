@@ -1,18 +1,25 @@
 package br.com.amicis.view;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Label;
 import java.awt.Toolkit;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
+
+import br.com.amicis.model.Usuario;
 
 public class Perfil extends JFrame {
 
@@ -30,7 +37,7 @@ public class Perfil extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Perfil frame = new Perfil();
+					Perfil frame = new Perfil(null);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
@@ -45,7 +52,7 @@ public class Perfil extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Perfil() {
+	public Perfil(Usuario usuarioTela) {
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
 
@@ -58,13 +65,20 @@ public class Perfil extends JFrame {
 		setContentPane(contentJPanel);
 		contentJPanel.setLayout(null);
 
-		JLabel icon = new JLabel("😟");
-		icon.setHorizontalAlignment(SwingConstants.CENTER);
-		icon.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-		icon.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 110));
-		icon.setBounds(125, 39, 150, 150);
-		contentJPanel.add(icon);
-
+		
+		URL url;
+		try {
+			url = new URL(usuarioTela.getFoto());
+			ImageIcon imgIcon = new ImageIcon(url);
+			imgIcon.setImage(imgIcon.getImage().getScaledInstance(100, 100, 100));
+			JLabel jLabel = new JLabel(imgIcon);
+			jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			jLabel.setBounds(125, 39, 150, 150);
+			contentJPanel.add(jLabel);
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		}
+		
 		Label nome = new Label("Maykon");
 		nome.setFont(new Font("Dialog", Font.PLAIN, 24));
 		nome.setAlignment(Label.CENTER);
@@ -98,13 +112,25 @@ public class Perfil extends JFrame {
 
 		JLabel lblBio = new JLabel("Bio");
 		lblBio.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblBio.setBounds(76, 286, 129, 15);
+		lblBio.setBounds(76, 286, 107, 15);
 		contentJPanel.add(lblBio);
 
 		JButton btnNewButton = new JButton("Alterar");
 		btnNewButton.setFont(new Font("Roboto", Font.PLAIN, 12));
 		btnNewButton.setBounds(157, 486, 85, 21);
 		contentJPanel.add(btnNewButton);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setSize(-244, -39);
+		textArea.setLocation(321, 354);
+		textArea.setText(usuarioTela.getPerfil().getBio());
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setFont(new Font("Roboto", Font.PLAIN, 10));
+		textArea.setBackground(new Color(255, 255, 255));
+		textArea.setPreferredSize(new Dimension(10, 10));
+		contentJPanel.add(textArea);
 
 	}
 }

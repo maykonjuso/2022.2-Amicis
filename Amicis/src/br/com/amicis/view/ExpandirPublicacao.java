@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -30,7 +32,7 @@ import br.com.amicis.dao.RespostaDAO;
 import br.com.amicis.model.Publicacao;
 import br.com.amicis.model.Usuario;
 
-public class expandirPublicacao extends JFrame {
+public class ExpandirPublicacao extends JFrame {
 
 	/**
 	 * 
@@ -45,7 +47,7 @@ public class expandirPublicacao extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					expandirPublicacao frame = new expandirPublicacao(null, null, null);
+					ExpandirPublicacao frame = new ExpandirPublicacao(null, null, null);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
@@ -62,7 +64,7 @@ public class expandirPublicacao extends JFrame {
 	 * 
 	 * @throws SQLException
 	 */
-	public expandirPublicacao(Publicacao publicacao2, JPanel panel1, Usuario usuarioTela) throws SQLException {
+	public ExpandirPublicacao(Publicacao publicacao2, JPanel panel1, Usuario usuarioTela) throws SQLException {
 
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -101,6 +103,9 @@ public class expandirPublicacao extends JFrame {
 		novaPublicacao.setLayout(null);
 
 		JTextArea textAreaResposta = new JTextArea();
+		textAreaResposta.setFont(new Font("Roboto", Font.PLAIN, 13));
+		textAreaResposta.setLineWrap(true);
+		textAreaResposta.setWrapStyleWord(true);
 		textAreaResposta.setForeground(UIManager.getColor("InternalFrame.activeTitleForeground"));
 		textAreaResposta.setBackground(new Color(255, 255, 255));
 		textAreaResposta.setBounds(10, 11, 482, 87);
@@ -122,7 +127,8 @@ public class expandirPublicacao extends JFrame {
 					JOptionPane.showMessageDialog(publicacoes, "Publicação realizada com sucesso.");
 					textAreaResposta.setText("");
 					try {
-						expandirPublicacao frame = new expandirPublicacao(publicacao2, panel1, usuarioTela);
+						
+						ExpandirPublicacao frame = new ExpandirPublicacao(publicacao2, panel1, usuarioTela);
 						frame.setVisible(true);
 						frame.setLocationRelativeTo(null);
 						frame.setResizable(false);
@@ -136,7 +142,7 @@ public class expandirPublicacao extends JFrame {
 		});
 
 		publicar.setBackground(UIManager.getColor("InternalFrame.borderColor"));
-		publicar.setBounds(405, 107, 89, 23);
+		publicar.setBounds(391, 107, 103, 23);
 		novaPublicacao.add(publicar);
 
 		JButton apagar1 = new JButton("apagar");
@@ -148,7 +154,7 @@ public class expandirPublicacao extends JFrame {
 		});
 
 		apagar1.setBackground(SystemColor.menu);
-		apagar1.setBounds(307, 107, 89, 23);
+		apagar1.setBounds(278, 107, 103, 23);
 		novaPublicacao.add(apagar1);
 
 		JPanel panel = new JPanel();
@@ -198,6 +204,7 @@ public class expandirPublicacao extends JFrame {
 				respostaPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 				respostaPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 				respostaPanel.setPreferredSize(new Dimension(120, 120));
+				respostaPanel.setMaximumSize(getPreferredSize());
 
 				div.add(respostaPanel);
 				publicacao.add(div);
@@ -212,16 +219,26 @@ public class expandirPublicacao extends JFrame {
 	private JPanel criarPublicacaoPanel(String nome, String publicacao, String foto, Publicacao publicacao2) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-		panel.setPreferredSize(new Dimension(200, 200));
+		panel.setPreferredSize(new Dimension(100, 100));
+		panel.setMaximumSize(getPreferredSize());
 		panel.setBackground(new Color(255, 255, 255));
 
 		JPanel perfil = new JPanel();
-		perfil.setPreferredSize(new Dimension(125, 200));
+		perfil.setPreferredSize(new Dimension(100, 100));
 		perfil.setBackground(new Color(255, 255, 255));
 		perfil.setMaximumSize(getPreferredSize());
 		perfil.setAlignmentY(Component.CENTER_ALIGNMENT);
 		perfil.setLayout(new BoxLayout(perfil, BoxLayout.PAGE_AXIS));
 		panel.add(perfil);
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM");      
+		String dateToStr = dateFormat.format(publicacao2.getData());
+		JLabel data = new JLabel(dateToStr);
+		data.setFont(new Font("Roboto", Font.PLAIN, 8));
+		data.setAlignmentX(Component.CENTER_ALIGNMENT);
+		data.setBackground(new Color(200, 200, 200));
+		data.setPreferredSize(new Dimension(100, 100));
+		perfil.add(data);
 
 		URL url;
 		try {
@@ -238,7 +255,7 @@ public class expandirPublicacao extends JFrame {
 		label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setBackground(new Color(200, 200, 200));
-		label.setPreferredSize(new Dimension(250, 250));
+		label.setPreferredSize(new Dimension(100, 100));
 		perfil.add(label);
 
 		JPanel interecao = new JPanel();
@@ -247,7 +264,7 @@ public class expandirPublicacao extends JFrame {
 		interecao.setLayout(new BoxLayout(interecao, BoxLayout.X_AXIS));
 		interecao.setPreferredSize(new Dimension(100, 100));
 		perfil.add(interecao);
-
+		
 		JTextArea textArea = new JTextArea();
 		textArea.setText(publicacao);
 		textArea.setEditable(false);
@@ -255,7 +272,7 @@ public class expandirPublicacao extends JFrame {
 		textArea.setWrapStyleWord(true);
 		textArea.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textArea.setBackground(new Color(255, 255, 255));
-		textArea.setPreferredSize(new Dimension(100, 100));
+		textArea.setPreferredSize(new Dimension(10, 10));
 		panel.add(textArea);
 
 		return panel;

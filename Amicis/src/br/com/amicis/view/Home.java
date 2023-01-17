@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -94,6 +96,9 @@ public class Home extends JFrame {
 		novaPublicacao.setLayout(null);
 
 		JTextArea textArea = new JTextArea();
+		textArea.setFont(new Font("Roboto", Font.PLAIN, 13));
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
 		textArea.setForeground(UIManager.getColor("InternalFrame.activeTitleForeground"));
 		textArea.setBackground(new Color(255, 255, 255));
 		textArea.setBounds(10, 11, 482, 87);
@@ -150,60 +155,65 @@ public class Home extends JFrame {
 		menu.setPreferredSize(new Dimension(300, 100));
 
 		JButton perfil = new JButton("perfil");
+		perfil.setBackground(new Color(255, 255, 255));
 		perfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Perfil frame = new Perfil();
+				Perfil frame = new Perfil(usuarioTela);
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);
 				frame.setResizable(false);
 			}
 		});
 		perfil.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		perfil.setBounds(94, 105, 156, 33);
+		perfil.setBounds(94, 170, 156, 33);
 		menu.add(perfil);
 
 		JButton status = new JButton("status");
+		status.setBackground(new Color(255, 255, 255));
 
 		status.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		status.setBounds(94, 164, 156, 33);
+		status.setBounds(94, 229, 156, 33);
 		menu.add(status);
 
 		JButton amigos = new JButton("amigos");
+		amigos.setBackground(new Color(255, 255, 255));
 		amigos.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		amigos.setBounds(94, 223, 156, 33);
+		amigos.setBounds(94, 288, 156, 33);
 		menu.add(amigos);
 
 		JButton notificacoes = new JButton("notificacoes");
+		notificacoes.setBackground(new Color(255, 255, 255));
 		notificacoes.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		notificacoes.setBounds(94, 282, 156, 33);
+		notificacoes.setBounds(94, 347, 156, 33);
 		menu.add(notificacoes);
 
 		JLabel emojiUm = new JLabel("👤");
 		emojiUm.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
-		emojiUm.setBounds(10, 90, 78, 63);
+		emojiUm.setBounds(10, 155, 78, 63);
 		menu.add(emojiUm);
 
 		JLabel emojiUm_1 = new JLabel("📢");
 		emojiUm_1.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_1.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
-		emojiUm_1.setBounds(10, 149, 78, 63);
+		emojiUm_1.setBounds(10, 214, 78, 63);
 		menu.add(emojiUm_1);
 
 		JLabel emojiUm_1_1 = new JLabel("👥");
 		emojiUm_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_1_1.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
-		emojiUm_1_1.setBounds(10, 208, 78, 63);
+		emojiUm_1_1.setBounds(10, 273, 78, 63);
 		menu.add(emojiUm_1_1);
 
 		JLabel emojiUm_1_2 = new JLabel("🔥");
 		emojiUm_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_1_2.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 28));
-		emojiUm_1_2.setBounds(10, 267, 78, 63);
+		emojiUm_1_2.setBounds(10, 332, 78, 63);
 		menu.add(emojiUm_1_2);
 
 		JButton notificacoes_1 = new JButton("configurações");
+		notificacoes_1.setBackground(new Color(255, 255, 255));
 		notificacoes_1.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		notificacoes_1.setBounds(94, 495, 156, 33);
 		menu.add(notificacoes_1);
@@ -221,6 +231,7 @@ public class Home extends JFrame {
 		menu.add(lblNewLabel);
 
 		JButton sair = new JButton("sair");
+		sair.setBackground(new Color(255, 255, 255));
 		sair.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -240,6 +251,32 @@ public class Home extends JFrame {
 		emojiUm_1_2_1_1.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
 		emojiUm_1_2_1_1.setBounds(10, 539, 78, 63);
 		menu.add(emojiUm_1_2_1_1);
+		
+		JButton feed = new JButton("atualizar");
+		feed.setBackground(new Color(255, 255, 255));
+		feed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					Home frame = new Home(usuarioTela.getUsuario());
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+					dispose();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		feed.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
+		feed.setBounds(94, 94, 156, 33);
+		menu.add(feed);
+		
+		JLabel emojiUm_2 = new JLabel("🗿");
+		emojiUm_2.setHorizontalAlignment(SwingConstants.CENTER);
+		emojiUm_2.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 28));
+		emojiUm_2.setBounds(10, 79, 78, 63);
+		menu.add(emojiUm_2);
 
 		JPanel publicacao = new JPanel();
 		publicacao.setBackground(new Color(255, 255, 255));
@@ -259,6 +296,7 @@ public class Home extends JFrame {
 		getContentPane().add(conversas, BorderLayout.EAST);
 
 		JButton btnConversas = new JButton("conversas");
+		btnConversas.setBackground(new Color(255, 255, 255));
 		btnConversas.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		btnConversas.setBounds(0, 591, 297, 29);
 		conversas.add(btnConversas);
@@ -269,6 +307,7 @@ public class Home extends JFrame {
 		textField.setColumns(10);
 
 		JButton perfil_1 = new JButton("🔎");
+		perfil_1.setBackground(new Color(255, 255, 255));
 		perfil_1.setFont(new Font("Noto Emoji", Font.BOLD, 14));
 		perfil_1.setBounds(213, 105, 51, 29);
 		conversas.add(perfil_1);
@@ -297,7 +336,7 @@ public class Home extends JFrame {
 						publicacao2.getFoto(), publicacao2.sizeCoracoes(), publicacao2.sizeRespostas(), publicacao2);
 				publicacaoPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 				publicacaoPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
-				publicacaoPanel.setPreferredSize(new Dimension(120, 120));
+				publicacaoPanel.setPreferredSize(new Dimension(125, 125));
 
 				div.add(publicacaoPanel);
 				publicacoesPanel.add(div);
@@ -316,17 +355,27 @@ public class Home extends JFrame {
 		panel.setBackground(new Color(255, 255, 255));
 
 		JPanel perfil = new JPanel();
-		perfil.setPreferredSize(new Dimension(125, 200));
+		perfil.setPreferredSize(new Dimension(130, 200));
 		perfil.setBackground(new Color(255, 255, 255));
 		perfil.setMaximumSize(getPreferredSize());
 		perfil.setAlignmentY(Component.CENTER_ALIGNMENT);
 		perfil.setLayout(new BoxLayout(perfil, BoxLayout.PAGE_AXIS));
 		panel.add(perfil);
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM");      
+		String dateToStr = dateFormat.format(publicacao2.getData());
+		JLabel data = new JLabel(dateToStr);
+		data.setFont(new Font("Roboto", Font.PLAIN, 8));
+		data.setAlignmentX(Component.CENTER_ALIGNMENT);
+		data.setBackground(new Color(200, 200, 200));
+		data.setPreferredSize(new Dimension(100, 100));
+		perfil.add(data);
 
 		URL url;
 		try {
 			url = new URL(foto);
 			ImageIcon imgIcon = new ImageIcon(url);
+			imgIcon.setImage(imgIcon.getImage().getScaledInstance(60, 60, 100));
 			JLabel jLabel = new JLabel(imgIcon);
 			jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 			perfil.add(jLabel);
@@ -340,6 +389,8 @@ public class Home extends JFrame {
 		label.setBackground(new Color(200, 200, 200));
 		label.setPreferredSize(new Dimension(250, 250));
 		perfil.add(label);
+		
+		
 
 		JPanel interecao = new JPanel();
 		interecao.setBackground(new Color(255, 255, 255));
@@ -347,6 +398,8 @@ public class Home extends JFrame {
 		interecao.setLayout(new BoxLayout(interecao, BoxLayout.X_AXIS));
 		interecao.setPreferredSize(new Dimension(300, 300));
 		perfil.add(interecao);
+		
+		
 
 		JLabel curtidas = new JLabel("🤍");
 		curtidas.setHorizontalAlignment(SwingConstants.CENTER);
@@ -457,13 +510,7 @@ public class Home extends JFrame {
 				}
 			}
 		});
-
-		JButton resposta = new JButton("respostas");
-		resposta.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
-		resposta.setPreferredSize(new Dimension(80, 21));
-		resposta.setBackground(new Color(255, 255, 255));
-		botoes.add(resposta, BorderLayout.CENTER);
-		panel.add(botoes, BorderLayout.CENTER);
+		
 
 		JButton expandir = new JButton("expandir");
 		expandir.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
@@ -474,17 +521,51 @@ public class Home extends JFrame {
 		expandir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				expandirPublicacao frame;
+				ExpandirPublicacao frame;
 				try {
-					frame = new expandirPublicacao(publicacao2, panel, usuarioTela);
+					frame = new ExpandirPublicacao(publicacao2, panel, usuarioTela);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
+					expandir.setVisible(false);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
 			}
 		});
+		JButton excluir = new JButton("excluir");
+		excluir.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
+		excluir.setPreferredSize(new Dimension(80, 21));
+		excluir.setBackground(new Color(255, 255, 255));
+		botoes.add(excluir, BorderLayout.CENTER);
+		panel.add(botoes, BorderLayout.CENTER);
+		excluir.setVisible(false);
+		excluir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
+				publicacaoDAO.delete(publicacao2);
+				JOptionPane.showMessageDialog(null, "Publicação excluída com sucesso.");
+				Home frame;
+				try {
+					frame = new Home(usuarioTela.getUsuario());
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+					dispose();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		try {
+			if (usuarioTela.getUsuario().equals(nome)) {
+				excluir.setVisible(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return panel;
 	}

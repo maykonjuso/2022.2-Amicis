@@ -6,7 +6,7 @@ import connection
 
 client = tweepy.Client(bearer_token=config.BAERER_TOKEN)
 
-query = "congresso nacional -is:retweet -is:reply"
+query = "the last of us -is:retweet -is:reply"
 
 
 response = client.search_recent_tweets(query=query, max_results=15, tweet_fields=[
