@@ -132,14 +132,18 @@ public class Perfil extends JFrame {
 		textArea.setPreferredSize(new Dimension(10, 10));
 		contentJPanel.add(textArea);
 		
-		DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");      
-		String dateToStr = dateFormat.format(usuarioTela.getDataNascimeto());
-		JLabel data = new JLabel(dateToStr);
-		data.setHorizontalAlignment(SwingConstants.TRAILING);
-		data.setFont(new Font("Roboto", Font.PLAIN, 10));
-		data.setBackground(new Color(200, 200, 200));
-		data.setBounds(209, 386, 114, 15);
-		contentJPanel.add(data);
+		try {
+			DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");      
+			String dateToStr = dateFormat.format(usuarioTela.getDataNascimeto());
+			JLabel data = new JLabel(dateToStr);
+			data.setHorizontalAlignment(SwingConstants.TRAILING);
+			data.setFont(new Font("Roboto", Font.PLAIN, 10));
+			data.setBackground(new Color(200, 200, 200));
+			data.setBounds(209, 386, 114, 15);
+			contentJPanel.add(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		JLabel lblNewLabel_1_2 = new JLabel(usuarioTela.getTelefone());
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.TRAILING);
