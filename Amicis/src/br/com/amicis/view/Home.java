@@ -175,6 +175,17 @@ public class Home extends JFrame {
 		status.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		status.setBounds(94, 229, 156, 33);
 		menu.add(status);
+		status.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				StatusView frame = new StatusView(usuarioTela);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(null);
+				frame.setResizable(false);
+			}
+		});
+		
+		
 
 		JButton amigos = new JButton("amigos");
 		amigos.setBackground(new Color(255, 255, 255));

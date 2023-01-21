@@ -1,5 +1,6 @@
 package br.com.amicis.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.HeadlessException;
@@ -28,7 +29,6 @@ import com.toedter.calendar.JDateChooser;
 
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Usuario;
-import java.awt.Color;
 
 public class Cadastro extends JFrame {
 

@@ -141,6 +141,40 @@ public class PerfilDAO {
 			}
 		}
 	}
+	
+	public void updateStatus(Perfil perfil) {
+		String sql = "UPDATE perfil SET relacionamento = ?, localidade = ? WHERE usuario = ?;";
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		try {
+
+			conn = ConnectionFactory.createConnectionToMySQL();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, perfil.getStatus().getRelacionamento());
+			pstm.setString(2, perfil.getStatus().getLocalidade());
+			
+			pstm.setString(3, perfil.getThis_usuario());
+
+			pstm.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 
 	public void delete(Perfil perfil) {
 		String sql = "DELETE FROM perfil WHERE usuario = ?;";
@@ -170,4 +204,6 @@ public class PerfilDAO {
 			}
 		}
 	}
+	
+	
 }
