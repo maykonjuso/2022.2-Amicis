@@ -438,6 +438,31 @@ public class Home extends JFrame {
 		JPanel botoes = new JPanel();
 		botoes.setPreferredSize(new Dimension(100, 100));
 		botoes.setBackground(new Color(255, 255, 255));
+		
+		JButton Perfil = new JButton("perfil");
+		Perfil.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
+		Perfil.setPreferredSize(new Dimension(80, 21));
+		Perfil.setBackground(new Color(255, 255, 255));
+		botoes.add(Perfil, BorderLayout.CENTER);
+		panel.add(botoes, BorderLayout.CENTER);
+		Perfil.setVisible(true);
+		
+		Perfil.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				UsuarioDAO perfilUsuarioDAO = new UsuarioDAO();
+				try {
+					Usuario usuario1 = perfilUsuarioDAO.getUsuario(publicacao2.getUsuario());
+					Perfil frame = new Perfil(usuario1);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		JButton curtir = new JButton("curtir");
 		curtir.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
@@ -518,6 +543,7 @@ public class Home extends JFrame {
 		expandir.setBackground(new Color(255, 255, 255));
 		botoes.add(expandir, BorderLayout.CENTER);
 		panel.add(botoes, BorderLayout.CENTER);
+		
 		JButton excluir = new JButton("excluir");
 		excluir.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
 		excluir.setPreferredSize(new Dimension(80, 21));
@@ -536,14 +562,15 @@ public class Home extends JFrame {
 		listaCurtidas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				StringBuilder stringBuilder1 = new StringBuilder();
-				for (int i = 0; i < publicacao2.sizeCoracoes(); i++) {
-					stringBuilder1.append(publicacao2.getCoracao(i) + ", ");
-				}
-				stringBuilder1.replace(stringBuilder1.length() - 2, stringBuilder1.length() - 1, ".");
-				JOptionPane.showMessageDialog(null, stringBuilder1);
 				if(publicacao2.sizeCoracoes() == 0) {
 					JOptionPane.showMessageDialog(null, "Publicação sem curtidas.");
+				} else {
+					StringBuilder stringBuilder1 = new StringBuilder();
+					for (int i = 0; i < publicacao2.sizeCoracoes(); i++) {
+						stringBuilder1.append(publicacao2.getCoracao(i) + ", ");
+					}
+					stringBuilder1.replace(stringBuilder1.length() - 2, stringBuilder1.length() - 1, ".");
+					JOptionPane.showMessageDialog(null, stringBuilder1);	
 				}
 				}
 		});
@@ -584,8 +611,6 @@ public class Home extends JFrame {
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
-					curtir.setVisible(false);
-					descurtir.setVisible(false);
 					expandir.setVisible(false);
 					listaCurtidas.setVisible(true);
 				} catch (SQLException e1) {
@@ -593,6 +618,8 @@ public class Home extends JFrame {
 				}
 			}
 		});
+		
+		
 		
 		return panel;
 	}
