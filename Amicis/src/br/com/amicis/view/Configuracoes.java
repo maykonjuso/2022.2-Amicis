@@ -22,6 +22,10 @@ import java.awt.CardLayout;
 
 public class Configuracoes extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 
