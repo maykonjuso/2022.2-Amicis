@@ -251,7 +251,7 @@ public class UsuarioDAO {
 				usuario.setUsuario(rset.getString("this_usuario"));
 				usuario.setFoto(rset.getString("foto"));
 				usuario.setDataCadastro(rset.getDate("dataCadastro"));
-				usuario.setDataCadastro(rset.getDate("dataNascimento"));
+				usuario.setDataNascimeto(rset.getDate("dataNascimento"));
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
 

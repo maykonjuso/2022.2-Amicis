@@ -99,6 +99,8 @@ public class Publicacao {
 	public String getCoracao(int posicao) {
 		return coracoes.get(posicao);
 	}
+	
+	
 	public int sizeCoracoes() {
 		return coracoes.size();
 	}

@@ -1,10 +1,9 @@
 import tweepy
-import mysql.connector
+import os
 from mysql.connector import Error
-import config
 import connection
 
-client = tweepy.Client(bearer_token=config.BAERER_TOKEN)
+client = tweepy.Client(bearer_token=os.getenv("bearer_token"))
 
 query = "the last of us -is:retweet -is:reply"
 

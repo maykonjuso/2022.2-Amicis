@@ -518,21 +518,6 @@ public class Home extends JFrame {
 		expandir.setBackground(new Color(255, 255, 255));
 		botoes.add(expandir, BorderLayout.CENTER);
 		panel.add(botoes, BorderLayout.CENTER);
-		expandir.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				ExpandirPublicacao frame;
-				try {
-					frame = new ExpandirPublicacao(publicacao2, panel, usuarioTela);
-					frame.setVisible(true);
-					frame.setLocationRelativeTo(null);
-					frame.setResizable(false);
-					expandir.setVisible(false);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
 		JButton excluir = new JButton("excluir");
 		excluir.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
 		excluir.setPreferredSize(new Dimension(80, 21));
@@ -540,6 +525,29 @@ public class Home extends JFrame {
 		botoes.add(excluir, BorderLayout.CENTER);
 		panel.add(botoes, BorderLayout.CENTER);
 		excluir.setVisible(false);
+		
+		JButton listaCurtidas = new JButton("curtidas");
+		listaCurtidas.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
+		listaCurtidas.setPreferredSize(new Dimension(80, 21));
+		listaCurtidas.setBackground(new Color(255, 255, 255));
+		botoes.add(listaCurtidas, BorderLayout.CENTER);
+		panel.add(botoes, BorderLayout.CENTER);
+		listaCurtidas.setVisible(false);
+		listaCurtidas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				StringBuilder stringBuilder1 = new StringBuilder();
+				for (int i = 0; i < publicacao2.sizeCoracoes(); i++) {
+					stringBuilder1.append(publicacao2.getCoracao(i) + ", ");
+				}
+				stringBuilder1.replace(stringBuilder1.length() - 2, stringBuilder1.length() - 1, ".");
+				JOptionPane.showMessageDialog(null, stringBuilder1);
+				if(publicacao2.sizeCoracoes() == 0) {
+					JOptionPane.showMessageDialog(null, "Publicação sem curtidas.");
+				}
+				}
+		});
+		
 		excluir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -567,6 +575,25 @@ public class Home extends JFrame {
 			e.printStackTrace();
 		}
 
+		expandir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ExpandirPublicacao frame;
+				try {
+					frame = new ExpandirPublicacao(publicacao2, panel, usuarioTela);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+					curtir.setVisible(false);
+					descurtir.setVisible(false);
+					expandir.setVisible(false);
+					listaCurtidas.setVisible(true);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
 		return panel;
 	}
 

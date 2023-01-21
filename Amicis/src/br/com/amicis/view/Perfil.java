@@ -9,6 +9,8 @@ import java.awt.Label;
 import java.awt.Toolkit;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,6 +22,7 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 import br.com.amicis.model.Usuario;
+import javax.swing.SwingConstants;
 
 public class Perfil extends JFrame {
 
@@ -62,6 +65,7 @@ public class Perfil extends JFrame {
 		setBounds(100, 100, 414, 575);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		contentJPanel = new JPanel();
+		contentJPanel.setBackground(new Color(255, 255, 255));
 		setContentPane(contentJPanel);
 		contentJPanel.setLayout(null);
 
@@ -79,21 +83,16 @@ public class Perfil extends JFrame {
 			e1.printStackTrace();
 		}
 		
-		Label nome = new Label("Maykon");
-		nome.setFont(new Font("Dialog", Font.PLAIN, 24));
-		nome.setAlignment(Label.CENTER);
-		nome.setBounds(49, 220, 302, 36);
-		contentJPanel.add(nome);
+		Label T_usuario = new Label(usuarioTela.getPerfil().getThis_usuario());
+		T_usuario.setFont(new Font("Dialog", Font.PLAIN, 24));
+		T_usuario.setAlignment(Label.CENTER);
+		T_usuario.setBounds(49, 236, 302, 36);
+		contentJPanel.add(T_usuario);
 
 		JLabel linha = new JLabel("");
-		linha.setBounds(76, 275, 247, 1);
+		linha.setBounds(76, 301, 247, 1);
 		linha.setBorder(BorderFactory.createLineBorder(Color.black));
 		contentJPanel.add(linha);
-
-		JLabel lblNewLabel = new JLabel("Sobrenome");
-		lblNewLabel.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblNewLabel.setBounds(76, 364, 129, 15);
-		contentJPanel.add(lblNewLabel);
 
 		JLabel lblDataNascimento = new JLabel("Data Nascimento");
 		lblDataNascimento.setFont(new Font("Roboto", Font.PLAIN, 12));
@@ -112,17 +111,18 @@ public class Perfil extends JFrame {
 
 		JLabel lblBio = new JLabel("Bio");
 		lblBio.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblBio.setBounds(76, 286, 107, 15);
+		lblBio.setBounds(76, 312, 107, 15);
 		contentJPanel.add(lblBio);
 
 		JButton btnNewButton = new JButton("Alterar");
+		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.setFont(new Font("Roboto", Font.PLAIN, 12));
 		btnNewButton.setBounds(157, 486, 85, 21);
 		contentJPanel.add(btnNewButton);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setSize(-244, -39);
-		textArea.setLocation(321, 354);
+		textArea.setSize(247, 50);
+		textArea.setLocation(76, 326);
 		textArea.setText(usuarioTela.getPerfil().getBio());
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
@@ -131,6 +131,39 @@ public class Perfil extends JFrame {
 		textArea.setBackground(new Color(255, 255, 255));
 		textArea.setPreferredSize(new Dimension(10, 10));
 		contentJPanel.add(textArea);
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");      
+		String dateToStr = dateFormat.format(usuarioTela.getDataNascimeto());
+		JLabel data = new JLabel(dateToStr);
+		data.setHorizontalAlignment(SwingConstants.TRAILING);
+		data.setFont(new Font("Roboto", Font.PLAIN, 10));
+		data.setBackground(new Color(200, 200, 200));
+		data.setBounds(209, 386, 114, 15);
+		contentJPanel.add(data);
+		
+		JLabel lblNewLabel_1_2 = new JLabel(usuarioTela.getTelefone());
+		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_1_2.setFont(new Font("Roboto", Font.PLAIN, 10));
+		lblNewLabel_1_2.setBounds(209, 411, 114, 15);
+		contentJPanel.add(lblNewLabel_1_2);
+		
+		JLabel lblNewLabel_1_3 = new JLabel(usuarioTela.getEmail());
+		lblNewLabel_1_3.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_1_3.setFont(new Font("Roboto", Font.PLAIN, 10));
+		lblNewLabel_1_3.setBounds(209, 432, 114, 15);
+		contentJPanel.add(lblNewLabel_1_3);
+		
+		JButton btnAdicionarAmigo = new JButton("Adicionar Amigo");
+		btnAdicionarAmigo.setBackground(new Color(255, 255, 255));
+		btnAdicionarAmigo.setFont(new Font("Roboto", Font.PLAIN, 12));
+		btnAdicionarAmigo.setBounds(138, 199, 123, 21);
+		contentJPanel.add(btnAdicionarAmigo);
+		
+		Label nome_1 = new Label(usuarioTela.getNome() + " " + usuarioTela.getSobrenome());
+		nome_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		nome_1.setAlignment(Label.CENTER);
+		nome_1.setBounds(49, 262, 302, 36);
+		contentJPanel.add(nome_1);
 
 	}
 }

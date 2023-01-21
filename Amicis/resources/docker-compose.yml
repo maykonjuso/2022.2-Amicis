@@ -11,7 +11,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --innodb_force_recovery=0
     volumes: 
-      - C:\Users\mayko\projetos\dados:/var/lib/mysql
+      - C:\Users\mayko\Documents\projetos\teste:/var/lib/mysql
     ports:
       - 3306:3306
     environment:
