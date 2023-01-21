@@ -2,7 +2,9 @@ package br.com.amicis.view;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -47,7 +49,7 @@ public class StatusView extends JFrame {
 					
 					//ImageIcon image = new ImageIcon("rede social.png");
 					//frame.setIconImage(image.getImage());
-					frame.getContentPane().setBackground(new Color(118,181,197));
+//					frame.getContentPane().setBackground(new Color(118,181,197));
 					
 					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 				} catch (Exception e) {
@@ -62,99 +64,50 @@ public class StatusView extends JFrame {
 	 */
 	public StatusView(Usuario usuarioTela) {
 		
-		setBounds(100, 100, 674, 422);
+		setBackground(new Color(255, 255, 255));
+		getContentPane().setBackground(new Color(255, 255, 255));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
+		setTitle("Configurações");
+		setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		setBounds(100, 100, 520, 405);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		plano = new JPanel();
-		plano.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		plano.setBackground(new Color(255, 255, 255));
 		setContentPane(plano);
 		plano.setLayout(null);
 		
-		JButton btnPaginaInicial = new JButton("Voltar à Página Inicial");
-		btnPaginaInicial.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnPaginaInicial.setBounds(426, 307, 222, 54);
-		plano.add(btnPaginaInicial);
-		
 		AtualizarStatus = new JTextField();
-		AtualizarStatus.setBounds(10, 128, 139, 34);
+		AtualizarStatus.setBounds(60, 63, 139, 34);
 		plano.add(AtualizarStatus);
 		AtualizarStatus.setColumns(10);
 		
 		AtualizarRelacionamento = new JTextField();
-		AtualizarRelacionamento.setBounds(10, 194, 139, 41);
+		AtualizarRelacionamento.setBounds(60, 163, 139, 34);
 		plano.add(AtualizarRelacionamento);
 		AtualizarRelacionamento.setColumns(10);
 		
 		AtualizarLocalidade = new JTextField();
-		AtualizarLocalidade.setBounds(10, 270, 139, 34);
+		AtualizarLocalidade.setBounds(60, 263, 139, 34);
 		plano.add(AtualizarLocalidade);
 		AtualizarLocalidade.setColumns(10);
 		
-		JButton btnAtualizarStatus = new JButton("Atualizar Status");
-		btnAtualizarStatus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-		}});
-		btnAtualizarStatus.setBounds(251, 307, 152, 54);
-		plano.add(btnAtualizarStatus);
-		
 		textUsuario = new JTextField();
 		textUsuario.setEditable(false);
-		textUsuario.setBounds(419, 36, 114, 34);
+		textUsuario.setBounds(345, 63, 114, 34);
 		plano.add(textUsuario);
 		textUsuario.setColumns(10);
 		
-		btnAtualizarStatus.addMouseListener(new MouseAdapter() {
-			//AtualizarStatus.getText().trim().isEmpty() ||
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				PerfilDAO perfilDAO = new PerfilDAO();
-
-				if(AtualizarRelacionamento.getText().trim().isEmpty() || AtualizarLocalidade.getText().trim().isEmpty()){
-					JOptionPane.showMessageDialog(null, "Não foi Possível Atualizar os Status. Preencha Todas as Informações.");
-				}else {
-				
-					try {
-//					Perfil status = new Perfil();
-//					Home status1 = new Home(null);
-//					Login status2 = new Login();
-//					
-					//status1.getUsuarioTela();
-					//status.getThis_usuario();					
-					
-					//					
-//					status.getStatus().setRelacionamento(AtualizarRelacionamento.getText());
-//					status.getStatus().setLocalidade(AtualizarLocalidade.getText());
-					
-					if(usuarioTela != null){
-						usuarioTela.getPerfil().getStatus().setRelacionamento(AtualizarRelacionamento.getText());
-						usuarioTela.getPerfil().getStatus().setLocalidade(AtualizarLocalidade.getText());
-						
-						perfilDAO.updateStatus(usuarioTela.getPerfil());
-
-					}else {
-						JOptionPane.showMessageDialog(null, "Não foi Possível Atualizar os Status");
-					}
-				}catch (HeadlessException e1) {
-					e1.printStackTrace();
-					
-			}
-		}
-
-			}});
+		JButton btnNewButton_4 = new JButton("voltar");
+		btnNewButton_4.setFont(new Font("Roboto", Font.PLAIN, 12));
+		btnNewButton_4.setBackground(Color.WHITE);
+		btnNewButton_4.setBounds(345, 335, 70, 23);
+		plano.add(btnNewButton_4);
 		
-		btnPaginaInicial.addMouseListener(new MouseAdapter() {
-			
-			public void mouseClicked(MouseEvent e) {
-				dispose();	
-			}
-		});
+		JButton btnNewButton_5 = new JButton("salvar");
+		btnNewButton_5.setFont(new Font("Roboto", Font.PLAIN, 12));
+		btnNewButton_5.setBackground(Color.WHITE);
+		btnNewButton_5.setBounds(426, 335, 70, 23);
+		plano.add(btnNewButton_5);
 		
 	}
-	
-
-	
-	
 }
