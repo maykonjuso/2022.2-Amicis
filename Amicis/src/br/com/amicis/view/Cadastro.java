@@ -28,6 +28,7 @@ import com.toedter.calendar.JDateChooser;
 
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Usuario;
+import java.awt.Color;
 
 public class Cadastro extends JFrame {
 
@@ -75,6 +76,7 @@ public class Cadastro extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 931, 651);
 		fundo = new JPanel();
+		fundo.setBackground(new Color(255, 255, 255));
 
 		fundo.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -99,6 +101,7 @@ public class Cadastro extends JFrame {
 		fundo.add(T_nome);
 
 		JButton criarUsuario = new JButton("criar usuário");
+		criarUsuario.setBackground(new Color(255, 255, 255));
 
 		criarUsuario.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		criarUsuario.setBounds(603, 508, 127, 29);
@@ -186,11 +189,13 @@ public class Cadastro extends JFrame {
 		fundo.add(emojiDois);
 
 		JCheckBox aceitarTermos = new JCheckBox(" Aceitar Termos de Uso e Política de Privacidade.");
+		aceitarTermos.setBackground(new Color(255, 255, 255));
 		aceitarTermos.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
 		aceitarTermos.setBounds(186, 512, 303, 21);
 		fundo.add(aceitarTermos);
 
 		JButton contrato = new JButton("contrato");
+		contrato.setBackground(new Color(255, 255, 255));
 		contrato.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
 		contrato.setBounds(189, 482, 94, 21);
 		fundo.add(contrato);
@@ -206,6 +211,7 @@ public class Cadastro extends JFrame {
 		fundo.add(repetirSenha);
 
 		JButton btnVoltar = new JButton("voltar");
+		btnVoltar.setBackground(new Color(255, 255, 255));
 		btnVoltar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -223,6 +229,7 @@ public class Cadastro extends JFrame {
 		JDateChooser dataNascimento = new JDateChooser();
 		dataNascimento.setDateFormatString("dd/MM/yyyy");
 		dataNascimento.setBounds(468, 270, 262, 29);
+		dataNascimento.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		fundo.add(dataNascimento);
 
 		criarUsuario.addMouseListener(new MouseAdapter() {

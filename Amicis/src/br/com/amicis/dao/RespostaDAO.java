@@ -9,25 +9,24 @@ import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Publicacao;
+import br.com.amicis.model.Usuario;
 
 public class RespostaDAO {
 
-	public void save(Publicacao publicacao) {
+	public void save(Publicacao publicacao, Publicacao resposta) {
 
-		String sql = "INSERT INTO resposta(id_publicacao, usuario, texto) VALUES ((SELECT id FROM publicacao WHERE id = ?), (SELECT usuario FROM perfil WHERE usuario = ?), ?);";
+		String sql = "INSERT INTO resposta(usuario, foto, id_publicacao, texto) VALUES ((SELECT usuario FROM perfil WHERE usuario = ?), (SELECT foto FROM usuario WHERE this_usuario = ?), ?, ?)";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			
-			pstm.setInt(1, publicacao.getId());
-			pstm.setString(2, publicacao.getUsuario());
-			pstm.setString(3, publicacao.getConteudo());
-			
-			CoracaoDAO coracaoDAO = new CoracaoDAO();
-			coracaoDAO.save(publicacao);
-			
+
+			pstm.setString(1, resposta.getUsuario());
+			pstm.setString(2, resposta.getUsuario());
+			pstm.setInt(3, publicacao.getId());
+			pstm.setString(4, resposta.getConteudo());
+
 			pstm.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -45,10 +44,42 @@ public class RespostaDAO {
 		}
 	}
 
-	public ArrayList<Publicacao> getRespostas(Publicacao publicacao) throws SQLException {
-		String sql = "SELECT * FROM resposta WHERE usuario = ?;";
+	public void update(Publicacao publicacao) {
+		String sql = "UPDATE resposta SET texto = ? WHERE id = ?;";
 
-		ArrayList<Publicacao> Respostas = new ArrayList<Publicacao>();
+		Connection conn = null;
+		PreparedStatement pstm = null;
+
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+
+			pstm.setString(1, publicacao.getConteudo());
+
+			pstm.setInt(2, publicacao.getId());
+
+			pstm.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public ArrayList<Publicacao> getRespostaData(Publicacao publicacao) throws SQLException {
+		String sql = "SELECT * FROM resposta WHERE id_publicacao = ? ORDER BY data DESC;";
+
+		ArrayList<Publicacao> publicacoes = new ArrayList<Publicacao>();
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		ResultSet rset = null;
@@ -56,19 +87,22 @@ public class RespostaDAO {
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, publicacao.getUsuario());
+			pstm.setInt(1, publicacao.getId());
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
 
-				Publicacao resposta = new Publicacao(publicacao.getPerfil());
-				resposta.setId(rset.getInt("id"));
-				resposta.setConteudo(rset.getString("texto"));
+				Usuario usuario1 = new Usuario();
 
-				CoracaoDAO coracaoDAO = new CoracaoDAO();
-				publicacao.setCoracoes(coracaoDAO.getCoracoes(publicacao));
-				
-				Respostas.add(resposta);
+				Publicacao resposta = new Publicacao(usuario1.getPerfil());
+
+				resposta.setId(rset.getInt("id"));
+				resposta.setUsuario(rset.getString("usuario"));
+				resposta.setFoto(rset.getString("foto"));
+				resposta.setConteudo(rset.getString("texto"));
+				resposta.setData(rset.getDate("data"));
+
+				publicacoes.add(resposta);
 			}
 
 		} catch (Exception e) {
@@ -89,58 +123,26 @@ public class RespostaDAO {
 				e.printStackTrace();
 			}
 		}
-		return Respostas;
+		return publicacoes;
 	}
-	
-	public void update(Publicacao publicacao) {
-		String sql = "UPDATE resposta SET texto = ? WHERE id = ?;";
-		
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		
-		try {
-			conn = ConnectionFactory.createConnectionToMySQL();
-			
-			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			
-			pstm.setString(1, publicacao.getConteudo());
-			
-			pstm.setInt(2, publicacao.getId());
-			
-			pstm.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstm != null) {
-					pstm.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
+
 	public void delete(Publicacao publicacao) {
 		String sql = "DELETE FROM publicacao WHERE id = ?";
-		
+
 		Connection conn = null;
 		PreparedStatement pstm = null;
-		
+
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
-			
+
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setInt(1, publicacao.getId());
-			
+
 			pstm.execute();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 		} finally {
 			try {
 				if (pstm != null) {

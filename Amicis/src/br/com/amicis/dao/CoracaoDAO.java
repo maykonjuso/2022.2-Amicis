@@ -13,25 +13,24 @@ import br.com.amicis.model.Publicacao;
 
 public class CoracaoDAO {
 
-	public void save(Publicacao publicacao) {
+	public void save(Publicacao publicacao, Perfil perfil) {
 
-		String sql = "INSERT INTO amigos(id, amigo) VALUES ((SELECT usuario FROM perfil WHERE usuario = ?), (SELECT usuario FROM perfil WHERE usuario = ?));";
+		String sql = "INSERT INTO coracoes(id_publicacao, amigo) VALUES ((SELECT id FROM publicacao WHERE id = ?), (SELECT usuario FROM perfil WHERE usuario = ?));";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
-			for (int i = 0; i < publicacao.sizeCoracoes(); i++) {
-				// Criar uma conexão com o banco de dados
-				conn = ConnectionFactory.createConnectionToMySQL();
-				// Criado uma preparedStatement para que a query seja executada
+			// Criar uma conexão com o banco de dados
+			conn = ConnectionFactory.createConnectionToMySQL();
+			// Criado uma preparedStatement para que a query seja executada
 
-				pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
 
-				pstm.setInt(1, publicacao.getId());
-				pstm.setString(2, publicacao.getCoracao(i));
+			pstm.setInt(1, publicacao.getId());
+			pstm.setString(2, perfil.getThis_usuario());
 
-				// executando a query
-				pstm.execute();
-			}
+			// executando a query
+			pstm.execute();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -49,7 +48,7 @@ public class CoracaoDAO {
 	}
 
 	public ArrayList<String> getCoracoes(Publicacao publicacao) throws SQLException {
-		String sql = "SELECT amigo FROM coracoes WHERE id = ?;";
+		String sql = "SELECT amigo FROM coracoes WHERE id_publicacao = ?;";
 
 		ArrayList<String> coracoes = new ArrayList<String>();
 		Connection conn = null;
@@ -90,7 +89,7 @@ public class CoracaoDAO {
 	
 	public void delete(Publicacao publicacao, Perfil perfil) {
 		
-		String sql = "DELETE FROM coracoes WHERE id = ? AND amigo = ?";
+		String sql = "DELETE FROM coracoes WHERE id_publicacao = ? AND amigo = ?";
 		
 		Connection conn = null;
 		

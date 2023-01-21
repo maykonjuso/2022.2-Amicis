@@ -12,10 +12,13 @@ public class Publicacao {
 	private String conteudo;
 	private Date data;
 	private ArrayList<String> coracoes;
+	private String foto;
 
 	public Publicacao(Perfil perfil) {
-		this.setUsuario(perfil.getUsuario().getUsuario());
+		this.setUsuario(perfil.getThis_usuario());
 		this.setPerfil(perfil);
+		respostas = new ArrayList<Publicacao>();
+		coracoes = new ArrayList<String>();
 	}
 
 	public String getConteudo() {
@@ -96,8 +99,18 @@ public class Publicacao {
 	public String getCoracao(int posicao) {
 		return coracoes.get(posicao);
 	}
+	
+	
 	public int sizeCoracoes() {
 		return coracoes.size();
+	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 	
 	

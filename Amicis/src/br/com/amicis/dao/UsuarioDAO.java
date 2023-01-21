@@ -17,7 +17,7 @@ public class UsuarioDAO {
 
 	public void save(Usuario usuario) {
 
-		String sql = "INSERT INTO usuario(nome, sobrenome, this_usuario, telefone, email, senha, dataNascimento) VALUES (?, ?, ?, ?, ?, ?,?)";
+		String sql = "INSERT INTO usuario(nome, sobrenome, this_usuario, telefone, email, senha, dataNascimento, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -37,6 +37,10 @@ public class UsuarioDAO {
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 			pstm.setDate(7, sqlDate);
 			PerfilDAO perfilDAO = new PerfilDAO();
+
+			usuario.setFoto("https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png");
+
+			pstm.setString(8, usuario.getFoto());
 
 			// executando a query
 
@@ -177,7 +181,6 @@ public class UsuarioDAO {
 				usuario.setDataCadastro(rset.getDate("dataNascimento"));
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
-				
 
 				String senha = rset.getString("senha");
 				char[] cs = senha.toCharArray();
@@ -248,10 +251,9 @@ public class UsuarioDAO {
 				usuario.setUsuario(rset.getString("this_usuario"));
 				usuario.setFoto(rset.getString("foto"));
 				usuario.setDataCadastro(rset.getDate("dataCadastro"));
-				usuario.setDataCadastro(rset.getDate("dataNascimento"));
+				usuario.setDataNascimeto(rset.getDate("dataNascimento"));
 				usuario.setTelefone(rset.getString("telefone"));
 				usuario.setEmail(rset.getString("email"));
-				
 
 				String senha = rset.getString("senha");
 				char[] cs = senha.toCharArray();

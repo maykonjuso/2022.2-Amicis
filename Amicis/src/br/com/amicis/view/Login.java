@@ -60,19 +60,20 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("Amicis\\resources\\pngwing.com.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
 		setTitle("Login");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 931, 651);
 		fundo = new JPanel();
+		fundo.setBackground(new Color(255, 255, 255));
 		fundo.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(fundo);
 		getContentPane().setLayout(null);
 
 		JButton btnEntrar = new JButton("entrar");
+		btnEntrar.setBackground(new Color(255, 255, 255));
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -95,10 +96,11 @@ public class Login extends JFrame {
 			}
 		});
 		btnEntrar.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		btnEntrar.setBounds(384, 366, 149, 29);
+		btnEntrar.setBounds(384, 393, 149, 29);
 		getContentPane().add(btnEntrar);
 
 		JButton btnCadastrarUsurio = new JButton("cadastrar usuário");
+		btnCadastrarUsurio.setBackground(new Color(255, 255, 255));
 		btnCadastrarUsurio.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -114,52 +116,62 @@ public class Login extends JFrame {
 			}
 		});
 		btnCadastrarUsurio.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		btnCadastrarUsurio.setBounds(384, 406, 149, 29);
+		btnCadastrarUsurio.setBounds(384, 433, 149, 29);
 		getContentPane().add(btnCadastrarUsurio);
 
 		JLabel T_thisUsuario = new JLabel("usuário");
 		T_thisUsuario.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		T_thisUsuario.setBounds(327, 224, 262, 16);
+		T_thisUsuario.setBounds(327, 251, 262, 16);
 		getContentPane().add(T_thisUsuario);
 
 		thisUsuario = new JTextField();
 		thisUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		thisUsuario.setFont(new Font("Roboto", Font.PLAIN, 12));
 		thisUsuario.setColumns(10);
-		thisUsuario.setBounds(327, 250, 262, 29);
+		thisUsuario.setBounds(327, 277, 262, 29);
 		getContentPane().add(thisUsuario);
 
 		JLabel T_senha = new JLabel("senha");
 		T_senha.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		T_senha.setBounds(327, 290, 262, 16);
+		T_senha.setBounds(327, 317, 262, 16);
 		getContentPane().add(T_senha);
 
-		Label T_conhecendoVoce = new Label("Acesse seu perfil");
+		Label T_conhecendoVoce = new Label("amicis");
+		T_conhecendoVoce.setForeground(new Color(51, 51, 102));
 		T_conhecendoVoce.setAlignment(Label.CENTER);
-		T_conhecendoVoce.setFont(new Font("Dialog", Font.PLAIN, 24));
-		T_conhecendoVoce.setBounds(307, 141, 302, 36);
+		T_conhecendoVoce.setFont(new Font("Roboto", Font.PLAIN, 36));
+		T_conhecendoVoce.setBounds(307, 146, 302, 41);
 		getContentPane().add(T_conhecendoVoce);
 
-		JLabel emojiUm = new JLabel("🤠");
+		JLabel emojiUm = new JLabel("🗿");
+		emojiUm.setForeground(new Color(51, 51, 102));
 		emojiUm.setHorizontalAlignment(SwingConstants.CENTER);
-		emojiUm.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 28));
-		emojiUm.setBounds(418, 92, 78, 63);
+		emojiUm.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 54));
+		emojiUm.setBounds(379, 48, 159, 123);
 		getContentPane().add(emojiUm);
 
 		senha = new JPasswordField();
 		senha.setHorizontalAlignment(SwingConstants.CENTER);
-		senha.setBounds(327, 313, 262, 29);
+		senha.setBounds(327, 340, 262, 29);
 		fundo.add(senha);
 
 		JTextArea lblNewJText = new JTextArea(
-				"Copyright©2022-2023, Amicis. Todos os direitos reservados. Todos os textos, imagens, gráficos, animações, vídeos, músicas, sons e outros materiais são protegidos por direitos autorais.");
+				"Copyright©2022-2023, Amicis. Todos os direitos reservados. Todos os textos, imagens, gráficos,       animações, vídeos, músicas, sons e outros materiais são protegidos por direitos autorais.");
+		
 		lblNewJText.setBackground(new Color(1, 1, 1, 0.5f));
 		lblNewJText.setForeground(new Color(128, 128, 128));
 		lblNewJText.setFont(new Font("Arial", Font.PLAIN, 10));
 		lblNewJText.setEditable(false);
 		lblNewJText.setLineWrap(true);
-		lblNewJText.setBounds(238, 565, 439, 36);
+		lblNewJText.setWrapStyleWord(true);
+		lblNewJText.setBounds(226, 568, 457, 36);
 		fundo.add(lblNewJText);
+		
+		Label T_conhecendoVoce_1 = new Label("Acesse seu perfil");
+		T_conhecendoVoce_1.setFont(new Font("Roboto", Font.BOLD, 16));
+		T_conhecendoVoce_1.setAlignment(Label.CENTER);
+		T_conhecendoVoce_1.setBounds(307, 203, 302, 29);
+		fundo.add(T_conhecendoVoce_1);
 	}
 
 	private void autenticarLogin() {
@@ -171,7 +183,7 @@ public class Login extends JFrame {
 			ResultSet resultDAO = usuarioDAO.autenticacaoUsuario(usuario);
 
 			if (resultDAO.next()) {
-				
+
 				Home frame = new Home(resultDAO.getString("this_usuario"));
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);

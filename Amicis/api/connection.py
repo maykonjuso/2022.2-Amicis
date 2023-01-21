@@ -48,13 +48,13 @@ def salvarPerfil(nome):
             print("Conexão ao MySQL encerrada")
 
 
-def salvarTweet(nome, tweet):
+def salvarTweet(nome, tweet, foto):
 
     con2 = mysql.connector.connect(
         host='localhost', database='Amicis', user='root', password='Banco123')
 
-    sql2 = "INSERT INTO publicacao(usuario, texto) VALUES ((SELECT usuario FROM perfil WHERE usuario = %s), %s);"
-    val2 = (nome, tweet)
+    sql2 = "INSERT INTO publicacao(usuario, texto, foto) VALUES ((SELECT usuario FROM perfil WHERE usuario = %s), %s, %s);"
+    val2 = (nome, tweet, foto)
 
     try:
         cursor2 = con2.cursor()
