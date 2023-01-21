@@ -1,11 +1,16 @@
 package br.com.amicis.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
 
 
 public class Configuracoes extends JFrame {
@@ -25,6 +29,8 @@ public class Configuracoes extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField_1;
 
 
 
@@ -51,56 +57,73 @@ public class Configuracoes extends JFrame {
 	 * Create the frame.
 	 */
 	public Configuracoes() {
+		setBackground(new Color(255, 255, 255));
+		getContentPane().setBackground(new Color(255, 255, 255));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
 		setTitle("Configurações");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1118, 660);
+		setFont(new Font("Inconsolata", Font.PLAIN, 14));
+		setBounds(100, 100, 520, 405);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		contentPane.setBackground(new Color(255, 255, 255));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Configurações");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setBounds(10, 11, 115, 14);
-		contentPane.add(lblNewLabel);
-		
 		JButton btnNewButton = new JButton("Editar perfil");
+		btnNewButton.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
+		btnNewButton.setBackground(new Color(255, 255, 255));
+		btnNewButton.setBounds(38, 63, 120, 30);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton.setBounds(10, 57, 102, 23);
 		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Alterar senha");
+		btnNewButton_1.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
+		btnNewButton_1.setBackground(new Color(255, 255, 255));
+		btnNewButton_1.setBounds(38, 119, 120, 30);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton_1.setBounds(10, 91, 102, 23);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Privacidade");
-		btnNewButton_2.setBounds(10, 125, 102, 23);
+		btnNewButton_2.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
+		btnNewButton_2.setBackground(new Color(255, 255, 255));
+		btnNewButton_2.setBounds(38, 175, 120, 30);
 		contentPane.add(btnNewButton_2);
 		
 		JButton btnNewButton_3 = new JButton("Suporte");
-		btnNewButton_3.setBounds(10, 227, 89, 23);
+		btnNewButton_3.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
+		btnNewButton_3.setBackground(new Color(255, 255, 255));
+		btnNewButton_3.setBounds(38, 231, 120, 30);
 		contentPane.add(btnNewButton_3);
 		
-		JButton btnNewButton_4 = new JButton("Voltar");
-		btnNewButton_4.setBounds(209, 9, 89, 23);
+		JButton btnNewButton_4 = new JButton("voltar");
+		btnNewButton_4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+		btnNewButton_4.setFont(new Font("Roboto", Font.PLAIN, 12));
+		btnNewButton_4.setBackground(new Color(255, 255, 255));
+		btnNewButton_4.setBounds(319, 297, 70, 23);
 		contentPane.add(btnNewButton_4);
 		//##########################################################################################
 		JPanel cardPanel = new JPanel(new CardLayout());
-		cardPanel.setBounds(122, 36, 298, 216);
+		cardPanel.setBackground(new Color(255, 255, 255));
+		cardPanel.setBounds(195, 63, 275, 198);
 		contentPane.add(cardPanel);
 		
 		JPanel editarPerfilPanel = new JPanel();
+		editarPerfilPanel.setBackground(new Color(255, 255, 255));
 	    cardPanel.add(editarPerfilPanel, "editarPerfil");
 
 	    JPanel alterarSenhaPanel = new JPanel();
+	    alterarSenhaPanel.setBackground(new Color(255, 255, 255));
 	    cardPanel.add(alterarSenhaPanel, "alterarSenha");
 		    
 	    btnNewButton.addActionListener(new ActionListener() {
@@ -120,61 +143,85 @@ public class Configuracoes extends JFrame {
 	    
 	 // editarPerfilPanel
 	    JLabel lblNome = new JLabel("Nome:");
-	    lblNome.setBounds(3, 8, 31, 14);
+	    lblNome.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblNome.setBounds(10, 13, 114, 14);
 	    editarPerfilPanel.add(lblNome);
 
 	    JTextField txtNome = new JTextField();
-	    txtNome.setBounds(49, 5, 86, 20);
+	    txtNome.setBounds(144, 10, 121, 20);
 	    editarPerfilPanel.add(txtNome);
 	    txtNome.setColumns(10);
 
 	    JTextField txtEmail = new JTextField();
-	    txtEmail.setBounds(49, 67, 86, 20);
+	    txtEmail.setBounds(144, 72, 121, 20);
 	    editarPerfilPanel.add(txtEmail);
 	    txtEmail.setColumns(10);
 
-	    JLabel lblNumero = new JLabel("Número:");
-	    lblNumero.setBounds(3, 39, 41, 14);
+	    JLabel lblNumero = new JLabel("Sobrenome:");
+	    lblNumero.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblNumero.setBounds(10, 44, 114, 14);
 	    editarPerfilPanel.add(lblNumero);
 	    
-	    	    JLabel lblEmail = new JLabel("Email:");
-	    	    lblEmail.setBounds(3, 70, 28, 14);
+	    	    JLabel lblEmail = new JLabel("Data de Nascimento:");
+	    	    lblEmail.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    	    lblEmail.setBounds(10, 75, 114, 14);
 	    	    editarPerfilPanel.add(lblEmail);
 
 	    JTextField txtNumero = new JTextField();
-	    txtNumero.setBounds(49, 36, 86, 20);
+	    txtNumero.setBounds(144, 41, 121, 20);
 	    editarPerfilPanel.add(txtNumero);
 	    txtNumero.setColumns(10);
-	    alterarSenhaPanel.setLayout(null);
 	    
-	    // alterarSenhaPanel
-	    JLabel lblSenhaAtual = new JLabel("Senha Atual:");
-	    lblSenhaAtual.setBounds(14, 8, 62, 14);
-	    alterarSenhaPanel.add(lblSenhaAtual);
+	    JLabel lblNumero_1 = new JLabel("Número:");
+	    lblNumero_1.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblNumero_1.setBounds(10, 105, 114, 14);
+	    editarPerfilPanel.add(lblNumero_1);
+	    
+	    textField = new JTextField();
+	    textField.setColumns(10);
+	    textField.setBounds(144, 102, 121, 20);
+	    editarPerfilPanel.add(textField);
+	    
+	    JLabel lblEmail_1 = new JLabel("Email:");
+	    lblEmail_1.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblEmail_1.setBounds(10, 136, 114, 14);
+	    editarPerfilPanel.add(lblEmail_1);
+	    
+	    textField_1 = new JTextField();
+	    textField_1.setColumns(10);
+	    textField_1.setBounds(144, 133, 121, 20);
+	    editarPerfilPanel.add(textField_1);
+	    alterarSenhaPanel.setLayout(null);
 
 	    JPasswordField txtSenhaAtual = new JPasswordField();
-	    txtSenhaAtual.setBounds(91, 5, 62, 20);
+	    txtSenhaAtual.setBounds(155, 7, 120, 20);
 	    alterarSenhaPanel.add(txtSenhaAtual);
 
-	    JLabel lblNovaSenha = new JLabel("Nova Senha:");
-	    lblNovaSenha.setBounds(14, 33, 62, 14);
-	    alterarSenhaPanel.add(lblNovaSenha);
-
 	    JPasswordField txtNovaSenha = new JPasswordField();
-	    txtNovaSenha.setBounds(91, 30, 62, 20);
+	    txtNovaSenha.setBounds(155, 38, 120, 20);
 	    alterarSenhaPanel.add(txtNovaSenha);
 
-	    JLabel lblRepetirNovaSenha = new JLabel("Repetir senha:");
-	    lblRepetirNovaSenha.setBounds(14, 58, 71, 14);
-	    alterarSenhaPanel.add(lblRepetirNovaSenha);
-
 	    JPasswordField txtRepetirNovaSenha = new JPasswordField();
-	    txtRepetirNovaSenha.setBounds(91, 55, 62, 20);
+	    txtRepetirNovaSenha.setBounds(155, 69, 120, 20);
 	    alterarSenhaPanel.add(txtRepetirNovaSenha);
+	    
+	    JLabel lblNome_1 = new JLabel("Senha atual:");
+	    lblNome_1.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblNome_1.setBounds(10, 10, 127, 14);
+	    alterarSenhaPanel.add(lblNome_1);
+	    
+	    JLabel lblNumero_2 = new JLabel("Nova senha:");
+	    lblNumero_2.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblNumero_2.setBounds(10, 41, 127, 14);
+	    alterarSenhaPanel.add(lblNumero_2);
+	    
+	    JLabel lblEmail_2 = new JLabel("Repetir nova senha:");
+	    lblEmail_2.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblEmail_2.setBounds(10, 72, 127, 14);
+	    alterarSenhaPanel.add(lblEmail_2);
 	    
 	    //================================================================================
 	    JButton btnNewButton_7 = new JButton("Privacidade");
-	    btnNewButton_2.setBounds(10, 125, 102, 23);
 	    contentPane.add(btnNewButton_2);
 	    btnNewButton_2.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
@@ -184,7 +231,6 @@ public class Configuracoes extends JFrame {
 	    });
 
 	    JButton btnNewButton_8 = new JButton("Suporte");
-	    btnNewButton_3.setBounds(10, 227, 89, 23);
 	    contentPane.add(btnNewButton_3);
 	    btnNewButton_3.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
@@ -195,45 +241,54 @@ public class Configuracoes extends JFrame {
 	    
 	 // privacidadePanel
 	    JPanel privacidadePanel = new JPanel();
+	    privacidadePanel.setBackground(new Color(255, 255, 255));
 	    cardPanel.add(privacidadePanel, "privacidade");
 	    privacidadePanel.setLayout(null);
 
 	    JLabel lblStatus = new JLabel("Status:");
-	    lblStatus.setBounds(10, 8, 35, 14);
+	    lblStatus.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblStatus.setBounds(10, 14, 102, 21);
 	    privacidadePanel.add(lblStatus);
 
 	    JComboBox cmbStatus = new JComboBox();
-	    cmbStatus.setBounds(55, 5, 69, 20);
+	    cmbStatus.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    cmbStatus.setBounds(191, 14, 74, 21);
 	    cmbStatus.addItem("Online");
 	    cmbStatus.addItem("Ocupado");
 	    cmbStatus.addItem("Ausente");
 	    privacidadePanel.add(cmbStatus);
 
 	    JLabel lblPerfisBloqueados = new JLabel("Perfis bloqueados:");
-	    lblPerfisBloqueados.setBounds(10, 33, 89, 14);
+	    lblPerfisBloqueados.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblPerfisBloqueados.setBounds(10, 33, 102, 32);
 	    privacidadePanel.add(lblPerfisBloqueados);
 	    JList listPerfisBloqueados = new JList();
 	    listPerfisBloqueados.setBounds(253, 15, 0, 0);
 	    privacidadePanel.add(listPerfisBloqueados);
+	    
+	    JList list = new JList();
+	    list.setBounds(10, 75, 102, 113);
+	    privacidadePanel.add(list);
 	 // suportePanel
 	    JPanel suportePanel = new JPanel();
+	    suportePanel.setBackground(new Color(255, 255, 255));
 	    cardPanel.add(suportePanel, "suporte");
 	    suportePanel.setLayout(null);
 
-	    JButton btnContatar = new JButton("Contatar");
-	    btnContatar.setBounds(10, 5, 75, 23);
+	    JButton btnContatar = new JButton("Criar ticket");
+	    btnContatar.setFont(new Font("Roboto", Font.PLAIN, 10));
+	    btnContatar.setBounds(10, 10, 92, 23);
 	    suportePanel.add(btnContatar);
-
-	    JButton btnTicket = new JButton("Ticket");
-	    btnTicket.setBounds(10, 39, 75, 23);
-	    btnTicket.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    	}
-	    });
-	    suportePanel.add(btnTicket);
 	    
-	    JButton btnNewButton_5 = new JButton("Salvar alterações");
-	    btnNewButton_5.setBounds(308, 9, 116, 23);
+	    JLabel lblTickes = new JLabel("Tickes:");
+	    lblTickes.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    lblTickes.setBounds(10, 45, 70, 23);
+	    suportePanel.add(lblTickes);
+	    
+	    JButton btnNewButton_5 = new JButton("salvar");
+	    btnNewButton_5.setFont(new Font("Roboto", Font.PLAIN, 12));
+	    btnNewButton_5.setBackground(new Color(255, 255, 255));
+	    btnNewButton_5.setBounds(400, 297, 70, 23);
 	    contentPane.add(btnNewButton_5);
 	}
 }

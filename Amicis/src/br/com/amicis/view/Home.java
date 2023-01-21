@@ -223,11 +223,20 @@ public class Home extends JFrame {
 		emojiUm_1_2.setBounds(10, 332, 78, 63);
 		menu.add(emojiUm_1_2);
 
-		JButton notificacoes_1 = new JButton("configurações");
-		notificacoes_1.setBackground(new Color(255, 255, 255));
-		notificacoes_1.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		notificacoes_1.setBounds(94, 495, 156, 33);
-		menu.add(notificacoes_1);
+		JButton configuracoes = new JButton("configurações");
+		configuracoes.setBackground(new Color(255, 255, 255));
+		configuracoes.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
+		configuracoes.setBounds(94, 495, 156, 33);
+		menu.add(configuracoes);
+		configuracoes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Configuracoes frame = new Configuracoes();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(null);
+				frame.setResizable(false);
+			}
+		});
 
 		JLabel emojiUm_1_2_1 = new JLabel("⚙️");
 		emojiUm_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
