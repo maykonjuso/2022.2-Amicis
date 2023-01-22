@@ -173,6 +173,35 @@ public class PerfilDAO {
 			}
 		}
 	}
+	public void updateBio(Perfil perfil) {
+		String sql = "UPDATE perfil SET bio = ? WHERE usuario = ?;";
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		try {
+
+			conn = ConnectionFactory.createConnectionToMySQL();
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, perfil.getBio());
+			pstm.setString(2, perfil.getThis_usuario());
+
+			pstm.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	
 

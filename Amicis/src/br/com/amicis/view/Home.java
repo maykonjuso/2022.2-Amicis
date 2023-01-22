@@ -159,7 +159,7 @@ public class Home extends JFrame {
 		perfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Perfil frame = new Perfil(usuarioTela);
+				Perfil frame = new Perfil(usuarioTela, usuarioTela, false);
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);
 				frame.setResizable(false);
@@ -410,8 +410,6 @@ public class Home extends JFrame {
 		label.setPreferredSize(new Dimension(250, 250));
 		perfil.add(label);
 		
-		
-
 		JPanel interecao = new JPanel();
 		interecao.setBackground(new Color(255, 255, 255));
 		interecao.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -419,8 +417,6 @@ public class Home extends JFrame {
 		interecao.setPreferredSize(new Dimension(300, 300));
 		perfil.add(interecao);
 		
-		
-
 		JLabel curtidas = new JLabel("🤍");
 		curtidas.setHorizontalAlignment(SwingConstants.CENTER);
 		curtidas.setFont(new Font("Noto Emoji Medium", Font.BOLD, 11));
@@ -473,12 +469,15 @@ public class Home extends JFrame {
 				UsuarioDAO perfilUsuarioDAO = new UsuarioDAO();
 				try {
 					Usuario usuario1 = perfilUsuarioDAO.getUsuario(publicacao2.getUsuario());
-					Perfil frame = new Perfil(usuario1);
+					boolean usuairor = true;
+					if (usuarioTela.getUsuario().equals( publicacao2.getUsuario())) {
+						usuairor = false;
+					}
+					Perfil frame = new Perfil(usuario1, usuarioTela, usuairor);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

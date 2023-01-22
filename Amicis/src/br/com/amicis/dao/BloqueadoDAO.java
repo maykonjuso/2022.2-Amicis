@@ -9,6 +9,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Perfil;
+import br.com.amicis.model.Usuario;
 
 public class BloqueadoDAO {
 
@@ -46,7 +47,42 @@ public class BloqueadoDAO {
 			}
 		}
 	}
+	
+	
+	public void saveIndividual(Usuario usuarioPrincipal, Usuario bloqueado) {
 
+		String sql = "INSERT INTO bloqueados(perfil, bloqueado) VALUES ((SELECT usuario FROM perfil WHERE usuario = ?), (SELECT usuario FROM perfil WHERE usuario = ?));";
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		try {
+			// Criar uma conexão com o banco de dados
+			conn = ConnectionFactory.createConnectionToMySQL();
+			// Criado uma preparedStatement para que a query seja executada
+
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+
+			pstm.setString(1, usuarioPrincipal.getUsuario());
+			pstm.setString(2, bloqueado.getUsuario());
+
+			// executando a query
+			pstm.execute();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public ArrayList<String> getBloqueados(Perfil perfil) throws SQLException {
 		String sql = "SELECT bloqueado FROM bloqueados WHERE perfil = ?;";
 
@@ -88,7 +124,7 @@ public class BloqueadoDAO {
 		return bloqueados;
 	}
 
-	public void delete(Perfil perfil, Perfil amigo) {
+	public void delete(Usuario perfil, Usuario bloqueado) {
 
 		String sql = "DELETE FROM bloqueados WHERE perfil = ? AND bloqueado = ?";
 
@@ -101,8 +137,8 @@ public class BloqueadoDAO {
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 
-			pstm.setString(1, perfil.getUsuario().getUsuario());
-			pstm.setString(2, perfil.getUsuario().getUsuario());
+			pstm.setString(1, perfil.getUsuario());
+			pstm.setString(2, bloqueado.getUsuario());
 
 			pstm.execute();
 

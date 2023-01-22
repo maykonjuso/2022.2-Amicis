@@ -2,45 +2,39 @@ package br.com.amicis.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Label;
 import java.awt.Toolkit;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import br.com.amicis.dao.AmigoDAO;
+import br.com.amicis.dao.BloqueadoDAO;
+import br.com.amicis.dao.PerfilDAO;
 import br.com.amicis.model.Usuario;
-import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Perfil extends JFrame {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 	private JPanel contentJPanel;
-
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Perfil frame = new Perfil(null);
+					Perfil frame = new Perfil(null, null, false);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
@@ -51,11 +45,11 @@ public class Perfil extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
-	 * Create the frame.
+	 * @wbp.parser.constructor
 	 */
-	public Perfil(Usuario usuarioTela) {
+	public Perfil(Usuario usuarioDoPerfil, Usuario usuarioSistema, boolean seuPerfil) {
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
 
@@ -69,105 +63,232 @@ public class Perfil extends JFrame {
 		setContentPane(contentJPanel);
 		contentJPanel.setLayout(null);
 
-		
 		URL url;
 		try {
-			url = new URL(usuarioTela.getFoto());
+			url = new URL(usuarioDoPerfil.getFoto());
 			ImageIcon imgIcon = new ImageIcon(url);
 			imgIcon.setImage(imgIcon.getImage().getScaledInstance(100, 100, 100));
-			JLabel jLabel = new JLabel(imgIcon);
-			jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-			jLabel.setBounds(125, 39, 150, 150);
-			contentJPanel.add(jLabel);
+			JLabel foto = new JLabel(imgIcon);
+			foto.setAlignmentX(Component.CENTER_ALIGNMENT);
+			foto.setBounds(125, 39, 150, 150);
+			contentJPanel.add(foto);
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		}
 		
-		Label T_usuario = new Label(usuarioTela.getPerfil().getThis_usuario());
-		T_usuario.setFont(new Font("Dialog", Font.PLAIN, 24));
-		T_usuario.setAlignment(Label.CENTER);
-		T_usuario.setBounds(49, 236, 302, 36);
-		contentJPanel.add(T_usuario);
-
-		JLabel linha = new JLabel("");
-		linha.setBounds(76, 301, 247, 1);
-		linha.setBorder(BorderFactory.createLineBorder(Color.black));
-		contentJPanel.add(linha);
-
-		JLabel lblDataNascimento = new JLabel("Data Nascimento");
-		lblDataNascimento.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblDataNascimento.setBounds(76, 386, 129, 15);
-		contentJPanel.add(lblDataNascimento);
-
-		JLabel lblTelefone = new JLabel("Telefone");
-		lblTelefone.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblTelefone.setBounds(76, 411, 129, 15);
-		contentJPanel.add(lblTelefone);
-
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblEmail.setBounds(76, 432, 129, 15);
-		contentJPanel.add(lblEmail);
-
-		JLabel lblBio = new JLabel("Bio");
-		lblBio.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblBio.setBounds(76, 312, 107, 15);
-		contentJPanel.add(lblBio);
-
-		JButton btnNewButton = new JButton("Alterar");
-		btnNewButton.setBackground(new Color(255, 255, 255));
-		btnNewButton.setFont(new Font("Roboto", Font.PLAIN, 12));
-		btnNewButton.setBounds(157, 486, 85, 21);
-		contentJPanel.add(btnNewButton);
+		AmigoDAO amigoDAO = new AmigoDAO();
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setSize(247, 50);
-		textArea.setLocation(76, 326);
-		textArea.setText(usuarioTela.getPerfil().getBio());
-		textArea.setEditable(false);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.setFont(new Font("Roboto", Font.PLAIN, 10));
-		textArea.setBackground(new Color(255, 255, 255));
-		textArea.setPreferredSize(new Dimension(10, 10));
-		contentJPanel.add(textArea);
+		JButton adicionar = new JButton();
 		
-		try {
-			DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");      
-			String dateToStr = dateFormat.format(usuarioTela.getDataNascimeto());
-			JLabel data = new JLabel(dateToStr);
-			data.setHorizontalAlignment(SwingConstants.TRAILING);
-			data.setFont(new Font("Roboto", Font.PLAIN, 10));
-			data.setBackground(new Color(200, 200, 200));
-			data.setBounds(209, 386, 114, 15);
-			contentJPanel.add(data);
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (usuarioSistema.getPerfil().sizeAmigos() == 0) {
+			adicionar.setText("adicionar amigo");
 		}
 		
-		JLabel lblNewLabel_1_2 = new JLabel(usuarioTela.getTelefone());
-		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_1_2.setFont(new Font("Roboto", Font.PLAIN, 10));
-		lblNewLabel_1_2.setBounds(209, 411, 114, 15);
-		contentJPanel.add(lblNewLabel_1_2);
+		boolean amigo = false;
 		
-		JLabel lblNewLabel_1_3 = new JLabel(usuarioTela.getEmail());
-		lblNewLabel_1_3.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_1_3.setFont(new Font("Roboto", Font.PLAIN, 10));
-		lblNewLabel_1_3.setBounds(209, 432, 114, 15);
-		contentJPanel.add(lblNewLabel_1_3);
+		for (int i = 0; i < usuarioSistema.getPerfil().sizeAmigos(); i++) {
+			if (usuarioSistema.getPerfil().getAmigo(i).equals(usuarioDoPerfil.getUsuario())) {
+				adicionar.setText("remover amigo");
+				amigo = true;
+			}
+			if (!usuarioSistema.getPerfil().getAmigo(i).equals(usuarioDoPerfil.getUsuario()) && amigo == false) {
+				adicionar.setText("adicionar amigo");
+			}
+		}
 		
-		JButton btnAdicionarAmigo = new JButton("Adicionar Amigo");
-		btnAdicionarAmigo.setBackground(new Color(255, 255, 255));
-		btnAdicionarAmigo.setFont(new Font("Roboto", Font.PLAIN, 12));
-		btnAdicionarAmigo.setBounds(138, 199, 123, 21);
-		contentJPanel.add(btnAdicionarAmigo);
+		adicionar.setBackground(new Color(255, 255, 255));
+		adicionar.setFont(new Font("Roboto", Font.PLAIN, 12));
+		adicionar.setBounds(10, 240, 121, 21);
+		adicionar.setVisible(seuPerfil);
+		contentJPanel.add(adicionar);
 		
-		Label nome_1 = new Label(usuarioTela.getNome() + " " + usuarioTela.getSobrenome());
-		nome_1.setFont(new Font("Dialog", Font.PLAIN, 12));
-		nome_1.setAlignment(Label.CENTER);
-		nome_1.setBounds(49, 262, 302, 36);
-		contentJPanel.add(nome_1);
-
+		adicionar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (adicionar.getText().equals("adicionar amigo")) {
+					amigoDAO.saveIndividual(usuarioSistema, usuarioDoPerfil);
+					adicionar.setText("remover amigo");
+				} else {
+					amigoDAO.delete(usuarioSistema, usuarioDoPerfil);
+					adicionar.setText("adicionar amigo");
+				}
+			}
+		});
+		
+		BloqueadoDAO bloqueadoDAO = new BloqueadoDAO();
+		JButton bloquear = new JButton();
+		
+		if (usuarioSistema.getPerfil().sizeBloqueados() == 0) {
+			bloquear.setText("bloquear");
+		}
+		
+		boolean bloqueado = false;
+		
+		for (int i = 0; i < usuarioSistema.getPerfil().sizeBloqueados(); i++) {
+			if (usuarioSistema.getPerfil().getBloqueado(i).equals(usuarioDoPerfil.getUsuario())) {
+				bloquear.setText("desbloquear");
+				bloqueado = true;
+			}
+			if (!usuarioSistema.getPerfil().getBloqueado(i).equals(usuarioDoPerfil.getUsuario()) && bloqueado == false) {
+				bloquear.setText("bloquear");
+			}
+		}
+		
+		bloquear.setBackground(new Color(255, 255, 255));
+		bloquear.setFont(new Font("Roboto", Font.PLAIN, 12));
+		bloquear.setBounds(140, 240, 121, 21);
+		bloquear.setVisible(seuPerfil);
+		contentJPanel.add(bloquear);
+		
+		bloquear.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (bloquear.getText().equals("bloquear")) {
+					bloqueadoDAO.saveIndividual(usuarioSistema, usuarioDoPerfil);
+					bloquear.setText("desbloquear");
+				} else {
+					bloqueadoDAO.delete(usuarioSistema, usuarioDoPerfil);
+					bloquear.setText("bloquear");
+				}
+			}
+		});
+		
+		JButton conversar = new JButton("conversar");
+		conversar.setBackground(new Color(255, 255, 255));
+		conversar.setFont(new Font("Roboto", Font.PLAIN, 12));
+		conversar.setBounds(270, 240, 121, 21);
+		conversar.setVisible(seuPerfil);
+		contentJPanel.add(conversar);
+		
+		JLabel emojiUm = new JLabel("🗿");
+		emojiUm.setHorizontalAlignment(SwingConstants.CENTER);
+		emojiUm.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
+		emojiUm.setBounds(45, 269, 55, 45);
+		contentJPanel.add(emojiUm);
+		
+		JLabel emojiUm_1 = new JLabel("🎈");
+		emojiUm_1.setHorizontalAlignment(SwingConstants.CENTER);
+		emojiUm_1.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
+		emojiUm_1.setBounds(45, 324, 55, 45);
+		contentJPanel.add(emojiUm_1);
+		
+		JLabel emojiUm_2 = new JLabel("✉️");
+		emojiUm_2.setHorizontalAlignment(SwingConstants.CENTER);
+		emojiUm_2.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
+		emojiUm_2.setBounds(45, 379, 55, 45);
+		contentJPanel.add(emojiUm_2);
+		
+		JLabel emojiUm_3 = new JLabel("📞");
+		emojiUm_3.setHorizontalAlignment(SwingConstants.CENTER);
+		emojiUm_3.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
+		emojiUm_3.setBounds(45, 434, 55, 45);
+		contentJPanel.add(emojiUm_3);
+		
+		JTextArea bio = new JTextArea();
+		bio.setEditable(false);
+		bio.setLineWrap(true);
+		bio.setWrapStyleWord(true);
+		bio.setBounds(109, 282, 225, 19);
+		bio.setFont(new Font("Roboto", Font.PLAIN, 13));
+		contentJPanel.add(bio);
+		
+		if(usuarioDoPerfil.getPerfil().getBio() == null) {
+			bio.setText("Sem biografia");
+		} else {
+			bio.setText(usuarioDoPerfil.getPerfil().getBio());
+		}
+		
+		JTextArea aniversario = new JTextArea();
+		aniversario.setEditable(false);
+		aniversario.setLineWrap(true);
+		aniversario.setWrapStyleWord(true);
+		aniversario.setBounds(110, 337, 225, 19);
+		aniversario.setFont(new Font("Roboto", Font.PLAIN, 13));
+		contentJPanel.add(aniversario);
+		
+		if(usuarioDoPerfil.getDataNascimeto() == null) {
+			aniversario.setText("Sem data de nascimento");
+		} else {
+			DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy");      
+			String dateToStr = dateFormat.format(usuarioDoPerfil.getDataNascimeto());
+			aniversario.setText("Nascido(a) em " + dateToStr);
+		}
+		
+		JTextArea email = new JTextArea();
+		email.setEditable(false);
+		email.setLineWrap(true);
+		email.setWrapStyleWord(true);
+		email.setBounds(110, 392, 225, 19);
+		email.setFont(new Font("Roboto", Font.PLAIN, 13));
+		contentJPanel.add(email);
+		
+		if(usuarioDoPerfil.getEmail() ==  null) {
+			email.setText("Sem email");
+		} else {
+			email.setText(usuarioDoPerfil.getEmail());
+		}
+		
+		JTextArea telefone = new JTextArea();
+		telefone.setEditable(false);
+		telefone.setLineWrap(true);
+		telefone.setWrapStyleWord(true);
+		telefone.setFont(new Font("Roboto", Font.PLAIN, 13));
+		telefone.setBounds(110, 447, 225, 19);
+		contentJPanel.add(telefone);
+		
+		if(usuarioDoPerfil.getTelefone() == null) {
+			telefone.setText("Sem telefone");
+		} else {
+			telefone.setText(usuarioDoPerfil.getTelefone());
+		}
+		
+		JLabel nome = new JLabel();
+		nome.setHorizontalAlignment(SwingConstants.CENTER);
+		nome.setFont(new Font("Roboto medium", Font.PLAIN, 13));
+		nome.setBounds(85, 183, 225, 19);
+		contentJPanel.add(nome);
+		
+		if (usuarioDoPerfil.getNome() == null) {
+			nome.setText("Sem nome");
+		} else {
+			nome.setText(usuarioDoPerfil.getNome() + " " + usuarioDoPerfil.getSobrenome());
+		}
+		
+		JLabel usuario = new JLabel();
+		usuario.setHorizontalAlignment(SwingConstants.CENTER);
+		usuario.setText("@" + usuarioDoPerfil.getUsuario());
+		usuario.setFont(new Font("Roboto", Font.PLAIN, 12));
+		usuario.setBounds(85, 200, 225, 19);
+		contentJPanel.add(usuario);
+		
+		JButton alterar = new JButton("alterar");
+		alterar.setFont(new Font("Roboto", Font.PLAIN, 12));
+		alterar.setBackground(Color.WHITE);
+		alterar.setBounds(158, 490, 85, 21);
+		alterar.setVisible(!seuPerfil);
+		contentJPanel.add(alterar);
+		alterar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (alterar.getText().equals("alterar")) {
+					bio.setText("");
+					bio.setBackground(new Color(230, 230, 230));
+					alterar.setText("salvar");
+					bio.setEditable(true);					
+				} else {
+					bio.setBackground(new Color(255, 255, 255));
+					if (bio.getText().equals("")) {
+						usuarioSistema.getPerfil().setBio("sem bio");
+					} else {
+						usuarioSistema.getPerfil().setBio(bio.getText());						
+					}
+					PerfilDAO perfilDAO = new PerfilDAO();
+					perfilDAO.updateBio(usuarioSistema.getPerfil());
+					alterar.setText("alterar");
+					bio.setEditable(false);
+				}
+			}
+		});
 	}
+
 }

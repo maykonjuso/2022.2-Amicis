@@ -157,7 +157,6 @@ public class Login extends JFrame {
 
 		JTextArea lblNewJText = new JTextArea(
 				"Copyright©2022-2023, Amicis. Todos os direitos reservados. Todos os textos, imagens, gráficos,       animações, vídeos, músicas, sons e outros materiais são protegidos por direitos autorais.");
-		
 		lblNewJText.setBackground(new Color(1, 1, 1, 0.5f));
 		lblNewJText.setForeground(new Color(128, 128, 128));
 		lblNewJText.setFont(new Font("Arial", Font.PLAIN, 10));
