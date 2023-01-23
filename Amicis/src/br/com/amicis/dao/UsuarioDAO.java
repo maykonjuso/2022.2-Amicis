@@ -113,6 +113,65 @@ public class UsuarioDAO {
 		}
 	}
 
+	// Atualizar editarPerfil
+	public void updatePerfil(Usuario usuario) throws Exception {
+		String sql = "UPDATE usuario SET nome = ?, sobrenome = ?, telefone = ?, email = ? WHERE id = ?";
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, usuario.getNome());
+			pstm.setString(2, usuario.getSobrenome());
+			pstm.setString(3, usuario.getTelefone());
+			pstm.setString(4, usuario.getEmail());
+			pstm.setInt(5, usuario.getId());
+			pstm.executeUpdate();
+			System.out.println("Registro atualizado com sucesso!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	// Atualizar a senha Configuracoes.java
+	public void updateSenha(Usuario usuario, String senhaAtual, String novaSenha) throws Exception {
+		String sql = "UPDATE usuario SET senha = ? WHERE id = ? AND senha = ?";
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, novaSenha);
+			pstm.setInt(2, usuario.getId());
+			pstm.setString(3, senhaAtual);
+			pstm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void delete(Usuario usuario) {
 
 		String sql = "DELETE FROM usuario WHERE id = ?";
