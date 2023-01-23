@@ -44,7 +44,6 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new splashscreen.SplashScreen(null,true).setVisible(true);
 					Login frame = new Login();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
