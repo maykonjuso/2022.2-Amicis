@@ -339,26 +339,7 @@ public class Home extends JFrame {
 		lblEncontreNovosAmigos.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblEncontreNovosAmigos.setBounds(50, 30, 199, 39);
 		conversas.add(lblEncontreNovosAmigos);
-		
-		JButton pesquisar = new JButton("Pesquisar Usuários");
-		pesquisar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		pesquisar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Pesquisar pesquisar = new Pesquisar();
-				pesquisar.setVisible(true);
-				pesquisar.setLocationRelativeTo(null);
-				pesquisar.setResizable(false);
-			}
-		});
-		
-		
-		pesquisar.setBounds(26, 183, 238, 39);
-		conversas.add(pesquisar);
+
 		PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
 
 		for (Publicacao publicacao2 : publicacaoDAO.getPublicacoesData()) {
