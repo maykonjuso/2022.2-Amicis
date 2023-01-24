@@ -56,7 +56,7 @@ public class Perfil extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
 		setTitle("Perfil");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
-		setBounds(100, 100, 414, 575);
+		setBounds(100, 100, 442, 469);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		contentJPanel = new JPanel();
 		contentJPanel.setBackground(new Color(255, 255, 255));
@@ -70,7 +70,7 @@ public class Perfil extends JFrame {
 			imgIcon.setImage(imgIcon.getImage().getScaledInstance(100, 100, 100));
 			JLabel foto = new JLabel(imgIcon);
 			foto.setAlignmentX(Component.CENTER_ALIGNMENT);
-			foto.setBounds(125, 39, 150, 150);
+			foto.setBounds(138, 10, 150, 150);
 			contentJPanel.add(foto);
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
@@ -98,7 +98,7 @@ public class Perfil extends JFrame {
 		
 		adicionar.setBackground(new Color(255, 255, 255));
 		adicionar.setFont(new Font("Roboto", Font.PLAIN, 12));
-		adicionar.setBounds(10, 240, 121, 21);
+		adicionar.setBounds(16, 200, 121, 21);
 		adicionar.setVisible(seuPerfil);
 		contentJPanel.add(adicionar);
 		
@@ -136,7 +136,7 @@ public class Perfil extends JFrame {
 		
 		bloquear.setBackground(new Color(255, 255, 255));
 		bloquear.setFont(new Font("Roboto", Font.PLAIN, 12));
-		bloquear.setBounds(140, 240, 121, 21);
+		bloquear.setBounds(153, 200, 121, 21);
 		bloquear.setVisible(seuPerfil);
 		contentJPanel.add(bloquear);
 		
@@ -156,40 +156,52 @@ public class Perfil extends JFrame {
 		JButton conversar = new JButton("conversar");
 		conversar.setBackground(new Color(255, 255, 255));
 		conversar.setFont(new Font("Roboto", Font.PLAIN, 12));
-		conversar.setBounds(270, 240, 121, 21);
+		conversar.setBounds(290, 200, 121, 21);
 		conversar.setVisible(seuPerfil);
 		contentJPanel.add(conversar);
 		
 		JLabel emojiUm = new JLabel("🗿");
 		emojiUm.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm.setBounds(45, 269, 55, 45);
+		emojiUm.setBounds(26, 235, 55, 45);
 		contentJPanel.add(emojiUm);
 		
 		JLabel emojiUm_1 = new JLabel("🎈");
 		emojiUm_1.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_1.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm_1.setBounds(45, 324, 55, 45);
+		emojiUm_1.setBounds(206, 235, 55, 45);
 		contentJPanel.add(emojiUm_1);
 		
 		JLabel emojiUm_2 = new JLabel("✉️");
 		emojiUm_2.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_2.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm_2.setBounds(45, 379, 55, 45);
+		emojiUm_2.setBounds(26, 290, 55, 45);
 		contentJPanel.add(emojiUm_2);
 		
 		JLabel emojiUm_3 = new JLabel("📞");
 		emojiUm_3.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_3.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm_3.setBounds(45, 434, 55, 45);
+		emojiUm_3.setBounds(206, 290, 55, 45);
 		contentJPanel.add(emojiUm_3);
+		
+		JLabel emojiUm_4 = new JLabel("💘");
+		emojiUm_4.setHorizontalAlignment(SwingConstants.CENTER);
+		emojiUm_4.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
+		emojiUm_4.setBounds(26, 345, 55, 45);
+		contentJPanel.add(emojiUm_4);
+		
+		JLabel emojiUm_5 = new JLabel("🌍");
+		emojiUm_5.setHorizontalAlignment(SwingConstants.CENTER);
+		emojiUm_5.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
+		emojiUm_5.setBounds(206, 345, 55, 45);
+		contentJPanel.add(emojiUm_5);
 		
 		JTextArea bio = new JTextArea();
 		bio.setEditable(false);
 		bio.setLineWrap(true);
 		bio.setWrapStyleWord(true);
-		bio.setBounds(109, 282, 225, 19);
-		bio.setFont(new Font("Roboto", Font.PLAIN, 13));
+		bio.setBounds(91, 235, 105, 45);
+		bio.setFont(new Font("Roboto", Font.PLAIN, 10));
 		contentJPanel.add(bio);
 		
 		if(usuarioDoPerfil.getPerfil().getBio() == null) {
@@ -202,8 +214,8 @@ public class Perfil extends JFrame {
 		aniversario.setEditable(false);
 		aniversario.setLineWrap(true);
 		aniversario.setWrapStyleWord(true);
-		aniversario.setBounds(110, 337, 225, 19);
-		aniversario.setFont(new Font("Roboto", Font.PLAIN, 13));
+		aniversario.setBounds(271, 235, 105, 45);
+		aniversario.setFont(new Font("Roboto", Font.PLAIN, 10));
 		contentJPanel.add(aniversario);
 		
 		if(usuarioDoPerfil.getDataNascimeto() == null) {
@@ -218,8 +230,8 @@ public class Perfil extends JFrame {
 		email.setEditable(false);
 		email.setLineWrap(true);
 		email.setWrapStyleWord(true);
-		email.setBounds(110, 392, 225, 19);
-		email.setFont(new Font("Roboto", Font.PLAIN, 13));
+		email.setBounds(91, 290, 105, 45);
+		email.setFont(new Font("Roboto", Font.PLAIN, 10));
 		contentJPanel.add(email);
 		
 		if(usuarioDoPerfil.getEmail() ==  null) {
@@ -232,8 +244,8 @@ public class Perfil extends JFrame {
 		telefone.setEditable(false);
 		telefone.setLineWrap(true);
 		telefone.setWrapStyleWord(true);
-		telefone.setFont(new Font("Roboto", Font.PLAIN, 13));
-		telefone.setBounds(110, 447, 225, 19);
+		telefone.setFont(new Font("Roboto", Font.PLAIN, 10));
+		telefone.setBounds(271, 290, 105, 45);
 		contentJPanel.add(telefone);
 		
 		if(usuarioDoPerfil.getTelefone() == null) {
@@ -242,10 +254,39 @@ public class Perfil extends JFrame {
 			telefone.setText(usuarioDoPerfil.getTelefone());
 		}
 		
+		JTextArea relacionamento = new JTextArea();
+		relacionamento.setEditable(false);
+		relacionamento.setLineWrap(true);
+		relacionamento.setWrapStyleWord(true);
+		relacionamento.setBounds(91, 345, 105, 45);
+		relacionamento.setFont(new Font("Roboto", Font.PLAIN, 10));
+		contentJPanel.add(relacionamento);
+		
+		if(usuarioDoPerfil.getPerfil().getStatus().getRelacionamento() == null) {
+			relacionamento.setText("Sem relacionamento");
+		} else {
+			relacionamento.setText(usuarioDoPerfil.getPerfil().getStatus().getRelacionamento());
+		}
+		
+		JTextArea localidade = new JTextArea();
+		localidade.setEditable(false);
+		localidade.setLineWrap(true);
+		localidade.setWrapStyleWord(true);
+		localidade.setBounds(271, 345, 105, 45);
+		localidade.setFont(new Font("Roboto", Font.PLAIN, 10));
+		contentJPanel.add(localidade);
+		
+		if(usuarioDoPerfil.getPerfil().getStatus().getLocalidade() == null) {
+			localidade.setText("Sem localidade");
+		} else {
+			localidade.setText(usuarioDoPerfil.getPerfil().getStatus().getLocalidade());
+		}
+		
+		
 		JLabel nome = new JLabel();
 		nome.setHorizontalAlignment(SwingConstants.CENTER);
 		nome.setFont(new Font("Roboto medium", Font.PLAIN, 13));
-		nome.setBounds(85, 183, 225, 19);
+		nome.setBounds(101, 154, 225, 19);
 		contentJPanel.add(nome);
 		
 		if (usuarioDoPerfil.getNome() == null) {
@@ -258,37 +299,80 @@ public class Perfil extends JFrame {
 		usuario.setHorizontalAlignment(SwingConstants.CENTER);
 		usuario.setText("@" + usuarioDoPerfil.getUsuario());
 		usuario.setFont(new Font("Roboto", Font.PLAIN, 12));
-		usuario.setBounds(85, 200, 225, 19);
+		usuario.setBounds(101, 171, 225, 19);
 		contentJPanel.add(usuario);
 		
 		JButton alterar = new JButton("alterar");
 		alterar.setFont(new Font("Roboto", Font.PLAIN, 12));
 		alterar.setBackground(Color.WHITE);
-		alterar.setBounds(158, 490, 85, 21);
+		alterar.setBounds(153, 200, 121, 21);
 		alterar.setVisible(!seuPerfil);
 		contentJPanel.add(alterar);
+		
 		alterar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (alterar.getText().equals("alterar")) {
-					bio.setText("");
+					bio.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							bio.setText("");
+						}
+					});
 					bio.setBackground(new Color(230, 230, 230));
+					bio.setEditable(true);
+					relacionamento.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							relacionamento.setText("");
+						}
+					});
+					relacionamento.setBackground(new Color(230, 230, 230));
+					relacionamento.setEditable(true);	
+					localidade.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							localidade.setText("");
+						}
+					});
+					localidade.setBackground(new Color(230, 230, 230));
+					localidade.setEditable(true);	
 					alterar.setText("salvar");
-					bio.setEditable(true);					
 				} else {
 					bio.setBackground(new Color(255, 255, 255));
+					relacionamento.setBackground(new Color(255, 255, 255));
+					localidade.setBackground(new Color(255, 255, 255));
+					
 					if (bio.getText().equals("")) {
-						usuarioSistema.getPerfil().setBio("sem bio");
-					} else {
-						usuarioSistema.getPerfil().setBio(bio.getText());						
+						bio.setText("sem bio");
 					}
+					if (relacionamento.getText().equals("")) {
+						relacionamento.setText("sem relacionamento");
+					}
+					if (localidade.getText().equals("")) {
+						localidade.setText("sem localidade");
+					}
+					
+					usuarioSistema.getPerfil().setBio(bio.getText());	
+					usuarioSistema.getPerfil().getStatus().setRelacionamento(relacionamento.getText());
+					usuarioSistema.getPerfil().getStatus().setLocalidade(localidade.getText());
+					
 					PerfilDAO perfilDAO = new PerfilDAO();
-					perfilDAO.updateBio(usuarioSistema.getPerfil());
+					perfilDAO.update(usuarioSistema.getPerfil());
 					alterar.setText("alterar");
 					bio.setEditable(false);
 				}
 			}
 		});
 	}
-
+	
+	public String stringOnline(int status) {
+		if (status == 0) {
+			return "online";
+		} else if (status == 1) {
+			return "ausente";
+		} else {
+			return "ocupado";
+		}
+	}
 }

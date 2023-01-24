@@ -23,7 +23,7 @@ public class PerfilDAO {
 			// Criado uma preparedStatement para que a query seja executada
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 
-			pstm.setBoolean(1, perfil.getStatus().getOnline());
+			pstm.setInt(1, perfil.getStatus().getOnline());
 			pstm.setString(2, perfil.getStatus().getRelacionamento());
 			pstm.setString(3, perfil.getStatus().getLocalidade());
 			pstm.setString(4, perfil.getBio());
@@ -73,7 +73,7 @@ public class PerfilDAO {
 				TicketDAO ticketDAO = new TicketDAO();
 
 				perfil.setBio(rset.getString("bio"));
-				perfil.getStatus().setOnline(rset.getBoolean("status_online"));
+				perfil.getStatus().setOnline(rset.getInt("status_online"));
 				perfil.getStatus().setLocalidade(rset.getString("localidade"));
 				perfil.getStatus().setRelacionamento(rset.getString("relacionamento"));
 				perfil.setThis_usuario(rset.getString("usuario"));
@@ -106,9 +106,9 @@ public class PerfilDAO {
 		}
 		return perfil;
 	}
-
+	
 	public void update(Perfil perfil) {
-		String sql = "UPDATE perfil SET status_online = ?, relacionamento = ?, localidade = ?, bio = ?, termos_uso = ?, politicas = ? WHERE usuario = ?;";
+		String sql = "UPDATE perfil SET relacionamento = ?, localidade = ?, bio = ? WHERE usuario = ?;";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -116,13 +116,11 @@ public class PerfilDAO {
 			conn = ConnectionFactory.createConnectionToMySQL();
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setBoolean(1, perfil.getStatus().getOnline());
-			pstm.setString(2, perfil.getStatus().getRelacionamento());
-			pstm.setString(3, perfil.getStatus().getLocalidade());
-			pstm.setString(4, perfil.getBio());
-			pstm.setString(5, perfil.getContrato().getTermosUso());
-			pstm.setString(6, perfil.getSuporte().getPoliticas());
-			pstm.setString(7, perfil.getUsuario().getUsuario());
+			pstm.setString(1, perfil.getStatus().getRelacionamento());
+			pstm.setString(2, perfil.getStatus().getLocalidade());
+			pstm.setString(3, perfil.getBio());
+			
+			pstm.setString(4, perfil.getThis_usuario());
 
 			pstm.executeUpdate();
 
@@ -142,8 +140,8 @@ public class PerfilDAO {
 		}
 	}
 	
-	public void updateStatus(Perfil perfil) {
-		String sql = "UPDATE perfil SET relacionamento = ?, localidade = ? WHERE usuario = ?;";
+	public void updateOnline(Perfil perfil) {
+		String sql = "UPDATE perfil SET status_online = ? WHERE usuario = ?;";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -151,38 +149,7 @@ public class PerfilDAO {
 			conn = ConnectionFactory.createConnectionToMySQL();
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, perfil.getStatus().getRelacionamento());
-			pstm.setString(2, perfil.getStatus().getLocalidade());
-			
-			pstm.setString(3, perfil.getThis_usuario());
-
-			pstm.executeUpdate();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstm != null) {
-					pstm.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	public void updateBio(Perfil perfil) {
-		String sql = "UPDATE perfil SET bio = ? WHERE usuario = ?;";
-		Connection conn = null;
-		PreparedStatement pstm = null;
-		try {
-
-			conn = ConnectionFactory.createConnectionToMySQL();
-
-			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, perfil.getBio());
+			pstm.setInt(1, perfil.getStatus().getOnline());
 			pstm.setString(2, perfil.getThis_usuario());
 
 			pstm.executeUpdate();
@@ -203,8 +170,6 @@ public class PerfilDAO {
 		}
 	}
 	
-	
-
 	public void delete(Perfil perfil) {
 		String sql = "DELETE FROM perfil WHERE usuario = ?;";
 		Connection conn = null;
