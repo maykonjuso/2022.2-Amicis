@@ -252,6 +252,8 @@ public class Cadastro extends JFrame {
 									if (Arrays.equals(senha_, repetirSenha_)) {
 										if (senha_.length >= 4) {
 											Usuario usuario = new Usuario();
+											nome.setText((String) converter(nome.getText()));
+											sobrenome.setText((String) converter(sobrenome.getText()));
 											usuario.setNome(nome.getText());
 											usuario.setSobrenome(sobrenome.getText());
 											usuario.setUsuario(thisUsuario.getText());
@@ -319,4 +321,27 @@ public class Cadastro extends JFrame {
 		}
 		return emailValido;
 	}
+	
+	public Object converter(String nome) {
+        char[] palavras = nome.toCharArray();
+        
+        
+        for(int i = 1; i < palavras.length; i++) {
+            //convertendo todas as letras para minúsculo para casos como tEsTe = teste
+            if(Character.isAlphabetic(palavras[i])) {
+                palavras[i] = Character.toLowerCase(palavras[i]);
+            }
+            //se o carácter anterior for espaço então o atual sera maiúsculo
+            if(Character.isWhitespace(palavras[i - 1])) {
+                palavras[i] = Character.toUpperCase(palavras[i]);
+            }
+        }
+        //por fim a primeira letra de toda frase ou palavra será maiúscula
+        palavras[0] = Character.toUpperCase(palavras[0]);
+       
+        //retorna o Array de char como String
+        String nomeConvertido = new String(palavras);       
+        
+        return nomeConvertido;
+    }
 }

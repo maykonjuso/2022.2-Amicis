@@ -35,8 +35,6 @@ import br.com.amicis.dao.PublicacaoDAO;
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Publicacao;
 import br.com.amicis.model.Usuario;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Home extends JFrame {
 
@@ -233,7 +231,7 @@ public class Home extends JFrame {
 		configuracoes.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Configuracoes frame = new Configuracoes();
+				Configuracoes frame = new Configuracoes(usuarioTela);
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(null);
 				frame.setResizable(false);
@@ -406,7 +404,7 @@ public class Home extends JFrame {
 			e1.printStackTrace();
 		}
 
-		JLabel label = new JLabel(nome);
+		JLabel label = new JLabel("@"+nome);
 		label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setBackground(new Color(200, 200, 200));

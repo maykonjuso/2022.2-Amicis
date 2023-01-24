@@ -65,57 +65,9 @@ public class UsuarioDAO {
 			}
 		}
 	}
-
-	public void update(Usuario usuario) {
-
-		String sql = "UPDATE usuario SET nome = ?, sobrenome = ?, telefone = ?, senha = ? WHERE id = ?";
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-
-			conn = ConnectionFactory.createConnectionToMySQL();
-
-			pstm = (PreparedStatement) conn.prepareStatement(sql);
-
-			pstm.setString(1, usuario.getNome());
-			pstm.setString(2, usuario.getSobrenome());
-			pstm.setString(3, usuario.getTelefone());
-			pstm.setString(4, String.valueOf(usuario.getSenha()));
-			pstm.setInt(5, usuario.getId());
-
-			pstm.execute();
-
-		}
-
-		catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		finally {
-
-			try {
-
-				if (pstm != null) {
-					pstm.close();
-				}
-
-				if (conn != null) {
-					conn.close();
-				}
-			}
-
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	// Atualizar editarPerfil
 	public void updatePerfil(Usuario usuario) throws Exception {
-		String sql = "UPDATE usuario SET nome = ?, sobrenome = ?, telefone = ?, email = ? WHERE id = ?";
+		String sql = "UPDATE usuario SET nome = ?, sobrenome = ?, telefone = ?, email = ? WHERE this_usuario = ?";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
@@ -125,9 +77,8 @@ public class UsuarioDAO {
 			pstm.setString(2, usuario.getSobrenome());
 			pstm.setString(3, usuario.getTelefone());
 			pstm.setString(4, usuario.getEmail());
-			pstm.setInt(5, usuario.getId());
+			pstm.setString(5, usuario.getUsuario());
 			pstm.executeUpdate();
-			System.out.println("Registro atualizado com sucesso!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
