@@ -14,7 +14,7 @@ CREATE TABLE usuario (
 
 CREATE TABLE perfil (
 	usuario varchar(50),
-    status_online boolean,
+    status_online INT,
 	bio varchar(200),
 	relacionamento varchar(50),
 	localidade varchar(50),

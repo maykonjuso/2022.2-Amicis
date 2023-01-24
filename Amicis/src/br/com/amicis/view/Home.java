@@ -166,61 +166,39 @@ public class Home extends JFrame {
 			}
 		});
 		perfil.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		perfil.setBounds(94, 170, 156, 33);
+		perfil.setBounds(94, 171, 156, 33);
 		menu.add(perfil);
-
-		JButton status = new JButton("status");
-		status.setBackground(new Color(255, 255, 255));
-
-		status.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		status.setBounds(94, 229, 156, 33);
-		menu.add(status);
-		status.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				StatusView frame = new StatusView(usuarioTela);
-				frame.setVisible(true);
-				frame.setLocationRelativeTo(null);
-				frame.setResizable(false);
-			}
-		});
 		
 		
 
 		JButton amigos = new JButton("amigos");
 		amigos.setBackground(new Color(255, 255, 255));
 		amigos.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		amigos.setBounds(94, 288, 156, 33);
+		amigos.setBounds(94, 228, 156, 33);
 		menu.add(amigos);
 
-		JButton notificacoes = new JButton("notificacoes");
+		JButton notificacoes = new JButton("notificações");
 		notificacoes.setBackground(new Color(255, 255, 255));
 		notificacoes.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		notificacoes.setBounds(94, 347, 156, 33);
+		notificacoes.setBounds(94, 287, 156, 33);
 		menu.add(notificacoes);
 
 		JLabel emojiUm = new JLabel("👤");
 		emojiUm.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
-		emojiUm.setBounds(10, 155, 78, 63);
+		emojiUm.setBounds(10, 156, 78, 63);
 		menu.add(emojiUm);
-
-		JLabel emojiUm_1 = new JLabel("📢");
-		emojiUm_1.setHorizontalAlignment(SwingConstants.CENTER);
-		emojiUm_1.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
-		emojiUm_1.setBounds(10, 214, 78, 63);
-		menu.add(emojiUm_1);
 
 		JLabel emojiUm_1_1 = new JLabel("👥");
 		emojiUm_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_1_1.setFont(new Font("Noto Emoji Medium", Font.BOLD, 28));
-		emojiUm_1_1.setBounds(10, 273, 78, 63);
+		emojiUm_1_1.setBounds(10, 213, 78, 63);
 		menu.add(emojiUm_1_1);
 
 		JLabel emojiUm_1_2 = new JLabel("🔥");
 		emojiUm_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_1_2.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 28));
-		emojiUm_1_2.setBounds(10, 332, 78, 63);
+		emojiUm_1_2.setBounds(10, 272, 78, 63);
 		menu.add(emojiUm_1_2);
 
 		JButton configuracoes = new JButton("configurações");

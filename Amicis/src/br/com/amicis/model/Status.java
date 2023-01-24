@@ -2,7 +2,7 @@ package br.com.amicis.model;
 
 public class Status {
 
-	private boolean online;
+	private int online;
 	private String relacionamento;
 	private String localidade;
 	private Perfil perfil;
@@ -17,11 +17,11 @@ public class Status {
 		this.perfil = perfil;
 	}
 
-	public boolean getOnline() {
+	public int getOnline() {
 		return online;
 	}
 
-	public void setOnline(boolean online) {
+	public void setOnline(int online) {
 		this.online = online;
 	}
 

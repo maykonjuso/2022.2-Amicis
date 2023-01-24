@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,10 +27,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import br.com.amicis.dao.PerfilDAO;
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Usuario;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class Configuracoes extends JFrame {
 
@@ -63,6 +63,7 @@ public class Configuracoes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("unchecked")
 	public Configuracoes(Usuario usuarioTela) {
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -77,7 +78,7 @@ public class Configuracoes extends JFrame {
 		contentPane.setLayout(null);
 
 		// Botoes principais
-		JButton btnNewButton = new JButton("Editar perfil");
+		JButton btnNewButton = new JButton("editar perfil");
 		btnNewButton.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
 		btnNewButton.setBackground(new Color(255, 255, 255));
 		btnNewButton.setBounds(38, 63, 120, 30);
@@ -87,7 +88,7 @@ public class Configuracoes extends JFrame {
 		});
 		contentPane.add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("Alterar senha");
+		JButton btnNewButton_1 = new JButton("alterar senha");
 		btnNewButton_1.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
 		btnNewButton_1.setBackground(new Color(255, 255, 255));
 		btnNewButton_1.setBounds(38, 119, 120, 30);
@@ -97,13 +98,13 @@ public class Configuracoes extends JFrame {
 		});
 		contentPane.add(btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("Privacidade");
+		JButton btnNewButton_2 = new JButton("privacidade");
 		btnNewButton_2.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
 		btnNewButton_2.setBackground(new Color(255, 255, 255));
 		btnNewButton_2.setBounds(38, 175, 120, 30);
 		contentPane.add(btnNewButton_2);
 
-		JButton btnNewButton_3 = new JButton("Suporte");
+		JButton btnNewButton_3 = new JButton("suporte");
 		btnNewButton_3.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
 		btnNewButton_3.setBackground(new Color(255, 255, 255));
 		btnNewButton_3.setBounds(38, 231, 120, 30);
@@ -277,53 +278,81 @@ public class Configuracoes extends JFrame {
 				}
 			}});
 
-		JPasswordField txtSenhaAtual = new JPasswordField();
-		txtSenhaAtual.setBounds(155, 7, 120, 20);
-		alterarSenhaPanel.add(txtSenhaAtual);
+		JPasswordField senhaAntiga = new JPasswordField();
+		senhaAntiga.setBounds(155, 7, 120, 20);
+		alterarSenhaPanel.add(senhaAntiga);
 
-		JPasswordField txtNovaSenha = new JPasswordField();
-		txtNovaSenha.setBounds(155, 38, 120, 20);
+		JPasswordField senha = new JPasswordField();
+		senha.setBounds(155, 38, 120, 20);
+		alterarSenhaPanel.add(senha);
+
+		JPasswordField repetirSenha = new JPasswordField();
+		repetirSenha.setBounds(155, 69, 120, 20);
+		alterarSenhaPanel.add(repetirSenha);
+
+		JLabel txtSenhaAntiga = new JLabel("Senha atual:");
+		txtSenhaAntiga.setFont(new Font("Roboto", Font.PLAIN, 12));
+		txtSenhaAntiga.setBounds(10, 10, 127, 14);
+		alterarSenhaPanel.add(txtSenhaAntiga);
+
+		JLabel txtNovaSenha = new JLabel("Nova senha:");
+		txtNovaSenha.setFont(new Font("Roboto", Font.PLAIN, 12));
+		txtNovaSenha.setBounds(10, 41, 127, 14);
 		alterarSenhaPanel.add(txtNovaSenha);
 
-		JPasswordField txtRepetirNovaSenha = new JPasswordField();
-		txtRepetirNovaSenha.setBounds(155, 69, 120, 20);
-		alterarSenhaPanel.add(txtRepetirNovaSenha);
-
-		JLabel lblNome_1 = new JLabel("Senha atual:");
-		lblNome_1.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblNome_1.setBounds(10, 10, 127, 14);
-		alterarSenhaPanel.add(lblNome_1);
-
-		JLabel lblNumero_2 = new JLabel("Nova senha:");
-		lblNumero_2.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblNumero_2.setBounds(10, 41, 127, 14);
-		alterarSenhaPanel.add(lblNumero_2);
-
-		JLabel lblEmail_2 = new JLabel("Repetir nova senha:");
-		lblEmail_2.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblEmail_2.setBounds(10, 72, 127, 14);
-		alterarSenhaPanel.add(lblEmail_2);
-
-		JButton salvarSenha = new JButton("Salvar");
-		salvarSenha.setBounds(176, 164, 89, 23);
-		alterarSenhaPanel.add(salvarSenha);
+		JLabel txtRepetirSenha = new JLabel("Repetir nova senha:");
+		txtRepetirSenha.setFont(new Font("Roboto", Font.PLAIN, 12));
+		txtRepetirSenha.setBounds(10, 72, 127, 14);
+		alterarSenhaPanel.add(txtRepetirSenha);
 		alterarSenhaPanel.setLayout(null);
-		salvarSenha.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Usuario usuario = new Usuario();
-				usuario.setId(1);
-				String senhaAtual = new String(txtSenhaAtual.getPassword());
-				String novaSenha = new String(txtNovaSenha.getPassword());
-				UsuarioDAO usuarioDAO = new UsuarioDAO();
-				try {
-					usuarioDAO.updateSenha(usuario, senhaAtual, novaSenha);
-				} catch (Exception e1) {
-					e1.printStackTrace();
+		
+		JButton salvarSenha = new JButton("salvar");
+		salvarSenha.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				char[] senhaAntiga_ = senhaAntiga.getPassword();
+				char[] senha_ = senha.getPassword();
+				char[] repetirSenha_ = repetirSenha.getPassword();
+				if(Arrays.equals(senhaAntiga_, usuarioTela.getSenha())) {
+					if (Arrays.equals(senha_, repetirSenha_)) {
+						usuarioTela.setSenha(senha_);
+						UsuarioDAO usuarioDAO = new UsuarioDAO();
+						try {
+							usuarioDAO.updateSenha(usuarioTela);
+							JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso!");
+							senhaAntiga.setText("");
+							senha.setText("");
+							repetirSenha.setText("");
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+				} else {
+					JOptionPane.showMessageDialog(null, "As senhas não são iguais.");
 				}
+			} else {
+				JOptionPane.showMessageDialog(null, "A senha anterior está incorreta.");
+			}
+				}
+		});
+		salvarSenha.setFont(new Font("Roboto", Font.PLAIN, 12));
+		salvarSenha.setBackground(Color.WHITE);
+		salvarSenha.setBounds(115, 235, 70, 23);
+		alterarSenhaPanel.add(salvarSenha);
+		
+		JButton voltarSenha = new JButton("voltar");
+		voltarSenha.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
 			}
 		});
+		voltarSenha.setFont(new Font("Roboto", Font.PLAIN, 12));
+		voltarSenha.setBackground(Color.WHITE);
+		voltarSenha.setBounds(195, 235, 70, 23);
+		alterarSenhaPanel.add(voltarSenha);
 
 		// ================================================================================
+		@SuppressWarnings("unused")
 		JButton btnNewButton_7 = new JButton("Privacidade");
 		contentPane.add(btnNewButton_2);
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -333,6 +362,7 @@ public class Configuracoes extends JFrame {
 			}
 		});
 
+		@SuppressWarnings("unused")
 		JButton btnNewButton_8 = new JButton("Suporte");
 		contentPane.add(btnNewButton_3);
 		btnNewButton_3.addActionListener(new ActionListener() {
@@ -353,6 +383,7 @@ public class Configuracoes extends JFrame {
 		lblStatus.setBounds(10, 14, 102, 21);
 		privacidadePanel.add(lblStatus);
 
+		@SuppressWarnings("rawtypes")
 		JComboBox cmbStatus = new JComboBox();
 		cmbStatus.setFont(new Font("Roboto", Font.PLAIN, 12));
 		cmbStatus.setBounds(191, 14, 74, 21);
@@ -360,22 +391,48 @@ public class Configuracoes extends JFrame {
 		cmbStatus.addItem("Ocupado");
 		cmbStatus.addItem("Ausente");
 		privacidadePanel.add(cmbStatus);
-
+		cmbStatus.setSelectedIndex(usuarioTela.getPerfil().getStatus().getOnline());
+		
 		JLabel lblPerfisBloqueados = new JLabel("Perfis bloqueados:");
 		lblPerfisBloqueados.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblPerfisBloqueados.setBounds(10, 33, 102, 32);
 		privacidadePanel.add(lblPerfisBloqueados);
+		@SuppressWarnings("rawtypes")
 		JList listPerfisBloqueados = new JList();
 		listPerfisBloqueados.setBounds(253, 15, 0, 0);
 		privacidadePanel.add(listPerfisBloqueados);
 
+		@SuppressWarnings("rawtypes")
 		JList list = new JList();
 		list.setBounds(10, 75, 102, 113);
 		privacidadePanel.add(list);
-
-		JButton salvarPrivacidade = new JButton("Salvar");
-		salvarPrivacidade.setBounds(176, 164, 89, 23);
-		privacidadePanel.add(salvarPrivacidade);
+		
+		JButton salvarStatus = new JButton("salvar");
+		salvarStatus.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				usuarioTela.getPerfil().getStatus().setOnline(cmbStatus.getSelectedIndex());
+				PerfilDAO perfilDAO = new PerfilDAO();
+				perfilDAO.updateOnline(usuarioTela.getPerfil());
+				JOptionPane.showMessageDialog(null, "Status alterado com sucesso.");	
+			}
+		});
+		salvarStatus.setFont(new Font("Roboto", Font.PLAIN, 12));
+		salvarStatus.setBackground(Color.WHITE);
+		salvarStatus.setBounds(115, 235, 70, 23);
+		privacidadePanel.add(salvarStatus);
+		
+		JButton btnNewButton_4_2 = new JButton("voltar");
+		btnNewButton_4_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+		btnNewButton_4_2.setFont(new Font("Roboto", Font.PLAIN, 12));
+		btnNewButton_4_2.setBackground(Color.WHITE);
+		btnNewButton_4_2.setBounds(195, 235, 70, 23);
+		privacidadePanel.add(btnNewButton_4_2);
 		// suportePanel
 		JPanel suportePanel = new JPanel();
 		suportePanel.setBackground(new Color(255, 255, 255));
@@ -391,10 +448,12 @@ public class Configuracoes extends JFrame {
 		lblTickes.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblTickes.setBounds(10, 45, 70, 23);
 		suportePanel.add(lblTickes);
-
-		JButton salvarSuporte = new JButton("Salvar");
-		salvarSuporte.setBounds(176, 164, 89, 23);
-		suportePanel.add(salvarSuporte);
+		
+		JButton btnNewButton_4_3 = new JButton("voltar");
+		btnNewButton_4_3.setFont(new Font("Roboto", Font.PLAIN, 12));
+		btnNewButton_4_3.setBackground(Color.WHITE);
+		btnNewButton_4_3.setBounds(195, 235, 70, 23);
+		suportePanel.add(btnNewButton_4_3);
 	}
 	
 	public static boolean validarEmail(String email) {

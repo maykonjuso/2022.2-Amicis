@@ -96,16 +96,16 @@ public class UsuarioDAO {
 	}
 
 	// Atualizar a senha Configuracoes.java
-	public void updateSenha(Usuario usuario, String senhaAtual, String novaSenha) throws Exception {
-		String sql = "UPDATE usuario SET senha = ? WHERE id = ? AND senha = ?";
+	public void updateSenha(Usuario usuario) throws Exception {
+		String sql = "UPDATE usuario SET senha = ? WHERE this_usuario = ?";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, novaSenha);
-			pstm.setInt(2, usuario.getId());
-			pstm.setString(3, senhaAtual);
+			
+			pstm.setString(1, String.valueOf(usuario.getSenha()));
+			pstm.setString(2, usuario.getUsuario());
 			pstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
