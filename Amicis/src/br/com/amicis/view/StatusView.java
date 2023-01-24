@@ -1,16 +1,24 @@
 package br.com.amicis.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
+import br.com.amicis.dao.PerfilDAO;
 import br.com.amicis.model.Usuario;
 
 
@@ -19,10 +27,6 @@ public class StatusView extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel plano;
-	private JTextField AtualizarStatus;
-	private JTextField AtualizarRelacionamento;
-	private JTextField AtualizarLocalidade;
-	private JTextField textUsuario;
 
 	/**
 	 * Launch the application.
@@ -61,45 +65,138 @@ public class StatusView extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
 		setTitle("Configurações");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
-		setBounds(100, 100, 520, 405);
+		setBounds(100, 100, 460, 479);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		plano = new JPanel();
 		plano.setBackground(new Color(255, 255, 255));
 		setContentPane(plano);
 		plano.setLayout(null);
 		
-		AtualizarStatus = new JTextField();
-		AtualizarStatus.setBounds(60, 63, 139, 34);
-		plano.add(AtualizarStatus);
-		AtualizarStatus.setColumns(10);
+		JButton Voltar = new JButton("Voltar");
+		Voltar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
+		Voltar.setFont(new Font("Roboto", Font.PLAIN, 12));
+		Voltar.setBackground(Color.WHITE);
+		Voltar.setBounds(138, 389, 70, 23);
+		plano.add(Voltar);
 		
-		AtualizarRelacionamento = new JTextField();
-		AtualizarRelacionamento.setBounds(60, 163, 139, 34);
+		JButton Salvar = new JButton("Alterar");
+
+		Salvar.setFont(new Font("Roboto", Font.PLAIN, 12));
+		Salvar.setBackground(Color.WHITE);
+		Salvar.setBounds(263, 389, 70, 23);
+		plano.add(Salvar);
+		
+		JTextArea UsuarioText = new JTextArea();
+		UsuarioText.setBackground(Color.WHITE);
+		UsuarioText.setEditable(false);
+		UsuarioText.setBounds(177, 198, 112, 22);
+
+		plano.add(UsuarioText);
+		
+		JTextArea AtualizarRelacionamento = new JTextArea();
+		AtualizarRelacionamento.setBackground(Color.WHITE);
+		AtualizarRelacionamento.setBounds(75, 263, 242, 23);
+		AtualizarRelacionamento.setEditable(false);
+		AtualizarRelacionamento.setLineWrap(true);
+		AtualizarRelacionamento.setWrapStyleWord(true);
 		plano.add(AtualizarRelacionamento);
-		AtualizarRelacionamento.setColumns(10);
 		
-		AtualizarLocalidade = new JTextField();
-		AtualizarLocalidade.setBounds(60, 263, 139, 34);
+		JTextArea AtualizarLocalidade = new JTextArea();
+		AtualizarLocalidade.setBackground(Color.WHITE);
+		AtualizarLocalidade.setBounds(75, 329, 242, 22);
+		AtualizarLocalidade.setEditable(false);
+		AtualizarLocalidade.setLineWrap(true);
+		AtualizarLocalidade.setWrapStyleWord(true);
 		plano.add(AtualizarLocalidade);
-		AtualizarLocalidade.setColumns(10);
 		
-		textUsuario = new JTextField();
-		textUsuario.setEditable(false);
-		textUsuario.setBounds(345, 63, 114, 34);
-		plano.add(textUsuario);
-		textUsuario.setColumns(10);
+		JLabel mapa = new JLabel("🌎");
+		mapa.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
+		mapa.setBounds(36, 320, 29, 45);
+		plano.add(mapa);
 		
-		JButton btnNewButton_4 = new JButton("voltar");
-		btnNewButton_4.setFont(new Font("Roboto", Font.PLAIN, 12));
-		btnNewButton_4.setBackground(Color.WHITE);
-		btnNewButton_4.setBounds(345, 335, 70, 23);
-		plano.add(btnNewButton_4);
+		JLabel relacao = new JLabel("💟");
+		relacao.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
+		relacao.setBounds(36, 248, 29, 45);
+		plano.add(relacao);
 		
-		JButton btnNewButton_5 = new JButton("salvar");
-		btnNewButton_5.setFont(new Font("Roboto", Font.PLAIN, 12));
-		btnNewButton_5.setBackground(Color.WHITE);
-		btnNewButton_5.setBounds(426, 335, 70, 23);
-		plano.add(btnNewButton_5);
+		URL url;
+		try {
+			url = new URL(usuarioTela.getFoto());
+			ImageIcon imgIcon = new ImageIcon(url);
+			imgIcon.setImage(imgIcon.getImage().getScaledInstance(100, 100, 100));
+			JLabel foto = new JLabel(imgIcon);
+			foto.setAlignmentX(Component.CENTER_ALIGNMENT);
+			foto.setBounds(145, 11, 150, 150);
+			plano.add(foto);
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		}
 		
+		if(usuarioTela.getUsuario() == null) {
+			UsuarioText.setText("Não foi Possível exibir o Nome");
+		}else
+			UsuarioText.setText("@" + usuarioTela.getUsuario());
+		
+		if(usuarioTela.getPerfil().getStatus().getRelacionamento() == null) {
+			AtualizarRelacionamento.setText("Sem Relacionamento");
+		} else {
+			AtualizarRelacionamento.setText(usuarioTela.getPerfil().getStatus().getRelacionamento());
+		}
+		
+		
+		if(usuarioTela.getPerfil().getStatus().getLocalidade() == null) {
+			AtualizarLocalidade.setText("Sem Local");
+		} else {
+			AtualizarLocalidade.setText(usuarioTela.getPerfil().getStatus().getLocalidade());
+		}
+		
+	
+		Salvar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(Salvar.getText().equals("Alterar")) {
+					AtualizarRelacionamento.setText("");
+					AtualizarRelacionamento.setBackground(new Color(230, 230, 230));
+					Salvar.setText("Salvar");
+					AtualizarRelacionamento.setEditable(true);	
+					AtualizarLocalidade.setText("");
+					AtualizarLocalidade.setBackground(new Color(230, 230, 230));
+					Salvar.setText("Salvar");
+					AtualizarLocalidade.setEditable(true);	
+				}else {
+					AtualizarRelacionamento.setBackground(new Color(255, 255, 255));
+					AtualizarLocalidade.setBackground(new Color(255, 255, 255));
+					
+					if(AtualizarRelacionamento.getText().equals("")) {
+					usuarioTela.getPerfil().getStatus().setRelacionamento("Sem Relacionamento");
+				}else {
+					usuarioTela.getPerfil().getStatus().setRelacionamento(AtualizarRelacionamento.getText());
+				}
+					if(AtualizarLocalidade.getText().equals("")) {
+						usuarioTela.getPerfil().getStatus().setLocalidade("Sem Local");
+					}else {
+						usuarioTela.getPerfil().getStatus().setLocalidade(AtualizarLocalidade.getText());
+					}
+					PerfilDAO perfilDAO = new PerfilDAO();
+					perfilDAO.updateStatus(usuarioTela.getPerfil());
+					Salvar.setText("Alterar");
+					AtualizarRelacionamento.setEditable(false);
+					AtualizarLocalidade.setEditable(false);
+
+
+				}		
+			}
+		});
+	
+	
+	
+	
+	
+	
 	}
 }

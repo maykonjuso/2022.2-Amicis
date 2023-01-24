@@ -4,17 +4,23 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -22,6 +28,8 @@ import javax.swing.UIManager;
 
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Usuario;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Configuracoes extends JFrame {
 
@@ -30,8 +38,8 @@ public class Configuracoes extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField telefone;
+	private JTextField email;
 
 	/**
 	 * Launch the application.
@@ -40,7 +48,7 @@ public class Configuracoes extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Configuracoes frame = new Configuracoes();
+					Configuracoes frame = new Configuracoes(null);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
@@ -55,7 +63,7 @@ public class Configuracoes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Configuracoes() {
+	public Configuracoes(Usuario usuarioTela) {
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
@@ -100,22 +108,10 @@ public class Configuracoes extends JFrame {
 		btnNewButton_3.setBackground(new Color(255, 255, 255));
 		btnNewButton_3.setBounds(38, 231, 120, 30);
 		contentPane.add(btnNewButton_3);
-
-		JButton btnNewButton_4 = new JButton("voltar");
-		btnNewButton_4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-			}
-		});
-		btnNewButton_4.setFont(new Font("Roboto", Font.PLAIN, 12));
-		btnNewButton_4.setBackground(new Color(255, 255, 255));
-		btnNewButton_4.setBounds(400, 297, 70, 23);
-		contentPane.add(btnNewButton_4);
 		// ##########################################################################################
 		JPanel cardPanel = new JPanel(new CardLayout());
 		cardPanel.setBackground(new Color(255, 255, 255));
-		cardPanel.setBounds(195, 63, 275, 198);
+		cardPanel.setBounds(195, 63, 275, 268);
 		contentPane.add(cardPanel);
 
 		JPanel editarPerfilPanel = new JPanel();
@@ -147,72 +143,139 @@ public class Configuracoes extends JFrame {
 		lblNome.setBounds(10, 13, 114, 14);
 		editarPerfilPanel.add(lblNome);
 
-		JTextField txtNome = new JTextField();
-		txtNome.setBounds(144, 10, 121, 20);
-		editarPerfilPanel.add(txtNome);
-		txtNome.setColumns(10);
-
-		JTextField txtEmail = new JTextField();
-		txtEmail.setBounds(144, 72, 121, 20);
-		editarPerfilPanel.add(txtEmail);
-		txtEmail.setColumns(10);
+		JTextField nome = new JTextField();
+		nome.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				nome.setText("");
+			}
+		});
+		nome.setFont(new Font("Roboto", Font.PLAIN, 10));
+		nome.setText(usuarioTela.getNome());
+		nome.setBounds(134, 10, 131, 20);
+		editarPerfilPanel.add(nome);
+		nome.setColumns(10);
+		
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");      
+		String dateToStr = dateFormat.format(usuarioTela.getDataNascimeto());
+		JTextField txtDataNascimento = new JTextField();
+		txtDataNascimento.setFont(new Font("Roboto", Font.PLAIN, 10));
+		txtDataNascimento.setEnabled(false);
+		txtDataNascimento.setText(dateToStr);
+		txtDataNascimento.setBounds(134, 72, 131, 20);
+		editarPerfilPanel.add(txtDataNascimento);
+		txtDataNascimento.setColumns(10);
 
 		JLabel lblNumero = new JLabel("Sobrenome:");
 		lblNumero.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblNumero.setBounds(10, 44, 114, 14);
 		editarPerfilPanel.add(lblNumero);
 
-		JLabel lblEmail = new JLabel("Data de Nascimento:");
+		JLabel lblEmail = new JLabel("Data de nascimento:");
 		lblEmail.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblEmail.setBounds(10, 75, 114, 14);
 		editarPerfilPanel.add(lblEmail);
 
-		JTextField txtNumero = new JTextField();
-		txtNumero.setBounds(144, 41, 121, 20);
-		editarPerfilPanel.add(txtNumero);
-		txtNumero.setColumns(10);
+		JTextField sobrenome = new JTextField();
+		sobrenome.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				sobrenome.setText("");
+			}
+		});
+		sobrenome.setFont(new Font("Roboto", Font.PLAIN, 10));
+		sobrenome.setText(usuarioTela.getSobrenome());
+		sobrenome.setBounds(134, 41, 131, 20);
+		editarPerfilPanel.add(sobrenome);
+		sobrenome.setColumns(10);
 
-		JLabel lblNumero_1 = new JLabel("Número:");
-		lblNumero_1.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblNumero_1.setBounds(10, 105, 114, 14);
-		editarPerfilPanel.add(lblNumero_1);
+		JLabel lblTelefone = new JLabel("Telefone:");
+		lblTelefone.setFont(new Font("Roboto", Font.PLAIN, 12));
+		lblTelefone.setBounds(10, 105, 114, 14);
+		editarPerfilPanel.add(lblTelefone);
 
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(144, 102, 121, 20);
-		editarPerfilPanel.add(textField);
+		telefone = new JTextField();
+		telefone.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				telefone.setText("");
+			}
+		});
+		telefone.setFont(new Font("Roboto", Font.PLAIN, 10));
+		telefone.setText(usuarioTela.getTelefone());
+		telefone.setColumns(10);
+		telefone.setBounds(134, 102, 131, 20);
+		editarPerfilPanel.add(telefone);
 
 		JLabel lblEmail_1 = new JLabel("Email:");
 		lblEmail_1.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblEmail_1.setBounds(10, 136, 114, 14);
 		editarPerfilPanel.add(lblEmail_1);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(144, 133, 121, 20);
-		editarPerfilPanel.add(textField_1);
-
-		JButton salvarEditarPerfil = new JButton("Salvar");
-		salvarEditarPerfil.setBounds(176, 164, 89, 23);
-		editarPerfilPanel.add(salvarEditarPerfil);
-		alterarSenhaPanel.setLayout(null);
-		salvarEditarPerfil.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Usuario usuario = new Usuario();
-				usuario.setId(1); // exemplo de id setado
-				usuario.setNome(txtNome.getText());
-				usuario.setSobrenome(txtNumero.getText());
-				usuario.setTelefone(textField.getText());
-				usuario.setEmail(textField_1.getText());
-				UsuarioDAO usuarioDAO = new UsuarioDAO();
-				try {
-					usuarioDAO.updatePerfil(usuario);
-				} catch (Exception e1) {
-					// TODO Bloco catch gerado automaticamente
-					e1.printStackTrace();
-				}
+		email = new JTextField();
+		email.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				email.setText("");
 			}
 		});
+		email.setFont(new Font("Roboto", Font.PLAIN, 10));
+		email.setText(usuarioTela.getEmail());
+		email.setColumns(10);
+		email.setBounds(134, 133, 131, 20);
+		editarPerfilPanel.add(email);
+
+		JButton salvarEditarPerfil = new JButton("salvar");
+		salvarEditarPerfil.setFont(new Font("Roboto", Font.PLAIN, 12));
+		salvarEditarPerfil.setBackground(new Color(255, 255, 255));
+		salvarEditarPerfil.setBounds(125, 235, 70, 23);
+		editarPerfilPanel.add(salvarEditarPerfil);
+		
+				JButton btnNewButton_4 = new JButton("voltar");
+				btnNewButton_4.setBounds(205, 235, 70, 23);
+				editarPerfilPanel.add(btnNewButton_4);
+				btnNewButton_4.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						dispose();
+					}
+				});
+				btnNewButton_4.setFont(new Font("Roboto", Font.PLAIN, 12));
+				btnNewButton_4.setBackground(new Color(255, 255, 255));
+		alterarSenhaPanel.setLayout(null);
+		salvarEditarPerfil.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if (nome.getText().trim().isEmpty() || sobrenome.getText().trim().isEmpty()
+					|| telefone.getText().trim().isEmpty() || email.getText().trim().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Preencha todas as informações.");
+				} else {
+					try {
+						if (telefone.getText() != null && telefone.getText().matches("[0-9]+")
+								&& telefone.getText().length() >= 8) {
+								if (validarEmail(email.getText()) == true) {
+									nome.setText((String) converter(nome.getText()));
+									sobrenome.setText((String) converter(sobrenome.getText()));
+									usuarioTela.setNome(nome.getText());
+									usuarioTela.setSobrenome(sobrenome.getText());
+									usuarioTela.setTelefone(telefone.getText());
+									usuarioTela.setEmail(email.getText());
+									UsuarioDAO usuarioDAO = new UsuarioDAO();
+									usuarioDAO.updatePerfil(usuarioTela);
+									JOptionPane.showMessageDialog(null, "Cadastro atualizado com sucesso!");
+								} else {
+									JOptionPane.showMessageDialog(null, "Email inválido.");
+								}
+							} else {
+								JOptionPane.showMessageDialog(null, "Número de telefone inválido.");
+							}
+						} catch (HeadlessException e1) {
+							e1.printStackTrace();
+					} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				}
+			}});
 
 		JPasswordField txtSenhaAtual = new JPasswordField();
 		txtSenhaAtual.setBounds(155, 7, 120, 20);
@@ -255,7 +318,6 @@ public class Configuracoes extends JFrame {
 				try {
 					usuarioDAO.updateSenha(usuario, senhaAtual, novaSenha);
 				} catch (Exception e1) {
-					// TODO Bloco catch gerado automaticamente
 					e1.printStackTrace();
 				}
 			}
@@ -334,4 +396,39 @@ public class Configuracoes extends JFrame {
 		salvarSuporte.setBounds(176, 164, 89, 23);
 		suportePanel.add(salvarSuporte);
 	}
+	
+	public static boolean validarEmail(String email) {
+		boolean emailValido = false;
+		if (email != null && email.length() > 0) {
+			String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+			Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+			Matcher matcher = pattern.matcher(email);
+			if (matcher.matches()) {
+				emailValido = true;
+			}
+		}
+		return emailValido;
+	}
+	
+	public Object converter(String nome) {
+        char[] palavras = nome.toCharArray();
+        
+        for(int i = 1; i < palavras.length; i++) {
+            //convertendo todas as letras para minúsculo para casos como tEsTe = teste
+            if(Character.isAlphabetic(palavras[i])) {
+                palavras[i] = Character.toLowerCase(palavras[i]);
+            }
+            //se o carácter anterior for espaço então o atual sera maiúsculo
+            if(Character.isWhitespace(palavras[i - 1])) {
+                palavras[i] = Character.toUpperCase(palavras[i]);
+            }
+        }
+        //por fim a primeira letra de toda frase ou palavra será maiúscula
+        palavras[0] = Character.toUpperCase(palavras[0]);
+       
+        //retorna o Array de char como String
+        String nomeConvertido = new String(palavras);       
+        
+        return nomeConvertido;
+    }
 }

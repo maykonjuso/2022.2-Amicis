@@ -251,7 +251,7 @@ public class ExpandirPublicacao extends JFrame {
 			e1.printStackTrace();
 		}
 
-		JLabel label = new JLabel(nome);
+		JLabel label = new JLabel("@"+nome);
 		label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setBackground(new Color(200, 200, 200));
