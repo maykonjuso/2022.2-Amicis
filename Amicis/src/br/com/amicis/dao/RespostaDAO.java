@@ -126,7 +126,7 @@ public class RespostaDAO {
 		return publicacoes;
 	}
 
-	public void delete(Publicacao publicacao) {
+	public void delete(int id) {
 		String sql = "DELETE FROM publicacao WHERE id = ?";
 
 		Connection conn = null;
@@ -136,7 +136,7 @@ public class RespostaDAO {
 			conn = ConnectionFactory.createConnectionToMySQL();
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setInt(1, publicacao.getId());
+			pstm.setInt(1, id);
 
 			pstm.execute();
 

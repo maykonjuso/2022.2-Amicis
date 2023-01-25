@@ -40,7 +40,7 @@ public class Home extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel publicacoesPanel;
-	private JTextField textField;
+	private JTextField pesquisa;
 	private Usuario usuarioTela;
 
 	public static void main(String[] args) {
@@ -105,6 +105,7 @@ public class Home extends JFrame {
 		novaPublicacao.add(textArea);
 
 		JButton publicar = new JButton("publicar");
+		publicar.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
 		publicar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -144,6 +145,7 @@ public class Home extends JFrame {
 		});
 		apagar.setBackground(SystemColor.menu);
 		apagar.setBounds(307, 107, 89, 23);
+		apagar.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
 		novaPublicacao.add(apagar);
 		publicacoes.add(timeline);
 		getContentPane().add(publicacoes, BorderLayout.CENTER);
@@ -299,16 +301,30 @@ public class Home extends JFrame {
 		btnConversas.setBounds(0, 591, 297, 29);
 		conversas.add(btnConversas);
 
-		textField = new JTextField();
-		textField.setBounds(26, 105, 177, 29);
-		conversas.add(textField);
-		textField.setColumns(10);
+		pesquisa = new JTextField();
+		pesquisa.setBounds(26, 105, 177, 29);
+		conversas.add(pesquisa);
+		pesquisa.setColumns(10);
 
-		JButton perfil_1 = new JButton("🔎");
-		perfil_1.setBackground(new Color(255, 255, 255));
-		perfil_1.setFont(new Font("Noto Emoji", Font.BOLD, 14));
-		perfil_1.setBounds(213, 105, 51, 29);
-		conversas.add(perfil_1);
+		JButton botaoPesquisa = new JButton("🔎");
+		botaoPesquisa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				TelaPesquisa frame;
+				try {
+					frame = new TelaPesquisa(usuarioTela, pesquisa.getText());
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		botaoPesquisa.setBackground(new Color(255, 255, 255));
+		botaoPesquisa.setFont(new Font("Noto Emoji", Font.BOLD, 14));
+		botaoPesquisa.setBounds(213, 105, 51, 29);
+		conversas.add(botaoPesquisa);
 
 		JLabel lblEncontreNovosAmigos = new JLabel("Faça novos amigos...");
 		lblEncontreNovosAmigos.setHorizontalAlignment(SwingConstants.CENTER);

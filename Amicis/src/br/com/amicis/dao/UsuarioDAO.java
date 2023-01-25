@@ -293,4 +293,62 @@ public class UsuarioDAO {
 		}
 		return usuario;
 	}
+
+	public List<Usuario> getUsuariosPesquisa(String nome) throws SQLException {
+		String sql = "SELECT * FROM usuario WHERE this_usuario LIKE ?;";
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		Connection conn = null;
+		PreparedStatement pstm = null;
+
+		// Classe que vai recuperar os dados do banco.
+		ResultSet rset = null;
+
+		try {
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, nome + "%");
+			rset = pstm.executeQuery();
+
+			while (rset.next()) {
+				Usuario usuario = new Usuario();
+				PerfilDAO perfilDAO = new PerfilDAO();
+				ConversaDAO conversaDAO = new ConversaDAO();
+
+				usuario.setNome(rset.getString("nome"));
+				usuario.setSobrenome(rset.getString("sobrenome"));
+				usuario.setUsuario(rset.getString("this_usuario"));
+				usuario.setFoto(rset.getString("foto"));
+				usuario.setDataCadastro(rset.getDate("dataCadastro"));
+				usuario.setDataCadastro(rset.getDate("dataNascimento"));
+				usuario.setTelefone(rset.getString("telefone"));
+				usuario.setEmail(rset.getString("email"));
+
+				String senha = rset.getString("senha");
+				char[] cs = senha.toCharArray();
+				usuario.setSenha(cs);
+
+				usuario.setPerfil(perfilDAO.getPerfil(usuario));
+				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
+				usuarios.add(usuario);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+				if (rset != null) {
+					rset.close();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return usuarios;
+	}
 }
