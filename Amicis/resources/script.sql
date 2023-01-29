@@ -94,7 +94,7 @@ CREATE TABLE resposta (
 
 CREATE TABLE ticket (
 	usuario varchar(50) NOT NULL,
-	protocolo INT NOT NULL AUTO_INCREMENT,
+	protocolo INT NOT NULL,
     conteudo varchar(240),
 	status varchar(100),
 	severidade varchar(100),

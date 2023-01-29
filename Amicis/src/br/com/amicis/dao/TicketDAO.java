@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
-import br.com.amicis.model.Perfil;
 import br.com.amicis.model.Ticket;
+import br.com.amicis.model.Usuario;
 
 public class TicketDAO {
 
@@ -16,7 +16,7 @@ public class TicketDAO {
 	public void save(Ticket ticket){
 		//inserir
 
-		String sql = "INSERT INTO ticket(usuario, status, conteudo, severidade) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO ticket(usuario, conteudo, severidade, protocolo) VALUES ((SELECT this_usuario FROM usuario WHERE this_usuario = ?), ?, ?, ?)";
 
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -26,9 +26,12 @@ public class TicketDAO {
 
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, ticket.getUsuario());
-			pstm.setString(2, ticket.getStatus());
-			pstm.setString(3, ticket.getConteudo());
-			pstm.setString(4, ticket.getSeveridade());
+			
+			pstm.setString(2, ticket.getConteudo());
+			
+			pstm.setString(3, ticket.getSeveridade());
+			
+			pstm.setDouble(4, ticket.getProtocolo());
 
 			pstm.execute();
 
@@ -50,7 +53,7 @@ public class TicketDAO {
 	}
 
 	//Leitura dos dados do ticket
-	public ArrayList<Ticket> getTickets(Perfil perfil){
+	public ArrayList<Ticket> getTickets(Usuario usuario){
 		String sql	= "SELECT * FROM ticket WHERE usuario = ?";
 
 		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
@@ -63,15 +66,15 @@ public class TicketDAO {
 			
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, perfil.getUsuario().getUsuario());
+			pstm.setString(1, usuario.getUsuario());
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
 
-				Ticket ticket = new Ticket(perfil);
+				Ticket ticket = new Ticket(usuario);
 
 				ticket.setStatus(rset.getString("status"));
-				ticket.setProtocolo(rset.getDouble("protocolo"));
+				ticket.setProtocolo(rset.getInt("protocolo"));
 				ticket.setConteudo(rset.getString("conteudo"));
 				ticket.setData(rset.getDate("data"));
 				ticket.setSeveridade(rset.getString("severidade"));
