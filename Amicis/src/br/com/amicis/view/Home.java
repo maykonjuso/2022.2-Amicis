@@ -30,9 +30,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import br.com.amicis.dao.AmigoDAO;
 import br.com.amicis.dao.CoracaoDAO;
+import br.com.amicis.dao.NotificacaoDAO;
 import br.com.amicis.dao.PublicacaoDAO;
 import br.com.amicis.dao.UsuarioDAO;
+import br.com.amicis.model.Notificacao;
 import br.com.amicis.model.Publicacao;
 import br.com.amicis.model.Usuario;
 
@@ -116,7 +119,19 @@ public class Home extends JFrame {
 					PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
 					publicacao.setConteudo(textArea.getText());
 					publicacaoDAO.save(publicacao);
-
+					
+					AmigoDAO amigo = new AmigoDAO();
+					
+					try {
+						for (Usuario u : amigo.getAmigosPerfil(usuarioTela)) {
+							Notificacao notificacao = new Notificacao(u.getPerfil());
+							NotificacaoDAO notificacaoDAO = new NotificacaoDAO();
+							notificacao.setConteudo("Nova postagem de " + usuarioTela.getUsuario());
+							notificacaoDAO.save(notificacao);
+						}
+					} catch (SQLException e2) {
+						e2.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(publicacoes, "Publicação realizada com sucesso.");
 					textArea.setText("");
 					try {
@@ -174,12 +189,40 @@ public class Home extends JFrame {
 		
 
 		JButton amigos = new JButton("amigos");
+		amigos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Amigos frame;
+				try {
+					frame = new Amigos(usuarioTela);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		amigos.setBackground(new Color(255, 255, 255));
 		amigos.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		amigos.setBounds(94, 228, 156, 33);
 		menu.add(amigos);
 
 		JButton notificacoes = new JButton("notificações");
+		notificacoes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+						TelaNotificacao frame;
+						try {
+							frame = new TelaNotificacao(usuarioTela);
+							frame.setVisible(true);
+							frame.setLocationRelativeTo(null);
+							frame.setResizable(false);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					}
+		});
 		notificacoes.setBackground(new Color(255, 255, 255));
 		notificacoes.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		notificacoes.setBounds(94, 287, 156, 33);

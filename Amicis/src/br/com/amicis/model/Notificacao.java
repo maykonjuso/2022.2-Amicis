@@ -12,7 +12,6 @@ public class Notificacao {
 
 	public Notificacao(Perfil perfil) {
 		setPerfil(perfil);
-		this.setUsuario(perfil.getUsuario().getUsuario());
 	}
 
 	public Perfil getPerfil() {

@@ -163,44 +163,44 @@ public class Perfil extends JFrame {
 		JLabel emojiUm = new JLabel("🗿");
 		emojiUm.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm.setBounds(26, 244, 55, 45);
+		emojiUm.setBounds(41, 244, 55, 45);
 		contentJPanel.add(emojiUm);
 		
 		JLabel emojiUm_1 = new JLabel("🎈");
 		emojiUm_1.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_1.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm_1.setBounds(206, 244, 55, 45);
+		emojiUm_1.setBounds(221, 244, 55, 45);
 		contentJPanel.add(emojiUm_1);
 		
 		JLabel emojiUm_2 = new JLabel("✉️");
 		emojiUm_2.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_2.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm_2.setBounds(26, 299, 55, 45);
+		emojiUm_2.setBounds(41, 299, 55, 45);
 		contentJPanel.add(emojiUm_2);
 		
 		JLabel emojiUm_3 = new JLabel("📞");
 		emojiUm_3.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_3.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm_3.setBounds(206, 299, 55, 45);
+		emojiUm_3.setBounds(221, 299, 55, 45);
 		contentJPanel.add(emojiUm_3);
 		
 		JLabel emojiUm_4 = new JLabel("💘");
 		emojiUm_4.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_4.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm_4.setBounds(26, 354, 55, 45);
+		emojiUm_4.setBounds(41, 354, 55, 45);
 		contentJPanel.add(emojiUm_4);
 		
 		JLabel emojiUm_5 = new JLabel("🌍");
 		emojiUm_5.setHorizontalAlignment(SwingConstants.CENTER);
 		emojiUm_5.setFont(new Font("Noto Emoji Medium", Font.PLAIN, 24));
-		emojiUm_5.setBounds(206, 354, 55, 45);
+		emojiUm_5.setBounds(221, 354, 55, 45);
 		contentJPanel.add(emojiUm_5);
 		
 		JTextArea bio = new JTextArea();
 		bio.setEditable(false);
 		bio.setLineWrap(true);
 		bio.setWrapStyleWord(true);
-		bio.setBounds(91, 244, 105, 45);
+		bio.setBounds(106, 244, 105, 45);
 		bio.setFont(new Font("Roboto", Font.PLAIN, 10));
 		contentJPanel.add(bio);
 		
@@ -214,7 +214,7 @@ public class Perfil extends JFrame {
 		aniversario.setEditable(false);
 		aniversario.setLineWrap(true);
 		aniversario.setWrapStyleWord(true);
-		aniversario.setBounds(271, 244, 105, 45);
+		aniversario.setBounds(286, 244, 105, 45);
 		aniversario.setFont(new Font("Roboto", Font.PLAIN, 10));
 		contentJPanel.add(aniversario);
 		
@@ -230,7 +230,7 @@ public class Perfil extends JFrame {
 		email.setEditable(false);
 		email.setLineWrap(true);
 		email.setWrapStyleWord(true);
-		email.setBounds(91, 299, 105, 45);
+		email.setBounds(106, 299, 105, 45);
 		email.setFont(new Font("Roboto", Font.PLAIN, 10));
 		contentJPanel.add(email);
 		
@@ -245,7 +245,7 @@ public class Perfil extends JFrame {
 		telefone.setLineWrap(true);
 		telefone.setWrapStyleWord(true);
 		telefone.setFont(new Font("Roboto", Font.PLAIN, 10));
-		telefone.setBounds(271, 299, 105, 45);
+		telefone.setBounds(286, 299, 105, 45);
 		contentJPanel.add(telefone);
 		
 		if(usuarioDoPerfil.getTelefone() == null) {
@@ -258,7 +258,7 @@ public class Perfil extends JFrame {
 		relacionamento.setEditable(false);
 		relacionamento.setLineWrap(true);
 		relacionamento.setWrapStyleWord(true);
-		relacionamento.setBounds(91, 354, 105, 45);
+		relacionamento.setBounds(106, 354, 105, 45);
 		relacionamento.setFont(new Font("Roboto", Font.PLAIN, 10));
 		contentJPanel.add(relacionamento);
 		
@@ -272,7 +272,7 @@ public class Perfil extends JFrame {
 		localidade.setEditable(false);
 		localidade.setLineWrap(true);
 		localidade.setWrapStyleWord(true);
-		localidade.setBounds(271, 354, 105, 45);
+		localidade.setBounds(286, 354, 105, 45);
 		localidade.setFont(new Font("Roboto", Font.PLAIN, 10));
 		contentJPanel.add(localidade);
 		
@@ -313,28 +313,10 @@ public class Perfil extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (alterar.getText().equals("alterar")) {
-					bio.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							bio.setText("");
-						}
-					});
 					bio.setBackground(new Color(230, 230, 230));
-					bio.setEditable(true);
-					relacionamento.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							relacionamento.setText("");
-						}
-					});
+					bio.setEditable(true);;
 					relacionamento.setBackground(new Color(230, 230, 230));
 					relacionamento.setEditable(true);	
-					localidade.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							localidade.setText("");
-						}
-					});
 					localidade.setBackground(new Color(230, 230, 230));
 					localidade.setEditable(true);	
 					alterar.setText("salvar");

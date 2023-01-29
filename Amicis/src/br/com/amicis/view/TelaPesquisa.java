@@ -102,6 +102,7 @@ public class TelaPesquisa extends JFrame {
 
 		for (Usuario usuario : usuarioDAO.getUsuariosPesquisa(nome)) {
 			try {
+				
 				JPanel div = new JPanel();
 				div.setBackground(new Color(255, 255, 255));
 				div.setPreferredSize(new Dimension(400, 400));
@@ -180,13 +181,13 @@ public class TelaPesquisa extends JFrame {
 		verPerfil.setPreferredSize(new Dimension(80, 21));
 		verPerfil.setBackground(new Color(255, 255, 255));
 		botoes.add(verPerfil, BorderLayout.NORTH);
+		
 		verPerfil.setVisible(true);
 		verPerfil.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("unlikely-arg-type")
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					boolean usuairor = true;
-					if (usuarioTela.getUsuario().equals(usuarioPesquisa)) {
+					if (usuarioTela.getUsuario().equals(usuarioPesquisa.getUsuario())) {
 						usuairor = false;
 					}
 					Perfil frame = new Perfil(usuarioPesquisa, usuarioTela, usuairor);
@@ -214,20 +215,27 @@ public class TelaPesquisa extends JFrame {
 			}
 		}
 		
+		
 		adicionar.setBackground(new Color(255, 255, 255));
-		adicionar.setFont(new Font("Roboto", Font.PLAIN, 12));
+		adicionar.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
 		adicionar.setPreferredSize(new Dimension(80, 21));
 		adicionar.setVisible(true);
 		botoes.add(adicionar, BorderLayout.SOUTH);
+		
+		if (usuarioTela.getUsuario().equals(usuarioPesquisa.getUsuario())) {
+			adicionar.setVisible(false);
+		}
 		
 		adicionar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				AmigoDAO amigoDAO = new AmigoDAO();
 				if (adicionar.getText().equals("adicionar amigo")) {
+					usuarioTela.getPerfil().adicionarAmigo(usuarioPesquisa);
 					amigoDAO.saveIndividual(usuarioTela, usuarioPesquisa);
 					adicionar.setText("remover amigo");
 				} else {
+					usuarioTela.getPerfil().removerAmigo(usuarioPesquisa);
 					amigoDAO.delete(usuarioTela, usuarioPesquisa);
 					adicionar.setText("adicionar amigo");
 				}
