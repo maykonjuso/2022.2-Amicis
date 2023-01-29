@@ -13,9 +13,12 @@ import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,11 +27,15 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import br.com.amicis.dao.PerfilDAO;
+import br.com.amicis.dao.TicketDAO;
 import br.com.amicis.dao.UsuarioDAO;
+import br.com.amicis.model.Perfil;
+import br.com.amicis.model.Ticket;
 import br.com.amicis.model.Usuario;
 
 public class Configuracoes extends JFrame {
@@ -40,6 +47,9 @@ public class Configuracoes extends JFrame {
 	private JPanel contentPane;
 	private JTextField telefone;
 	private JTextField email;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -437,27 +447,126 @@ public class Configuracoes extends JFrame {
 		btnNewButton_4_2.setBackground(Color.WHITE);
 		btnNewButton_4_2.setBounds(195, 235, 70, 23);
 		privacidadePanel.add(btnNewButton_4_2);
+
+
 		// suportePanel
 		JPanel suportePanel = new JPanel();
 		suportePanel.setBackground(new Color(255, 255, 255));
 		cardPanel.add(suportePanel, "suporte");
 		suportePanel.setLayout(null);
 
-		JButton btnContatar = new JButton("Criar ticket");
-		btnContatar.setFont(new Font("Roboto", Font.PLAIN, 10));
-		btnContatar.setBounds(10, 10, 92, 23);
-		suportePanel.add(btnContatar);
 
-		JLabel lblTickes = new JLabel("Tickes:");
-		lblTickes.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblTickes.setBounds(10, 45, 70, 23);
-		suportePanel.add(lblTickes);
-		
 		JButton btnNewButton_4_3 = new JButton("voltar");
 		btnNewButton_4_3.setFont(new Font("Roboto", Font.PLAIN, 12));
 		btnNewButton_4_3.setBackground(Color.WHITE);
 		btnNewButton_4_3.setBounds(195, 235, 70, 23);
 		suportePanel.add(btnNewButton_4_3);
+		btnNewButton_4_3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				dispose();
+			}
+		});
+
+		JLabel lblUsurio = new JLabel("Data de solicitação:");
+		lblUsurio.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio.setBounds(10, 46, 114, 14);
+		suportePanel.add(lblUsurio);
+
+		JLabel lblUsurio_1 = new JLabel("Nome do usuário:");
+		lblUsurio_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio_1.setBounds(10, 81, 114, 14);
+		suportePanel.add(lblUsurio_1);
+
+		JLabel lblUsurio_1_1 = new JLabel("Motivo:");
+		lblUsurio_1_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio_1_1.setBounds(10, 109, 61, 14);
+		suportePanel.add(lblUsurio_1_1);
+
+		JLabel lblUsurio_1_2 = new JLabel("Contatar Suporte");
+		lblUsurio_1_2.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio_1_2.setBounds(86, 11, 99, 13);
+		suportePanel.add(lblUsurio_1_2);
+
+		JLabel lblUsurio_1_1_1 = new JLabel("Severidade:");
+		lblUsurio_1_1_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio_1_1_1.setBounds(10, 186, 70, 14);
+		suportePanel.add(lblUsurio_1_1_1);
+
+		JComboBox comboBox = new JComboBox();
+		comboBox.addItem("Baixa");
+		comboBox.addItem("Média");
+		comboBox.addItem("Alta");
+
+		comboBox.setBounds(77, 187, 61, 14);
+		suportePanel.add(comboBox);
+		
+		
+		    
+		String dataHoje = dateFormat.format(new Date());
+		
+		textField = new JTextField();
+		textField.setText(dataHoje);
+		textField.setFont(new Font("Dialog", Font.PLAIN, 10));
+		textField.setEnabled(false);
+		textField.setColumns(10);
+		textField.setBounds(134, 44, 131, 20);
+		suportePanel.add(textField);
+		
+		textField_1 = new JTextField();
+		textField_1.setText(usuarioTela.getUsuario());
+		textField_1.setFont(new Font("Dialog", Font.PLAIN, 10));
+		textField_1.setEnabled(false);
+		textField_1.setColumns(10);
+		textField_1.setBounds(134, 79, 131, 20);
+		suportePanel.add(textField_1);
+		
+		
+		JTextArea textField_2 = new JTextArea();
+		textField_2.setFont(new Font("Roboto", Font.PLAIN, 13));
+		textField_2.setLineWrap(true);
+		textField_2.setWrapStyleWord(true);
+		textField_2.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
+		textField_2.setForeground(UIManager.getColor("InternalFrame.activeTitleForeground"));
+		textField_2.setBackground(new Color(255, 255, 255));
+		textField_2.setBounds(52, 106, 213, 72);
+		suportePanel.add(textField_2);
+
+		JButton btnNewButton_3_1 = new JButton("Tickets");
+		btnNewButton_3_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnNewButton_3_1.setBackground(Color.WHITE);
+		btnNewButton_3_1.setBounds(38, 285, 120, 30);
+		contentPane.add(btnNewButton_3_1);
+		
+		JButton btnContatar = new JButton("Criar ticket");
+		btnContatar.setFont(new Font("Roboto", Font.PLAIN, 10));
+		btnContatar.setBounds(93, 236, 92, 23);
+		suportePanel.add(btnContatar);
+		btnContatar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        if (textField_2.getText().trim().isEmpty()){
+		            JOptionPane.showMessageDialog(null, "Preencha todas as informações.");
+		        } else {
+		            ;
+		            Ticket ticket = new Ticket(usuarioTela);
+		            TicketDAO ticketDAO = new TicketDAO();
+		            
+		            ticket.setConteudo(textField_2.getText());
+		            ticket.setSeveridade(comboBox.getSelectedItem().toString());
+		            
+		            Random random = new Random();            
+		            int protocolo = random.nextInt(1000000);
+		            ticket.setProtocolo(protocolo);
+		            ticketDAO.save(ticket);
+		            
+		            
+		            JOptionPane.showMessageDialog(null, "Ticket salvo com sucesso!");
+		        }
+		    }
+		});
+		
+		
 	}
 	
 	public static boolean validarEmail(String email) {

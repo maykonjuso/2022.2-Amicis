@@ -83,7 +83,7 @@ public class PerfilDAO {
 				perfil.setBloqueados(bloqueadoDAO.getBloqueados(usuario.getPerfil()));
 				perfil.setPublicacoes(publicacaoDAO.getPublicacoes(usuario.getPerfil()));
 				perfil.setNotificacoes(notificacaoDAO.getNotificacao(usuario));
-				perfil.getSuporte().setTicket(ticketDAO.getTickets(usuario.getPerfil()));
+				perfil.getSuporte().setTicket(ticketDAO.getTickets(usuario));
 			}
 
 		} catch (Exception e) {

@@ -7,13 +7,13 @@ public class Ticket {
 	private String usuario;
 	private String conteudo;
 	private Date data;
-	private double protocolo;
+	private int protocolo;
 	private String status;
 	private String severidade;
 	
-	public Ticket (Perfil perfil) {
-		perfil.getSuporte().adicionarTicket(this);
-		this.setUsuario(perfil.getUsuario().getUsuario());
+	public Ticket (Usuario usuario) {
+		usuario.getPerfil().getSuporte().adicionarTicket(this);
+		this.setUsuario(usuario.getUsuario());
 	}
 	
 	public Date getData() {
@@ -28,7 +28,7 @@ public class Ticket {
 		return protocolo;
 	}
 
-	public void setProtocolo(double protocolo) {
+	public void setProtocolo(int protocolo) {
 		this.protocolo = protocolo;
 	}
 
