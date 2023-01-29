@@ -314,25 +314,29 @@ public class Configuracoes extends JFrame {
 				char[] senha_ = senha.getPassword();
 				char[] repetirSenha_ = repetirSenha.getPassword();
 				if(Arrays.equals(senhaAntiga_, usuarioTela.getSenha())) {
-					if (Arrays.equals(senha_, repetirSenha_)) {
-						usuarioTela.setSenha(senha_);
-						UsuarioDAO usuarioDAO = new UsuarioDAO();
-						try {
-							usuarioDAO.updateSenha(usuarioTela);
-							JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso!");
-							senhaAntiga.setText("");
-							senha.setText("");
-							repetirSenha.setText("");
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
+					if (senha_.length >= 4) {
+						if (Arrays.equals(senha_, repetirSenha_)) {
+							usuarioTela.setSenha(senha_);
+							UsuarioDAO usuarioDAO = new UsuarioDAO();
+							try {
+								usuarioDAO.updateSenha(usuarioTela);
+								JOptionPane.showMessageDialog(null, "Senha atualizada com sucesso!");
+								senhaAntiga.setText("");
+								senha.setText("");
+								repetirSenha.setText("");
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+					} else {
+						JOptionPane.showMessageDialog(null, "As senhas não são iguais.");
+					}
 				} else {
-					JOptionPane.showMessageDialog(null, "As senhas não são iguais.");
+					JOptionPane.showMessageDialog(null, "A senha deve ter mais de 4 caracteres.");
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "A senha anterior está incorreta.");
 			}
-				}
+		}
 		});
 		salvarSenha.setFont(new Font("Roboto", Font.PLAIN, 12));
 		salvarSenha.setBackground(Color.WHITE);

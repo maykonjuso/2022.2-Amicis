@@ -24,9 +24,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import br.com.amicis.dao.AmigoDAO;
+import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Usuario;
 
-public class Amigos extends JFrame {
+public class TelaPesquisa extends JFrame {
 
 	/**
 	 * 
@@ -41,7 +42,7 @@ public class Amigos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Amigos frame = new Amigos(null);
+					TelaPesquisa frame = new TelaPesquisa(null, "");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,11 +55,11 @@ public class Amigos extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public Amigos(Usuario usuarioTela) throws SQLException {
+	public TelaPesquisa(Usuario usuarioTela, String nome) throws SQLException {
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
-		setTitle("Amigos");
+		setTitle("Pesquisar");
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		setBounds(100, 100, 426, 393);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -97,10 +98,11 @@ public class Amigos extends JFrame {
 
 		// --------------------------------------------------//
 
-		AmigoDAO amigoDAO = new AmigoDAO();
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-		for (Usuario usuario : amigoDAO.getAmigosPerfil(usuarioTela)) {
+		for (Usuario usuario : usuarioDAO.getUsuariosPesquisa(nome)) {
 			try {
+				
 				JPanel div = new JPanel();
 				div.setBackground(new Color(255, 255, 255));
 				div.setPreferredSize(new Dimension(400, 400));
@@ -108,7 +110,7 @@ public class Amigos extends JFrame {
 				div.setLayout(new BoxLayout(div, BoxLayout.PAGE_AXIS));
 
 				JLabel espaço = new JLabel();
-				espaço.setPreferredSize(new Dimension(200, 200));
+				espaço.setPreferredSize(new Dimension(100, 100));
 				espaço.setBackground(new Color(255, 255, 255));
 				div.add(espaço);
 
@@ -166,7 +168,7 @@ public class Amigos extends JFrame {
 		textArea.setWrapStyleWord(true);
 		textArea.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textArea.setBackground(new Color(255, 255, 255));
-		textArea.setPreferredSize(new Dimension(50, 100));
+		textArea.setPreferredSize(new Dimension(5, 5));
 		panel.add(textArea);
 		
 		JPanel botoes = new JPanel();
@@ -179,19 +181,64 @@ public class Amigos extends JFrame {
 		verPerfil.setPreferredSize(new Dimension(80, 21));
 		verPerfil.setBackground(new Color(255, 255, 255));
 		botoes.add(verPerfil, BorderLayout.NORTH);
+		
 		verPerfil.setVisible(true);
 		verPerfil.addMouseListener(new MouseAdapter() {
-			@SuppressWarnings("unlikely-arg-type")
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					boolean usuairor = true;
-					if (usuarioTela.getUsuario().equals(usuarioPesquisa)) {
+					if (usuarioTela.getUsuario().equals(usuarioPesquisa.getUsuario())) {
 						usuairor = false;
 					}
 					Perfil frame = new Perfil(usuarioPesquisa, usuarioTela, usuairor);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);
+			}
+		});
+		
+		JButton adicionar = new JButton();
+		
+		if (usuarioTela.getPerfil().sizeAmigos() == 0) {
+			adicionar.setText("adicionar amigo");
+		}
+		
+		boolean amigo = false;
+		
+		for (int i = 0; i < usuarioTela.getPerfil().sizeAmigos(); i++) {
+			if (usuarioTela.getPerfil().getAmigo(i).equals(usuarioPesquisa.getUsuario())) {
+				adicionar.setText("remover amigo");
+				amigo = true;
+			}
+			if (!usuarioTela.getPerfil().getAmigo(i).equals(usuarioPesquisa.getUsuario()) && amigo == false) {
+				adicionar.setText("adicionar amigo");
+			}
+		}
+		
+		
+		adicionar.setBackground(new Color(255, 255, 255));
+		adicionar.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
+		adicionar.setPreferredSize(new Dimension(80, 21));
+		adicionar.setVisible(true);
+		botoes.add(adicionar, BorderLayout.SOUTH);
+		
+		if (usuarioTela.getUsuario().equals(usuarioPesquisa.getUsuario())) {
+			adicionar.setVisible(false);
+		}
+		
+		adicionar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				AmigoDAO amigoDAO = new AmigoDAO();
+				if (adicionar.getText().equals("adicionar amigo")) {
+					usuarioTela.getPerfil().adicionarAmigo(usuarioPesquisa);
+					amigoDAO.saveIndividual(usuarioTela, usuarioPesquisa);
+					adicionar.setText("remover amigo");
+				} else {
+					usuarioTela.getPerfil().removerAmigo(usuarioPesquisa);
+					amigoDAO.delete(usuarioTela, usuarioPesquisa);
+					adicionar.setText("adicionar amigo");
+				}
 			}
 		});
 

@@ -23,10 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import br.com.amicis.dao.AmigoDAO;
+import br.com.amicis.dao.NotificacaoDAO;
+import br.com.amicis.dao.UsuarioDAO;
+import br.com.amicis.model.Notificacao;
 import br.com.amicis.model.Usuario;
 
-public class Amigos extends JFrame {
+public class TelaNotificacao extends JFrame {
 
 	/**
 	 * 
@@ -41,7 +43,7 @@ public class Amigos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Amigos frame = new Amigos(null);
+					TelaNotificacao frame = new TelaNotificacao(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +56,7 @@ public class Amigos extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException 
 	 */
-	public Amigos(Usuario usuarioTela) throws SQLException {
+	public TelaNotificacao(Usuario usuarioTela) throws SQLException {
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("Amicis\\resources\\pngwing.com.png"));
@@ -97,10 +99,13 @@ public class Amigos extends JFrame {
 
 		// --------------------------------------------------//
 
-		AmigoDAO amigoDAO = new AmigoDAO();
+		NotificacaoDAO notificacaoDAO = new NotificacaoDAO();
 
-		for (Usuario usuario : amigoDAO.getAmigosPerfil(usuarioTela)) {
+		for (Notificacao notificacao : notificacaoDAO.getNotificacao(usuarioTela)) {
 			try {
+				UsuarioDAO usuarioDAO = new UsuarioDAO();
+				Usuario usuarioNotificao = usuarioDAO.getUsuario(notificacao.getUsuario());
+				
 				JPanel div = new JPanel();
 				div.setBackground(new Color(255, 255, 255));
 				div.setPreferredSize(new Dimension(400, 400));
@@ -112,7 +117,7 @@ public class Amigos extends JFrame {
 				espaço.setBackground(new Color(255, 255, 255));
 				div.add(espaço);
 
-				JPanel perfisPanel = criarPerfis(usuario, usuarioTela);
+				JPanel perfisPanel = criarPerfis(notificacao, usuarioTela, usuarioNotificao);
 				perfisPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 				perfisPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 				perfisPanel.setPreferredSize(new Dimension(400, 400));
@@ -127,7 +132,7 @@ public class Amigos extends JFrame {
 
 	}
 
-	private JPanel criarPerfis(Usuario usuarioPesquisa, Usuario usuarioTela) {
+	private JPanel criarPerfis(Notificacao notificacao, Usuario usuarioTela, Usuario usuarioNotificao) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.setPreferredSize(new Dimension(100, 100));
@@ -141,10 +146,10 @@ public class Amigos extends JFrame {
 		perfil.setLayout(new BoxLayout(perfil, BoxLayout.PAGE_AXIS));
 		perfil.setMaximumSize(getPreferredSize());
 		panel.add(perfil);
-
+		
 		URL url;
 		try {
-			url = new URL(usuarioPesquisa.getFoto());
+			url = new URL(usuarioNotificao.getFoto());
 			ImageIcon imgIcon = new ImageIcon(url);
 			JLabel jLabel = new JLabel(imgIcon);
 			jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -153,7 +158,7 @@ public class Amigos extends JFrame {
 			e1.printStackTrace();
 		}
 
-		JLabel label = new JLabel("@" + usuarioPesquisa.getUsuario());
+		JLabel label = new JLabel("@" + usuarioNotificao.getUsuario());
 		label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setBackground(new Color(200, 200, 200));
@@ -161,6 +166,7 @@ public class Amigos extends JFrame {
 		perfil.add(label);
 
 		JTextArea textArea = new JTextArea();
+		textArea.setText(notificacao.getConteudo());
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
@@ -185,10 +191,10 @@ public class Amigos extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					boolean usuairor = true;
-					if (usuarioTela.getUsuario().equals(usuarioPesquisa)) {
+					if (usuarioTela.getUsuario().equals(usuarioNotificao)) {
 						usuairor = false;
 					}
-					Perfil frame = new Perfil(usuarioPesquisa, usuarioTela, usuairor);
+					Perfil frame = new Perfil(usuarioNotificao, usuarioTela, usuairor);
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 					frame.setResizable(false);

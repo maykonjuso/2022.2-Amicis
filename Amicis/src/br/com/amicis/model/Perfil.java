@@ -47,12 +47,12 @@ public class Perfil {
 		this.conversas = conversas;
 	}
 
-	public void adicionarAmigo(Perfil amigo) {
-		amigos.add(amigo.getUsuario().getUsuario());
+	public void adicionarAmigo(Usuario usuario) {
+		amigos.add(usuario.getUsuario());
 	}
 
-	public void removerAmigo(Perfil amigo) {
-		amigos.remove(amigo.getUsuario().getUsuario());
+	public void removerAmigo(Usuario usuario) {
+		amigos.remove(usuario.getUsuario());
 	}
 
 	public int sizeAmigos() {

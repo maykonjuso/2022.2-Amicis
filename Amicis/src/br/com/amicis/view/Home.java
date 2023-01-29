@@ -30,9 +30,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import br.com.amicis.dao.AmigoDAO;
 import br.com.amicis.dao.CoracaoDAO;
+import br.com.amicis.dao.NotificacaoDAO;
 import br.com.amicis.dao.PublicacaoDAO;
 import br.com.amicis.dao.UsuarioDAO;
+import br.com.amicis.model.Notificacao;
 import br.com.amicis.model.Publicacao;
 import br.com.amicis.model.Usuario;
 
@@ -40,7 +43,7 @@ public class Home extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel publicacoesPanel;
-	private JTextField textField;
+	private JTextField pesquisa;
 	private Usuario usuarioTela;
 
 	public static void main(String[] args) {
@@ -105,6 +108,7 @@ public class Home extends JFrame {
 		novaPublicacao.add(textArea);
 
 		JButton publicar = new JButton("publicar");
+		publicar.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
 		publicar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -115,7 +119,19 @@ public class Home extends JFrame {
 					PublicacaoDAO publicacaoDAO = new PublicacaoDAO();
 					publicacao.setConteudo(textArea.getText());
 					publicacaoDAO.save(publicacao);
-
+					
+					AmigoDAO amigo = new AmigoDAO();
+					
+					try {
+						for (Usuario u : amigo.getAmigosPerfil(usuarioTela)) {
+							Notificacao notificacao = new Notificacao(u.getPerfil());
+							NotificacaoDAO notificacaoDAO = new NotificacaoDAO();
+							notificacao.setConteudo("Nova postagem de " + usuarioTela.getUsuario());
+							notificacaoDAO.save(notificacao);
+						}
+					} catch (SQLException e2) {
+						e2.printStackTrace();
+					}
 					JOptionPane.showMessageDialog(publicacoes, "Publicação realizada com sucesso.");
 					textArea.setText("");
 					try {
@@ -144,6 +160,7 @@ public class Home extends JFrame {
 		});
 		apagar.setBackground(SystemColor.menu);
 		apagar.setBounds(307, 107, 89, 23);
+		apagar.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
 		novaPublicacao.add(apagar);
 		publicacoes.add(timeline);
 		getContentPane().add(publicacoes, BorderLayout.CENTER);
@@ -172,12 +189,40 @@ public class Home extends JFrame {
 		
 
 		JButton amigos = new JButton("amigos");
+		amigos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Amigos frame;
+				try {
+					frame = new Amigos(usuarioTela);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		amigos.setBackground(new Color(255, 255, 255));
 		amigos.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		amigos.setBounds(94, 228, 156, 33);
 		menu.add(amigos);
 
 		JButton notificacoes = new JButton("notificações");
+		notificacoes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+						TelaNotificacao frame;
+						try {
+							frame = new TelaNotificacao(usuarioTela);
+							frame.setVisible(true);
+							frame.setLocationRelativeTo(null);
+							frame.setResizable(false);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					}
+		});
 		notificacoes.setBackground(new Color(255, 255, 255));
 		notificacoes.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
 		notificacoes.setBounds(94, 287, 156, 33);
@@ -299,16 +344,30 @@ public class Home extends JFrame {
 		btnConversas.setBounds(0, 591, 297, 29);
 		conversas.add(btnConversas);
 
-		textField = new JTextField();
-		textField.setBounds(26, 105, 177, 29);
-		conversas.add(textField);
-		textField.setColumns(10);
+		pesquisa = new JTextField();
+		pesquisa.setBounds(26, 105, 177, 29);
+		conversas.add(pesquisa);
+		pesquisa.setColumns(10);
 
-		JButton perfil_1 = new JButton("🔎");
-		perfil_1.setBackground(new Color(255, 255, 255));
-		perfil_1.setFont(new Font("Noto Emoji", Font.BOLD, 14));
-		perfil_1.setBounds(213, 105, 51, 29);
-		conversas.add(perfil_1);
+		JButton botaoPesquisa = new JButton("🔎");
+		botaoPesquisa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				TelaPesquisa frame;
+				try {
+					frame = new TelaPesquisa(usuarioTela, pesquisa.getText());
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		botaoPesquisa.setBackground(new Color(255, 255, 255));
+		botaoPesquisa.setFont(new Font("Noto Emoji", Font.BOLD, 14));
+		botaoPesquisa.setBounds(213, 105, 51, 29);
+		conversas.add(botaoPesquisa);
 
 		JLabel lblEncontreNovosAmigos = new JLabel("Faça novos amigos...");
 		lblEncontreNovosAmigos.setHorizontalAlignment(SwingConstants.CENTER);

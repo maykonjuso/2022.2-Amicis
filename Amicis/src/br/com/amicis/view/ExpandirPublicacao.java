@@ -74,16 +74,16 @@ public class ExpandirPublicacao extends JFrame {
 		setFont(new Font("Inconsolata", Font.PLAIN, 14));
 		setBounds(100, 100, 520, 660);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+		
 		// --------------------------------------------------//
-
+		
 		JScrollPane timeline = new JScrollPane();
 		timeline.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
 		timeline.setBackground(new Color(255, 255, 255));
 		timeline.setPreferredSize(new Dimension(10000, 200));
-
+		
 		publicacao = new JPanel();
-
+		
 		publicacao.setLayout(new BoxLayout(publicacao, BoxLayout.Y_AXIS));
 		publicacao.setBackground(new Color(255, 255, 255));
 		publicacao.setAlignmentY(CENTER_ALIGNMENT);
@@ -92,9 +92,9 @@ public class ExpandirPublicacao extends JFrame {
 		JPanel publicacoes = new JPanel();
 		publicacoes.setBackground(new Color(255, 255, 255));
 		publicacoes.setLayout(new BoxLayout(publicacoes, BoxLayout.PAGE_AXIS));
-
+		
 		// --------------------------------------------------//
-
+		
 		JPanel novaPublicacao = new JPanel();
 		novaPublicacao.setBounds(0, 479, 504, 141);
 		novaPublicacao.setForeground(Color.LIGHT_GRAY);
@@ -200,7 +200,7 @@ public class ExpandirPublicacao extends JFrame {
 				div.add(espaço);
 
 				JPanel respostaPanel = criarPublicacaoPanel(resposta.getUsuario(), resposta.getConteudo(),
-						resposta.getFoto(), resposta);
+						resposta.getFoto(), resposta, usuarioTela);
 				respostaPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 				respostaPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 				respostaPanel.setPreferredSize(new Dimension(120, 120));
@@ -216,7 +216,7 @@ public class ExpandirPublicacao extends JFrame {
 
 	}
 
-	private JPanel criarPublicacaoPanel(String nome, String publicacao, String foto, Publicacao publicacao2) {
+	private JPanel criarPublicacaoPanel(String nome, String publicacao, String foto, Publicacao resposta, Usuario usuarioTela) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.setPreferredSize(new Dimension(100, 100));
@@ -232,7 +232,7 @@ public class ExpandirPublicacao extends JFrame {
 		panel.add(perfil);
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM");      
-		String dateToStr = dateFormat.format(publicacao2.getData());
+		String dateToStr = dateFormat.format(resposta.getData());
 		JLabel data = new JLabel(dateToStr);
 		data.setFont(new Font("Roboto", Font.PLAIN, 8));
 		data.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -274,6 +274,27 @@ public class ExpandirPublicacao extends JFrame {
 		textArea.setBackground(new Color(255, 255, 255));
 		textArea.setPreferredSize(new Dimension(10, 10));
 		panel.add(textArea);
+		
+		JPanel botoes = new JPanel();
+		botoes.setPreferredSize(new Dimension(100, 100));
+		botoes.setBackground(new Color(255, 255, 255));
+		
+		JButton excluir = new JButton("excluir");
+		excluir.setFont(new Font("Roboto Medium", Font.PLAIN, 10));
+		excluir.setPreferredSize(new Dimension(80, 21));
+		excluir.setBackground(new Color(255, 255, 255));
+		botoes.add(excluir, BorderLayout.CENTER);
+		panel.add(botoes, BorderLayout.CENTER);
+		excluir.setVisible(true);
+		excluir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RespostaDAO respostaDAO = new RespostaDAO();
+				respostaDAO.delete(resposta.getId());
+				JOptionPane.showMessageDialog(null, "Resposta excluída com sucesso.");
+
+			}
+		});
 
 		return panel;
 	}

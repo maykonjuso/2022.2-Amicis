@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.mysql.jdbc.PreparedStatement;
 
@@ -101,6 +102,47 @@ public class AmigoDAO {
 
 			while (rset.next()) {
 				amigos.add(rset.getString("amigo"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+				if (rset != null) {
+					rset.close();
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return amigos;
+	}
+	
+	public List<Usuario> getAmigosPerfil(Usuario usuario) throws SQLException {
+		String sql = "SELECT amigo FROM amigos WHERE perfil = ?;";
+
+		List<Usuario> amigos = new ArrayList<Usuario>();
+		Connection conn = null;
+		PreparedStatement pstm = null;
+
+		ResultSet rset = null;
+
+		try {
+
+			conn = ConnectionFactory.createConnectionToMySQL();
+			pstm = (PreparedStatement) conn.prepareStatement(sql);
+			pstm.setString(1, usuario.getUsuario());
+			rset = pstm.executeQuery();
+
+			while (rset.next()) {
+				UsuarioDAO usuarioDAO = new UsuarioDAO();
+				amigos.add(usuarioDAO.getUsuario(rset.getString("amigo")));		
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -9,7 +9,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Notificacao;
-import br.com.amicis.model.Perfil;
+import br.com.amicis.model.Usuario;
 
 public class NotificacaoDAO {
 
@@ -40,7 +40,7 @@ public class NotificacaoDAO {
 		}
 	}
 
-	public ArrayList<Notificacao> getNotificacao(Perfil perfil) throws SQLException {
+	public ArrayList<Notificacao> getNotificacao(Usuario usuario) throws SQLException {
 		String sql = "SELECT * FROM notificacao WHERE usuario = ?;";
 
 		ArrayList<Notificacao> notificacoes = new ArrayList<Notificacao>();
@@ -51,12 +51,13 @@ public class NotificacaoDAO {
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, perfil.getUsuario().getUsuario());
+			pstm.setString(1, usuario.getUsuario());
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
-				Notificacao notificacao = new Notificacao(perfil);
+				Notificacao notificacao = new Notificacao(usuario.getPerfil());
 				notificacao.setId(rset.getInt("id"));
+				notificacao.setUsuario(rset.getString("usuario"));
 				notificacao.setConteudo(rset.getString("conteudo"));
 				notificacao.setDataNoficacao(rset.getDate("data"));
 				notificacoes.add(notificacao);
