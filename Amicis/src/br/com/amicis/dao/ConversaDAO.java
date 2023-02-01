@@ -1,15 +1,16 @@
 package br.com.amicis.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Conversa;
 import br.com.amicis.model.Perfil;
+import br.com.amicis.model.Usuario;
 
 public class ConversaDAO {
 
@@ -132,7 +133,7 @@ public class ConversaDAO {
 		}
 	}
 
-	public ArrayList<Conversa> getConversa(Perfil perfil) throws SQLException {
+	public ArrayList<Conversa> getConversa(Usuario usuario) throws SQLException {
 		String sql = "SELECT * FROM conversa WHERE remetente = ? and destinatario = ?";
 
 		ArrayList<Conversa> conversas = new ArrayList<Conversa>();
@@ -142,19 +143,22 @@ public class ConversaDAO {
 
 		try {
 
-			for (int i = 0; i < perfil.sizeAmigos(); i++) {
+			for (int i = 0; i < usuario.getPerfil().sizeAmigos(); i++) {
 				conn = ConnectionFactory.createConnectionToMySQL();
 				pstm = (PreparedStatement) conn.prepareStatement(sql);
 
-				pstm.setString(1, perfil.getThis_usuario());
+				pstm.setString(1, usuario.getPerfil().getThis_usuario());
 
-				pstm.setString(2, perfil.getAmigo(i));
+				pstm.setString(2, usuario.getPerfil().getAmigo(i));
 
 				rset = pstm.executeQuery();
 
 				while (rset.next()) {
-
-					Conversa conversa = new Conversa(perfil, i);
+					UsuarioDAO usuarioDAO = new UsuarioDAO();
+					
+					Usuario amigo = usuarioDAO.getUsuario(usuario.getPerfil().getAmigo(i));
+					
+					Conversa conversa = new Conversa(usuario, amigo);
 					conversa.setConteudo(rset.getString("texto"));
 					conversa.setData(rset.getDate("data"));
 

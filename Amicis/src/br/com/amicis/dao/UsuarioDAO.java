@@ -1,14 +1,13 @@
 package br.com.amicis.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-
-import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Usuario;
@@ -197,7 +196,7 @@ public class UsuarioDAO {
 				usuario.setSenha(cs);
 
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
-				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
+				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario));
 				usuarios.add(usuario);
 			}
 		} catch (Exception e) {
@@ -270,7 +269,7 @@ public class UsuarioDAO {
 				usuario.setSenha(cs);
 
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
-				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
+				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario));
 			}
 
 		} catch (Exception e) {
@@ -328,7 +327,7 @@ public class UsuarioDAO {
 				usuario.setSenha(cs);
 
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
-				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
+				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario));
 				usuarios.add(usuario);
 			}
 		} catch (Exception e) {
