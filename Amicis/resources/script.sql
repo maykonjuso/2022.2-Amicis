@@ -49,16 +49,6 @@ CREATE TABLE notificacao (
 	CONSTRAINT usuario_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
-CREATE TABLE conversa (
- 	id int NOT NULL AUTO_INCREMENT,
- 	remetente varchar(50),
-	destinatario varchar(50),
-	texto varchar(240),
-	data DATETIME DEFAULT NOW(),
-	CONSTRAINT id_PK PRIMARY KEY (id),
-	KEY conversas_FK (remetente,destinatario),
-	CONSTRAINT conversas_FK FOREIGN KEY (remetente, destinatario) REFERENCES amigos (perfil, amigo) ON UPDATE NO ACTION ON DELETE CASCADE
-);
 
 CREATE TABLE publicacao (
 	id INT auto_increment NOT NULL,
@@ -103,13 +93,20 @@ CREATE TABLE ticket (
 	CONSTRAINT ticket_FK FOREIGN KEY (usuario) REFERENCES Amicis.perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
+CREATE TABLE conversa (
+ 	id int NOT NULL AUTO_INCREMENT,
+ 	remetente varchar(50),
+	destinatario varchar(50),
+	data DATETIME DEFAULT NOW(),
+	CONSTRAINT id_PK PRIMARY KEY (id),
+);
+
 CREATE TABLE mensagem (
 	id INT auto_increment NOT NULL,
+	id_conversa INT NOT NULL,
 	foto varchar(200),
 	usuario varchar(50),
 	texto varchar(240),
-	coracao INT,
-	id_publicacao INT,
 	data DATETIME DEFAULT NOW(),
 	CONSTRAINT mensagem_PK PRIMARY KEY (id),
 	CONSTRAINT mensagem_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE
