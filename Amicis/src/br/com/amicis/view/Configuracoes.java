@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
@@ -34,7 +35,6 @@ import javax.swing.UIManager;
 import br.com.amicis.dao.PerfilDAO;
 import br.com.amicis.dao.TicketDAO;
 import br.com.amicis.dao.UsuarioDAO;
-import br.com.amicis.model.Perfil;
 import br.com.amicis.model.Ticket;
 import br.com.amicis.model.Usuario;
 
@@ -50,6 +50,7 @@ public class Configuracoes extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
 
 	/**
 	 * Launch the application.
@@ -533,11 +534,6 @@ public class Configuracoes extends JFrame {
 		textField_2.setBounds(52, 106, 213, 72);
 		suportePanel.add(textField_2);
 
-		JButton btnNewButton_3_1 = new JButton("Tickets");
-		btnNewButton_3_1.setFont(new Font("Dialog", Font.PLAIN, 12));
-		btnNewButton_3_1.setBackground(Color.WHITE);
-		btnNewButton_3_1.setBounds(38, 285, 120, 30);
-		contentPane.add(btnNewButton_3_1);
 		
 		JButton btnContatar = new JButton("Criar ticket");
 		btnContatar.setFont(new Font("Roboto", Font.PLAIN, 10));
@@ -554,10 +550,10 @@ public class Configuracoes extends JFrame {
 		            
 		            ticket.setConteudo(textField_2.getText());
 		            ticket.setSeveridade(comboBox.getSelectedItem().toString());
-		            
 		            Random random = new Random();            
 		            int protocolo = random.nextInt(1000000);
 		            ticket.setProtocolo(protocolo);
+		            ticket.setStatus("Ativo");
 		            ticketDAO.save(ticket);
 		            
 		            
@@ -565,6 +561,40 @@ public class Configuracoes extends JFrame {
 		        }
 		    }
 		});
+		//-------------------------------------------
+		JButton btnTickets = new JButton("Tickets");
+		btnTickets.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnTickets.setBackground(Color.WHITE);
+		btnTickets.setBounds(38, 285, 120, 30);
+		contentPane.add(btnTickets);
+		JPanel ticketPanel = new JPanel();
+		ticketPanel.setBackground(new Color(255, 255, 255));
+		cardPanel.add(ticketPanel, "ticket");
+		
+		btnTickets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout) (cardPanel.getLayout());
+				cl.show(cardPanel, "ticket");
+			}
+		});
+		
+		ticketPanel.setLayout(null);
+		
+		TicketDAO ticketDAO = new TicketDAO();
+		ArrayList<Ticket> tickets = ticketDAO.getTickets(usuarioTela);
+
+		if (tickets != null && !tickets.isEmpty()) {
+		    int y = 0;
+		    for (Ticket ticket : tickets) {
+		        JLabel lblProtocol = new JLabel("Usuário:  " + ticket.getUsuario() + "   Protocolo: " + String.valueOf(ticket.getProtocolo()) + "   Data:  "+ ticket.getData());
+		        lblProtocol.setFont(new Font("Dialog", Font.PLAIN, 10));
+		        lblProtocol.setBounds(10, y, 420, 30);
+		        ticketPanel.add(lblProtocol);
+		        y += 20;
+		    }
+		}
+
+
 		
 		
 	}

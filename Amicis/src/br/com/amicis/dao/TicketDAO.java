@@ -16,7 +16,7 @@ public class TicketDAO {
 	public void save(Ticket ticket){
 		//inserir
 
-		String sql = "INSERT INTO ticket(usuario, conteudo, severidade, protocolo) VALUES ((SELECT this_usuario FROM usuario WHERE this_usuario = ?), ?, ?, ?)";
+		String sql = "INSERT INTO ticket(usuario, conteudo, severidade, protocolo, status) VALUES ((SELECT this_usuario FROM usuario WHERE this_usuario = ?), ?, ?, ?, ?)";
 
 		Connection conn = null;
 		PreparedStatement pstm = null;
@@ -32,6 +32,8 @@ public class TicketDAO {
 			pstm.setString(3, ticket.getSeveridade());
 			
 			pstm.setDouble(4, ticket.getProtocolo());
+			
+			pstm.setString(5, ticket.getStatus());
 
 			pstm.execute();
 
@@ -99,6 +101,52 @@ public class TicketDAO {
 		}
 		return tickets;
 	}
+	
+	public Ticket getTicket(Usuario usuario) {
+	    String sql = "SELECT * FROM ticket WHERE usuario = ?";
+
+	    Ticket ticket = null;
+
+	    Connection conn = null;
+	    PreparedStatement pstm = null;
+	    ResultSet rset = null;
+
+	    try {
+	        conn = ConnectionFactory.createConnectionToMySQL();
+	        pstm = (PreparedStatement) conn.prepareStatement(sql);
+	        pstm.setString(1, usuario.getUsuario());
+	        rset = pstm.executeQuery();
+
+	        if (rset.next()) {
+	            ticket = new Ticket(usuario);
+	            ticket.setProtocolo(rset.getInt("protocolo"));
+	            ticket.setConteudo(rset.getString("conteudo"));
+	            ticket.setData(rset.getDate("data"));
+	            ticket.setSeveridade(rset.getString("severidade"));
+	            ticket.setStatus(rset.getString("status"));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (conn != null) {
+	                conn.close();
+	            }
+	            if (pstm != null) {
+	                pstm.close();
+	            }
+	            if (rset != null) {
+	                rset.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return ticket;
+	}
+	
+	
+	
 	
 	public void update(Ticket ticket) {
 		String sql = "UPDATE ticket SET status = ?, severidade = ?, conteudo = ? WHERE protocolo = ?;";
