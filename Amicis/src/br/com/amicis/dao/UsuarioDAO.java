@@ -225,7 +225,7 @@ public class UsuarioDAO {
 		Connection conn = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
-			String sql = "Select * from usuario where this_usuario = ? and senha = ?";
+			String sql = "SELECT * FROM usuario WHERE BINARY this_usuario = ? and senha = ?";
 			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, usuario.getUsuario());
 			pstm.setString(2, String.valueOf(usuario.getSenha()));
