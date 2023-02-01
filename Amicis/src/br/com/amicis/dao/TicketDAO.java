@@ -186,8 +186,8 @@ public class TicketDAO {
 			conn = ConnectionFactory.createConnectionToMySQL();
 			
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setString(1, ticket.getUsuario());
-			pstm.setDouble(2, ticket.getProtocolo());
+			
+			pstm.setDouble(1, ticket.getProtocolo());
 			
 			pstm.execute();
 			
