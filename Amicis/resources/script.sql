@@ -98,6 +98,7 @@ CREATE TABLE conversa (
 	remetente varchar(50),
 	destinatario varchar(50),
 	data DATETIME DEFAULT NOW(),
+	CONSTRAINT unicas_conversas UNIQUE (remetente, destinatario),
 	CONSTRAINT remetente_FK FOREIGN KEY (remetente) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE,
 	CONSTRAINT destinatario_FK FOREIGN KEY (destinatario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE
 );

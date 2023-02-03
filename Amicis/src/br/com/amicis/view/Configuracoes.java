@@ -48,7 +48,6 @@ public class Configuracoes extends JFrame {
 	private JTextField email;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_2;
 
 	/**
 	 * Launch the application.

@@ -45,7 +45,7 @@ public class MensagemDAO {
 	}
 
 	public ArrayList<Mensagem> getMensagens(Usuario usuario, Conversa conversa) throws SQLException {
-		String sql = "SELECT * FROM mensagem WHERE id = ? ORDER BY data DESC;";
+		String sql = "SELECT * FROM mensagem WHERE id_conversa = ? ORDER BY data ASC;";
 
 		ArrayList<Mensagem> mensagens = new ArrayList<Mensagem>();
 		Connection conn = null;

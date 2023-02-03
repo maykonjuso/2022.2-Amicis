@@ -67,15 +67,6 @@ public class ConversaView extends JFrame {
 	 * @throws SQLException
 	 */
 	public ConversaView(Usuario usuarioTela, Usuario amigo) throws SQLException {
-		ConversaDAO conversaDAO = new ConversaDAO();
-		MensagemDAO mensagemDAO = new MensagemDAO();
-	
-		Conversa conversaAtual = conversaDAO.getConversaUnica(usuarioTela, amigo);
-		
-		if (conversaAtual.temId()) {
-			conversaAtual = new Conversa(usuarioTela, amigo);
-			conversaDAO.save(conversaAtual);
-		}
 		
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -130,6 +121,12 @@ public class ConversaView extends JFrame {
 					JOptionPane.showMessageDialog(publicacoes, "Campo vazio.");
 				} else {
 					try {
+						ConversaDAO conversaDAO = new ConversaDAO();
+						MensagemDAO mensagemDAO = new MensagemDAO();
+						if (verificarConversa(usuarioTela, amigo) != false) {
+							Conversa conversaAtual = new Conversa(usuarioTela, amigo);
+							conversaDAO.save(conversaAtual);														
+						}
 						Conversa conversaNova = conversaDAO.getConversaUnica(usuarioTela, amigo);
 						Mensagem mensagem = new Mensagem(usuarioTela, conversaNova);
 						mensagem.setConteudo(textAreaResposta.getText());
@@ -183,9 +180,10 @@ public class ConversaView extends JFrame {
 		getContentPane().add(fundo, BorderLayout.CENTER);
 
 		// --------------------------------------------------//
-		
-		Conversa conversa = new Conversa(usuarioTela, amigo);
-		for (Mensagem mensagem : mensagemDAO.getMensagens(usuarioTela, conversa)) {
+		ConversaDAO conversaDAO = new ConversaDAO();
+		MensagemDAO mensagemDAO = new MensagemDAO();
+		Conversa conversaNova = conversaDAO.getConversaUnica(usuarioTela, amigo);
+		for (Mensagem mensagem : mensagemDAO.getMensagens(usuarioTela, conversaNova)) {
 			try {
 				JPanel div = new JPanel();
 				div.setBackground(new Color(255, 255, 255));
@@ -215,6 +213,7 @@ public class ConversaView extends JFrame {
 	}
 
 	private JPanel criarPublicacaoPanel(Usuario remetente, Usuario destinatario, Mensagem mensagem, Usuario usuarioTela, Usuario amigo) {
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.setPreferredSize(new Dimension(100, 100));
@@ -306,5 +305,16 @@ public class ConversaView extends JFrame {
 		});
 
 		return panel;
+	}
+	
+	public boolean verificarConversa(Usuario usuario, Usuario amigo) throws SQLException {
+		boolean conversaValida = true;
+		ConversaDAO conversaDAO = new ConversaDAO();
+		for (Conversa c: conversaDAO.getConversas(usuario, amigo)) {
+			if (c.getPerfil().equals(usuario) && c.getAmigo().equals(amigo)) {
+				return false;
+			}
+		}
+		return conversaValida;
 	}
 }
