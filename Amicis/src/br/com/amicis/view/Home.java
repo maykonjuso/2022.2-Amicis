@@ -338,12 +338,6 @@ public class Home extends JFrame {
 		conversas.setPreferredSize(new Dimension(300, 100));
 		getContentPane().add(conversas, BorderLayout.EAST);
 
-		JButton btnConversas = new JButton("conversas");
-		btnConversas.setBackground(new Color(255, 255, 255));
-		btnConversas.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		btnConversas.setBounds(0, 591, 297, 29);
-		conversas.add(btnConversas);
-
 		pesquisa = new JTextField();
 		pesquisa.setBounds(26, 105, 177, 29);
 		conversas.add(pesquisa);

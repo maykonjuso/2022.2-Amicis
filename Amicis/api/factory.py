@@ -5,7 +5,7 @@ import connection
 
 client = tweepy.Client(bearer_token=os.getenv("bearer_token"))
 
-query = "the last of us -is:retweet -is:reply"
+query = "gloria maria -is:retweet -is:reply"
 
 
 response = client.search_recent_tweets(query=query, max_results=15, tweet_fields=[
