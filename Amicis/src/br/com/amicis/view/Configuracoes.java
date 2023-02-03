@@ -10,8 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
@@ -492,8 +494,8 @@ public class Configuracoes extends JFrame {
 		lblUsurio_1_1_1.setBounds(10, 186, 70, 14);
 		suportePanel.add(lblUsurio_1_1_1);
 
-		@SuppressWarnings("rawtypes")
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
+
 		comboBox.addItem("Baixa");
 		comboBox.addItem("Média");
 		comboBox.addItem("Alta");
@@ -532,38 +534,133 @@ public class Configuracoes extends JFrame {
 		textField_2.setBounds(52, 106, 213, 72);
 		suportePanel.add(textField_2);
 
-		JButton btnNewButton_3_1 = new JButton("Tickets");
-		btnNewButton_3_1.setFont(new Font("Dialog", Font.PLAIN, 12));
-		btnNewButton_3_1.setBackground(Color.WHITE);
-		btnNewButton_3_1.setBounds(38, 285, 120, 30);
-		contentPane.add(btnNewButton_3_1);
 		
 		JButton btnContatar = new JButton("Criar ticket");
 		btnContatar.setFont(new Font("Roboto", Font.PLAIN, 10));
 		btnContatar.setBounds(93, 236, 92, 23);
 		suportePanel.add(btnContatar);
 		btnContatar.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
+			
+			public void actionPerformed(ActionEvent e) {
 		        if (textField_2.getText().trim().isEmpty()){
 		            JOptionPane.showMessageDialog(null, "Preencha todas as informações.");
+		            
 		        } else {
-		            ;
-		            Ticket ticket = new Ticket(usuarioTela);
+		            
 		            TicketDAO ticketDAO = new TicketDAO();
+		            ArrayList<Ticket> tickets = ticketDAO.getTickets(usuarioTela);
 		            
-		            ticket.setConteudo(textField_2.getText());
-		            ticket.setSeveridade(comboBox.getSelectedItem().toString());
-		            
-		            Random random = new Random();            
-		            int protocolo = random.nextInt(1000000);
-		            ticket.setProtocolo(protocolo);
-		            ticketDAO.save(ticket);
-		            
-		            
-		            JOptionPane.showMessageDialog(null, "Ticket salvo com sucesso!");
+		            if (tickets.size() >= 5) {
+		            	JOptionPane.showMessageDialog(null, "O limite de tickets foi atingido :(");
+		            } else {
+			            Ticket ticket = new Ticket(usuarioTela);		            
+			            ticket.setConteudo(textField_2.getText());
+			            ticket.setSeveridade(comboBox.getSelectedItem().toString());
+			            Random random = new Random();            
+			            int protocolo = random.nextInt(1000000);
+			            ticket.setProtocolo(protocolo);
+			            ticket.setStatus("Ativo");
+			            ticketDAO.save(ticket);		          
+			            
+			            try {
+							Home frame = new Home(usuarioTela.getUsuario());
+							frame.setVisible(true);
+							frame.setLocationRelativeTo(null);
+							frame.setResizable(false);
+							dispose();
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+			            
+			            JOptionPane.showMessageDialog(null, "Ticket salvo com sucesso!");
+		            }
 		        }
 		    }
 		});
+		//-------------------------------------------
+		JButton btnTickets = new JButton("Tickets");
+		btnTickets.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnTickets.setBackground(Color.WHITE);
+		btnTickets.setBounds(38, 285, 120, 30);
+		contentPane.add(btnTickets);
+		JPanel ticketPanel = new JPanel();
+		ticketPanel.setBackground(new Color(255, 255, 255));
+		cardPanel.add(ticketPanel, "ticket");
+		ticketPanel.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Tickets gerados");
+		lblNewLabel.setBounds(98, 11, 75, 20);
+		ticketPanel.add(lblNewLabel);
+		
+		JButton btnNewButton_4_3_1 = new JButton("voltar");
+		btnNewButton_4_3_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnNewButton_4_3_1.setBackground(Color.WHITE);
+		btnNewButton_4_3_1.setBounds(195, 234, 70, 23);
+		ticketPanel.add(btnNewButton_4_3_1);
+		btnNewButton_4_3_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				dispose();
+			}
+		});
+		
+		btnTickets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout) (cardPanel.getLayout());
+				cl.show(cardPanel, "ticket");
+			}
+		});
+		
+//		JLabel lblProtocol = new JLabel("Usuário: ");
+//        lblProtocol.setFont(new Font("Dialog", Font.PLAIN, 10));
+//        lblProtocol.setBounds(10, 42, 420, 30);
+//        ticketPanel.add(lblProtocol);
+//        
+//        JButton btnNewButton_5 = new JButton("Apagar");
+//        btnNewButton_5.setBounds(10, 73, 56, 11);
+//        ticketPanel.add(btnNewButton_5);
+//        
+        
+        TicketDAO ticketDAO = new TicketDAO();
+        ArrayList<Ticket> tickets = ticketDAO.getTickets(usuarioTela);
+
+        if (tickets != null && !tickets.isEmpty()) {        	
+            int y = 40;
+            for (Ticket ticket : tickets) {
+                JLabel lblProtocolo = new JLabel("Usuário: " + ticket.getUsuario() + "; Protocolo: " + String.valueOf(ticket.getProtocolo()) + "; Data: "+ ticket.getData());
+                lblProtocolo.setFont(new Font("Dialog", Font.PLAIN, 10));
+                lblProtocolo.setBounds(10, y, 420, 30);
+                ticketPanel.add(lblProtocolo);           
+                lblProtocolo.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
+                JButton btnApagar = new JButton("Apagar");
+                btnApagar.setFont(new Font("Dialog", Font.PLAIN, 7));
+                btnApagar.setBounds(210, y+20, 56, 13);
+                btnApagar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ticketDAO.delete(ticket);
+                        
+                        try {
+                        	Home frame = new Home(usuarioTela.getUsuario());
+        					frame.setVisible(true);
+        					frame.setLocationRelativeTo(null);
+        					frame.setResizable(false);
+        					dispose();
+        					
+        				} catch (SQLException e1) {
+        					e1.printStackTrace();
+        				}
+                        
+                        JOptionPane.showMessageDialog(null, "Ticket apagado com sucesso!");
+                    }
+                });
+                ticketPanel.add(btnApagar);
+
+                y += 40;
+            }
+        }
+
 		
 		
 	}
