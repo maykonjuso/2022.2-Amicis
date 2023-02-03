@@ -1,14 +1,13 @@
 package br.com.amicis.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
-
-import com.mysql.jdbc.PreparedStatement;
 
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Usuario;
@@ -181,7 +180,6 @@ public class UsuarioDAO {
 			while (rset.next()) {
 				Usuario usuario = new Usuario();
 				PerfilDAO perfilDAO = new PerfilDAO();
-				ConversaDAO conversaDAO = new ConversaDAO();
 
 				usuario.setNome(rset.getString("nome"));
 				usuario.setSobrenome(rset.getString("sobrenome"));
@@ -197,7 +195,6 @@ public class UsuarioDAO {
 				usuario.setSenha(cs);
 
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
-				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
 				usuarios.add(usuario);
 			}
 		} catch (Exception e) {
@@ -225,7 +222,7 @@ public class UsuarioDAO {
 		Connection conn = null;
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
-			String sql = "Select * from usuario where this_usuario = ? and senha = ?";
+			String sql = "SELECT * FROM usuario WHERE BINARY this_usuario = ? and senha = ?";
 			PreparedStatement pstm = (PreparedStatement) conn.prepareStatement(sql);
 			pstm.setString(1, usuario.getUsuario());
 			pstm.setString(2, String.valueOf(usuario.getSenha()));
@@ -254,7 +251,6 @@ public class UsuarioDAO {
 
 			while (rset.next()) {
 				PerfilDAO perfilDAO = new PerfilDAO();
-				ConversaDAO conversaDAO = new ConversaDAO();
 
 				usuario.setNome(rset.getString("nome"));
 				usuario.setSobrenome(rset.getString("sobrenome"));
@@ -270,7 +266,6 @@ public class UsuarioDAO {
 				usuario.setSenha(cs);
 
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
-				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
 			}
 
 		} catch (Exception e) {
@@ -312,7 +307,6 @@ public class UsuarioDAO {
 			while (rset.next()) {
 				Usuario usuario = new Usuario();
 				PerfilDAO perfilDAO = new PerfilDAO();
-				ConversaDAO conversaDAO = new ConversaDAO();
 
 				usuario.setNome(rset.getString("nome"));
 				usuario.setSobrenome(rset.getString("sobrenome"));
@@ -328,7 +322,6 @@ public class UsuarioDAO {
 				usuario.setSenha(cs);
 
 				usuario.setPerfil(perfilDAO.getPerfil(usuario));
-				usuario.getPerfil().setConversas(conversaDAO.getConversa(usuario.getPerfil()));
 				usuarios.add(usuario);
 			}
 		} catch (Exception e) {

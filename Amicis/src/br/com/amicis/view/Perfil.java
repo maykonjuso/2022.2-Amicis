@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -159,6 +160,20 @@ public class Perfil extends JFrame {
 		conversar.setBounds(290, 200, 121, 21);
 		conversar.setVisible(seuPerfil);
 		contentJPanel.add(conversar);
+		
+		conversar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					ConversaView frame = new ConversaView(usuarioSistema, usuarioDoPerfil);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		
 		JLabel emojiUm = new JLabel("🗿");
 		emojiUm.setHorizontalAlignment(SwingConstants.CENTER);

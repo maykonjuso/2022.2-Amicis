@@ -50,7 +50,6 @@ public class Configuracoes extends JFrame {
 	private JTextField email;
 	private JTextField textField;
 	private JTextField textField_1;
-	
 
 	/**
 	 * Launch the application.
@@ -496,6 +495,7 @@ public class Configuracoes extends JFrame {
 		suportePanel.add(lblUsurio_1_1_1);
 
 		JComboBox<String> comboBox = new JComboBox<String>();
+
 		comboBox.addItem("Baixa");
 		comboBox.addItem("Média");
 		comboBox.addItem("Alta");

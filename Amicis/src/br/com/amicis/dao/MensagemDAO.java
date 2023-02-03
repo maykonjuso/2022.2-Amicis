@@ -7,29 +7,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import br.com.amicis.factory.ConnectionFactory;
-import br.com.amicis.model.Perfil;
-import br.com.amicis.model.Publicacao;
+import br.com.amicis.model.Conversa;
+import br.com.amicis.model.Mensagem;
+import br.com.amicis.model.Usuario;
 
-public class CoracaoDAO {
+public class MensagemDAO {
 
-	public void save(Publicacao publicacao, Perfil perfil) {
+	public void save(Mensagem mensagem) {
 
-		String sql = "INSERT INTO coracoes(id_publicacao, amigo) VALUES ((SELECT id FROM publicacao WHERE id = ?), (SELECT usuario FROM perfil WHERE usuario = ?));";
+		String sql = "INSERT INTO mensagem(usuario, foto, id_conversa, texto) VALUES ((SELECT usuario FROM perfil WHERE usuario = ?), (SELECT foto FROM usuario WHERE this_usuario = ?), ?, ?);";
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		try {
-			// Criar uma conexão com o banco de dados
 			conn = ConnectionFactory.createConnectionToMySQL();
-			// Criado uma preparedStatement para que a query seja executada
-
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-
-			pstm.setInt(1, publicacao.getId());
-			pstm.setString(2, perfil.getThis_usuario());
-
-			// executando a query
-			pstm.execute();
 			
+			pstm.setString(1, mensagem.getUsuario());
+			pstm.setString(2, mensagem.getUsuario());
+			pstm.setInt(3, mensagem.getId_conversa());
+			pstm.setString(4, mensagem.getConteudo());
+			
+			pstm.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -46,25 +44,32 @@ public class CoracaoDAO {
 		}
 	}
 
-	public ArrayList<String> getCoracoes(Publicacao publicacao) throws SQLException {
-		String sql = "SELECT amigo FROM coracoes WHERE id_publicacao = ?;";
+	public ArrayList<Mensagem> getMensagens(Usuario usuario, Conversa conversa) throws SQLException {
+		String sql = "SELECT * FROM mensagem WHERE id_conversa = ? ORDER BY data ASC;";
 
-		ArrayList<String> coracoes = new ArrayList<String>();
+		ArrayList<Mensagem> mensagens = new ArrayList<Mensagem>();
 		Connection conn = null;
 		PreparedStatement pstm = null;
-
 		ResultSet rset = null;
 
 		try {
-
 			conn = ConnectionFactory.createConnectionToMySQL();
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			pstm.setInt(1, publicacao.getId());
+			pstm.setInt(1, conversa.getId());
 			rset = pstm.executeQuery();
 
 			while (rset.next()) {
-				coracoes.add(rset.getString("amigo"));
+
+				Mensagem mensagem = new Mensagem(usuario, conversa);
+
+				mensagem.setId(rset.getInt("id"));
+				mensagem.setConteudo(rset.getString("texto"));
+				mensagem.setDate(rset.getDate("data"));
+				mensagem.setFoto(rset.getString("foto"));
+
+				mensagens.add(mensagem);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -83,47 +88,35 @@ public class CoracaoDAO {
 				e.printStackTrace();
 			}
 		}
-		return coracoes;
+		return mensagens;
 	}
-	
-	public void delete(Publicacao publicacao, Perfil perfil) {
-		
-		String sql = "DELETE FROM coracoes WHERE id_publicacao = ? AND amigo = ?";
-		
+
+	public void delete(Mensagem mensagem) {
+		String sql = "DELETE FROM mensagem WHERE id = ?";
+
 		Connection conn = null;
-		
 		PreparedStatement pstm = null;
-		
+
 		try {
 			conn = ConnectionFactory.createConnectionToMySQL();
-			
+
 			pstm = (PreparedStatement) conn.prepareStatement(sql);
-			
-			pstm.setInt(1, publicacao.getId());
-			pstm.setString(2, perfil.getThis_usuario());
-			
+			pstm.setInt(1, mensagem.getId());
+
 			pstm.execute();
-		
-			
+
 		} catch (Exception e) {
-			
 			e.printStackTrace();
-		}
-		
-		finally {
-			
+
+		} finally {
 			try {
-				
-				if(pstm!=null) {
+				if (pstm != null) {
 					pstm.close();
 				}
-				
-				if(conn!=null) {
+				if (conn != null) {
 					conn.close();
 				}
-			}
-			
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
