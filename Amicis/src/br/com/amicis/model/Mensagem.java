@@ -4,13 +4,34 @@ import java.util.Date;
 
 public class Mensagem {
 
-    private int Id;
-    private Usuario usuario;
+
+	private int Id;
+	private int id_conversa;
+    private String foto;
+    private String usuario;
     private String conteudo;
     private Date date;
     
-    public Mensagem(Usuario usuario) {
-    	this.setUsuario(usuario);
+    public Mensagem(Usuario usuario, Conversa conversa) {
+    	this.setUsuario(usuario.getUsuario());
+    	this.setFoto(usuario.getFoto());
+    	this.setId_conversa(conversa.getId());
+    }
+    
+    public int getId_conversa() {
+		return id_conversa;
+	}
+
+	public void setId_conversa(int id_publicacao) {
+		this.id_conversa = id_publicacao;
+	}
+
+	public String getFoto() {
+    	return foto;
+    }
+    
+    public void setFoto(String foto) {
+    	this.foto = foto;
     }
     
 	public int getId() {
@@ -21,11 +42,11 @@ public class Mensagem {
 		Id = id;
 	}
 	
-	public Usuario getUsuario() {
+	public String getUsuario() {
 		return usuario;
 	}
 	
-	public void setUsuario(Usuario usuario) {
+	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
 	

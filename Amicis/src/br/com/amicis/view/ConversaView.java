@@ -29,9 +29,9 @@ import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 import br.com.amicis.dao.ConversaDAO;
-import br.com.amicis.dao.RespostaDAO;
+import br.com.amicis.dao.MensagemDAO;
 import br.com.amicis.model.Conversa;
-import br.com.amicis.model.Publicacao;
+import br.com.amicis.model.Mensagem;
 import br.com.amicis.model.Usuario;
 
 public class ConversaView extends JFrame {
@@ -67,7 +67,16 @@ public class ConversaView extends JFrame {
 	 * @throws SQLException
 	 */
 	public ConversaView(Usuario usuarioTela, Usuario amigo) throws SQLException {
-
+		ConversaDAO conversaDAO = new ConversaDAO();
+		MensagemDAO mensagemDAO = new MensagemDAO();
+	
+		Conversa conversaAtual = conversaDAO.getConversaUnica(usuarioTela, amigo);
+		
+		if (conversaAtual.temId()) {
+			conversaAtual = new Conversa(usuarioTela, amigo);
+			conversaDAO.save(conversaAtual);
+		}
+		
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
 
@@ -118,13 +127,18 @@ public class ConversaView extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (textAreaResposta.getText().equals("")) {
-					JOptionPane.showMessageDialog(publicacoes, "Publicação vazia.");
+					JOptionPane.showMessageDialog(publicacoes, "Campo vazio.");
 				} else {
-						Conversa conversa = new Conversa(usuarioTela, amigo);
-					
-
-					JOptionPane.showMessageDialog(publicacoes, "Publicação realizada com sucesso.");
-					textAreaResposta.setText("");
+					try {
+						Conversa conversaNova = conversaDAO.getConversaUnica(usuarioTela, amigo);
+						Mensagem mensagem = new Mensagem(usuarioTela, conversaNova);
+						mensagem.setConteudo(textAreaResposta.getText());
+						mensagemDAO.save(mensagem);
+						JOptionPane.showMessageDialog(publicacoes, "Mensagem enviada com sucesso.");
+						textAreaResposta.setText("");
+					} catch (SQLException e2) {
+						e2.printStackTrace();
+					}
 					try {
 						
 						ConversaView frame = new ConversaView(usuarioTela, amigo);
@@ -169,10 +183,9 @@ public class ConversaView extends JFrame {
 		getContentPane().add(fundo, BorderLayout.CENTER);
 
 		// --------------------------------------------------//
-
-		ConversaDAO conversaDAO = new ConversaDAO();
-
-		for (Conversa conversa : conversaDAO.getConversa(usuarioTela)) {
+		
+		Conversa conversa = new Conversa(usuarioTela, amigo);
+		for (Mensagem mensagem : mensagemDAO.getMensagens(usuarioTela, conversa)) {
 			try {
 				JPanel div = new JPanel();
 				div.setBackground(new Color(255, 255, 255));
@@ -184,8 +197,8 @@ public class ConversaView extends JFrame {
 				espaço.setBackground(new Color(255, 255, 255));
 
 				div.add(espaço);
-
-				JPanel respostaPanel = criarPublicacaoPanel(usuarioTela, amigo, conversa);
+				
+				JPanel respostaPanel = criarPublicacaoPanel(usuarioTela, amigo, mensagem, usuarioTela, amigo);
 				respostaPanel.setFont(new Font("Roboto", Font.PLAIN, 12));
 				respostaPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 				respostaPanel.setPreferredSize(new Dimension(120, 120));
@@ -201,7 +214,7 @@ public class ConversaView extends JFrame {
 
 	}
 
-	private JPanel criarPublicacaoPanel(Usuario remetente, Usuario destinatario, Conversa conversa) {
+	private JPanel criarPublicacaoPanel(Usuario remetente, Usuario destinatario, Mensagem mensagem, Usuario usuarioTela, Usuario amigo) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 		panel.setPreferredSize(new Dimension(100, 100));
@@ -217,7 +230,7 @@ public class ConversaView extends JFrame {
 		panel.add(perfil);
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM");      
-		String dateToStr = dateFormat.format(resposta.getData());
+		String dateToStr = dateFormat.format(mensagem.getDate());
 		JLabel data = new JLabel(dateToStr);
 		data.setFont(new Font("Roboto", Font.PLAIN, 8));
 		data.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -227,7 +240,7 @@ public class ConversaView extends JFrame {
 
 		URL url;
 		try {
-			url = new URL(foto);
+			url = new URL(mensagem.getFoto());
 			ImageIcon imgIcon = new ImageIcon(url);
 			JLabel jLabel = new JLabel(imgIcon);
 			jLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -236,7 +249,7 @@ public class ConversaView extends JFrame {
 			e1.printStackTrace();
 		}
 
-		JLabel label = new JLabel("@"+nome);
+		JLabel label = new JLabel("@"+mensagem.getUsuario());
 		label.setFont(new Font("Roboto medium", Font.PLAIN, 12));
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label.setBackground(new Color(200, 200, 200));
@@ -251,7 +264,7 @@ public class ConversaView extends JFrame {
 		perfil.add(interecao);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setText(publicacao);
+		textArea.setText(mensagem.getConteudo());
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
@@ -274,9 +287,20 @@ public class ConversaView extends JFrame {
 		excluir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RespostaDAO respostaDAO = new RespostaDAO();
-				respostaDAO.delete(resposta.getId());
-				JOptionPane.showMessageDialog(null, "Resposta excluída com sucesso.");
+				MensagemDAO mensagemDAO = new MensagemDAO();
+				mensagemDAO.delete(mensagem);
+				ConversaView frame;
+				try {
+					frame = new ConversaView(usuarioTela, amigo);
+					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
+					frame.setResizable(false);
+					dispose();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "Mensagem excluída com sucesso.");
 
 			}
 		});

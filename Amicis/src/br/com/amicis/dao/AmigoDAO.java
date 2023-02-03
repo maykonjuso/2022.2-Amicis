@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Perfil;
 import br.com.amicis.model.Usuario;

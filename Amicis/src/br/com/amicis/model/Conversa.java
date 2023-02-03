@@ -3,7 +3,7 @@ package br.com.amicis.model;
 import java.util.ArrayList;
 
 public class Conversa {   
-	private int Id;    
+	private int id;    
 	private Usuario perfil;    
 	private Usuario amigo;    
 	private ArrayList<Mensagem> mensagens;   
@@ -15,12 +15,20 @@ public Conversa(Usuario usuario, Usuario amigo){
 	}
 
 	public int getId() {
-		return Id;
+		return id;
 	}
 	
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
+	
+	public boolean temId() {
+		if (id >= 0) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	public Usuario getPerfil() {
 		return perfil;

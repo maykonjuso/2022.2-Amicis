@@ -34,7 +34,6 @@ import javax.swing.UIManager;
 import br.com.amicis.dao.PerfilDAO;
 import br.com.amicis.dao.TicketDAO;
 import br.com.amicis.dao.UsuarioDAO;
-import br.com.amicis.model.Perfil;
 import br.com.amicis.model.Ticket;
 import br.com.amicis.model.Usuario;
 
@@ -494,6 +493,7 @@ public class Configuracoes extends JFrame {
 		lblUsurio_1_1_1.setBounds(10, 186, 70, 14);
 		suportePanel.add(lblUsurio_1_1_1);
 
+		@SuppressWarnings("rawtypes")
 		JComboBox comboBox = new JComboBox();
 		comboBox.addItem("Baixa");
 		comboBox.addItem("Média");

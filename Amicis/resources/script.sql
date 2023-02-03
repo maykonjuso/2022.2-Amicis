@@ -94,20 +94,21 @@ CREATE TABLE ticket (
 );
 
 CREATE TABLE conversa (
- 	id int NOT NULL AUTO_INCREMENT,
- 	remetente varchar(50),
+	id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	remetente varchar(50),
 	destinatario varchar(50),
 	data DATETIME DEFAULT NOW(),
-	CONSTRAINT id_PK PRIMARY KEY (id),
+	CONSTRAINT remetente_FK FOREIGN KEY (remetente) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT destinatario_FK FOREIGN KEY (destinatario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE
 );
 
 CREATE TABLE mensagem (
-	id INT auto_increment NOT NULL,
+	id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	id_conversa INT NOT NULL,
 	foto varchar(200),
 	usuario varchar(50),
 	texto varchar(240),
 	data DATETIME DEFAULT NOW(),
-	CONSTRAINT mensagem_PK PRIMARY KEY (id),
-	CONSTRAINT mensagem_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE
+	CONSTRAINT id_conversa_FK FOREIGN KEY (id_conversa) REFERENCES conversa(id) ON UPDATE NO ACTION ON DELETE CASCADE,
+	CONSTRAINT mensagem_usuario_FK FOREIGN KEY (usuario) REFERENCES perfil(usuario) ON UPDATE NO ACTION ON DELETE CASCADE
 );

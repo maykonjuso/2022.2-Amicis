@@ -38,8 +38,6 @@ import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Notificacao;
 import br.com.amicis.model.Publicacao;
 import br.com.amicis.model.Usuario;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Home extends JFrame {
 
@@ -339,31 +337,6 @@ public class Home extends JFrame {
 		conversas.setBackground(new Color(255, 255, 255));
 		conversas.setPreferredSize(new Dimension(300, 100));
 		getContentPane().add(conversas, BorderLayout.EAST);
-
-		JButton btnConversas = new JButton("conversas");
-		btnConversas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					ConversaView conversa = new ConversaView(null, usuarioTela);
-					conversa.setVisible(true);
-					conversa.setLocationRelativeTo(null);
-					conversa.setResizable(false);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-			}
-		});
-		btnConversas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnConversas.setBackground(new Color(255, 255, 255));
-		btnConversas.setFont(new Font("Roboto Medium", Font.PLAIN, 14));
-		btnConversas.setBounds(0, 591, 297, 29);
-		conversas.add(btnConversas);
 
 		pesquisa = new JTextField();
 		pesquisa.setBounds(26, 105, 177, 29);

@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 import br.com.amicis.factory.ConnectionFactory;
 import br.com.amicis.model.Perfil;
 import br.com.amicis.model.Publicacao;

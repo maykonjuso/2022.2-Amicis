@@ -12,7 +12,7 @@ public class ConnectionFactory {
 	private static final String PASSWORD = "Banco123";
 	
 	// Definindo qual será o caminho para o banco de dados porta e nome.
-	private static final String DATABASE_URL = "jdbc:mysql://localhost:3307/Amicis";
+	private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/Amicis";
 	
 	// conexão com o banco
 	public static Connection createConnectionToMySQL() throws Exception {
