@@ -195,6 +195,15 @@ public class Cadastro extends JFrame {
 		fundo.add(aceitarTermos);
 
 		JButton contrato = new JButton("contrato");
+		contrato.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ContratoView frame = new ContratoView();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(null);
+				frame.setResizable(false);		
+			}
+		});
 		contrato.setBackground(new Color(255, 255, 255));
 		contrato.setFont(new Font("Roboto Medium", Font.PLAIN, 13));
 		contrato.setBounds(189, 482, 94, 21);

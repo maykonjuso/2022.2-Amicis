@@ -10,8 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,15 +25,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import br.com.amicis.dao.PerfilDAO;
 import br.com.amicis.dao.TicketDAO;
 import br.com.amicis.dao.UsuarioDAO;
 import br.com.amicis.model.Ticket;
@@ -73,7 +72,6 @@ public class Configuracoes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	public Configuracoes(Usuario usuarioTela) {
 		setBackground(new Color(255, 255, 255));
 		getContentPane().setBackground(new Color(255, 255, 255));
@@ -108,16 +106,10 @@ public class Configuracoes extends JFrame {
 		});
 		contentPane.add(btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("privacidade");
-		btnNewButton_2.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
-		btnNewButton_2.setBackground(new Color(255, 255, 255));
-		btnNewButton_2.setBounds(38, 175, 120, 30);
-		contentPane.add(btnNewButton_2);
-
 		JButton btnNewButton_3 = new JButton("suporte");
 		btnNewButton_3.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
 		btnNewButton_3.setBackground(new Color(255, 255, 255));
-		btnNewButton_3.setBounds(38, 231, 120, 30);
+		btnNewButton_3.setBounds(38, 171, 120, 30);
 		contentPane.add(btnNewButton_3);
 		// ##########################################################################################
 		JPanel cardPanel = new JPanel(new CardLayout());
@@ -161,7 +153,7 @@ public class Configuracoes extends JFrame {
 				nome.setText("");
 			}
 		});
-		nome.setFont(new Font("Roboto", Font.PLAIN, 10));
+		nome.setFont(new Font("Roboto", Font.PLAIN, 12));
 		nome.setText(usuarioTela.getNome());
 		nome.setBounds(134, 10, 131, 20);
 		editarPerfilPanel.add(nome);
@@ -170,7 +162,7 @@ public class Configuracoes extends JFrame {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");      
 		String dateToStr = dateFormat.format(usuarioTela.getDataNascimeto());
 		JTextField txtDataNascimento = new JTextField();
-		txtDataNascimento.setFont(new Font("Roboto", Font.PLAIN, 10));
+		txtDataNascimento.setFont(new Font("Roboto", Font.PLAIN, 12));
 		txtDataNascimento.setEnabled(false);
 		txtDataNascimento.setText(dateToStr);
 		txtDataNascimento.setBounds(134, 72, 131, 20);
@@ -194,7 +186,7 @@ public class Configuracoes extends JFrame {
 				sobrenome.setText("");
 			}
 		});
-		sobrenome.setFont(new Font("Roboto", Font.PLAIN, 10));
+		sobrenome.setFont(new Font("Roboto", Font.PLAIN, 12));
 		sobrenome.setText(usuarioTela.getSobrenome());
 		sobrenome.setBounds(134, 41, 131, 20);
 		editarPerfilPanel.add(sobrenome);
@@ -212,7 +204,7 @@ public class Configuracoes extends JFrame {
 				telefone.setText("");
 			}
 		});
-		telefone.setFont(new Font("Roboto", Font.PLAIN, 10));
+		telefone.setFont(new Font("Roboto", Font.PLAIN, 12));
 		telefone.setText(usuarioTela.getTelefone());
 		telefone.setColumns(10);
 		telefone.setBounds(134, 102, 131, 20);
@@ -230,7 +222,7 @@ public class Configuracoes extends JFrame {
 				email.setText("");
 			}
 		});
-		email.setFont(new Font("Roboto", Font.PLAIN, 10));
+		email.setFont(new Font("Roboto", Font.PLAIN, 12));
 		email.setText(usuarioTela.getEmail());
 		email.setColumns(10);
 		email.setBounds(134, 133, 131, 20);
@@ -289,14 +281,17 @@ public class Configuracoes extends JFrame {
 			}});
 
 		JPasswordField senhaAntiga = new JPasswordField();
+		senhaAntiga.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		senhaAntiga.setBounds(155, 7, 120, 20);
 		alterarSenhaPanel.add(senhaAntiga);
 
 		JPasswordField senha = new JPasswordField();
+		senha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		senha.setBounds(155, 38, 120, 20);
 		alterarSenhaPanel.add(senha);
 
 		JPasswordField repetirSenha = new JPasswordField();
+		repetirSenha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		repetirSenha.setBounds(155, 69, 120, 20);
 		alterarSenhaPanel.add(repetirSenha);
 
@@ -368,13 +363,6 @@ public class Configuracoes extends JFrame {
 		// ================================================================================
 		@SuppressWarnings("unused")
 		JButton btnNewButton_7 = new JButton("Privacidade");
-		contentPane.add(btnNewButton_2);
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				CardLayout cl = (CardLayout) (cardPanel.getLayout());
-				cl.show(cardPanel, "privacidade");
-			}
-		});
 
 		@SuppressWarnings("unused")
 		JButton btnNewButton_8 = new JButton("Suporte");
@@ -385,68 +373,6 @@ public class Configuracoes extends JFrame {
 				cl.show(cardPanel, "suporte");
 			}
 		});
-
-		// privacidadePanel
-		JPanel privacidadePanel = new JPanel();
-		privacidadePanel.setBackground(new Color(255, 255, 255));
-		cardPanel.add(privacidadePanel, "privacidade");
-		privacidadePanel.setLayout(null);
-
-		JLabel lblStatus = new JLabel("Status:");
-		lblStatus.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblStatus.setBounds(10, 14, 102, 21);
-		privacidadePanel.add(lblStatus);
-
-		@SuppressWarnings("rawtypes")
-		JComboBox cmbStatus = new JComboBox();
-		cmbStatus.setFont(new Font("Roboto", Font.PLAIN, 12));
-		cmbStatus.setBounds(191, 14, 74, 21);
-		cmbStatus.addItem("Online");
-		cmbStatus.addItem("Ocupado");
-		cmbStatus.addItem("Ausente");
-		privacidadePanel.add(cmbStatus);
-		cmbStatus.setSelectedIndex(usuarioTela.getPerfil().getStatus().getOnline());
-		
-		JLabel lblPerfisBloqueados = new JLabel("Perfis bloqueados:");
-		lblPerfisBloqueados.setFont(new Font("Roboto", Font.PLAIN, 12));
-		lblPerfisBloqueados.setBounds(10, 33, 102, 32);
-		privacidadePanel.add(lblPerfisBloqueados);
-		@SuppressWarnings("rawtypes")
-		JList listPerfisBloqueados = new JList();
-		listPerfisBloqueados.setBounds(253, 15, 0, 0);
-		privacidadePanel.add(listPerfisBloqueados);
-
-		@SuppressWarnings("rawtypes")
-		JList list = new JList();
-		list.setBounds(10, 75, 102, 113);
-		privacidadePanel.add(list);
-		
-		JButton salvarStatus = new JButton("salvar");
-		salvarStatus.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				usuarioTela.getPerfil().getStatus().setOnline(cmbStatus.getSelectedIndex());
-				PerfilDAO perfilDAO = new PerfilDAO();
-				perfilDAO.updateOnline(usuarioTela.getPerfil());
-				JOptionPane.showMessageDialog(null, "Status alterado com sucesso.");	
-			}
-		});
-		salvarStatus.setFont(new Font("Roboto", Font.PLAIN, 12));
-		salvarStatus.setBackground(Color.WHITE);
-		salvarStatus.setBounds(115, 235, 70, 23);
-		privacidadePanel.add(salvarStatus);
-		
-		JButton btnNewButton_4_2 = new JButton("voltar");
-		btnNewButton_4_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-			}
-		});
-		btnNewButton_4_2.setFont(new Font("Roboto", Font.PLAIN, 12));
-		btnNewButton_4_2.setBackground(Color.WHITE);
-		btnNewButton_4_2.setBounds(195, 235, 70, 23);
-		privacidadePanel.add(btnNewButton_4_2);
 
 
 		// suportePanel
@@ -470,37 +396,38 @@ public class Configuracoes extends JFrame {
 		});
 
 		JLabel lblUsurio = new JLabel("Data de solicitação:");
-		lblUsurio.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblUsurio.setBounds(10, 46, 114, 14);
 		suportePanel.add(lblUsurio);
 
 		JLabel lblUsurio_1 = new JLabel("Nome do usuário:");
-		lblUsurio_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio_1.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblUsurio_1.setBounds(10, 81, 114, 14);
 		suportePanel.add(lblUsurio_1);
 
 		JLabel lblUsurio_1_1 = new JLabel("Motivo:");
-		lblUsurio_1_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio_1_1.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblUsurio_1_1.setBounds(10, 109, 61, 14);
 		suportePanel.add(lblUsurio_1_1);
 
 		JLabel lblUsurio_1_2 = new JLabel("Contatar Suporte");
-		lblUsurio_1_2.setFont(new Font("Dialog", Font.PLAIN, 12));
+		lblUsurio_1_2.setFont(new Font("Roboto", Font.PLAIN, 12));
 		lblUsurio_1_2.setBounds(86, 11, 99, 13);
 		suportePanel.add(lblUsurio_1_2);
 
 		JLabel lblUsurio_1_1_1 = new JLabel("Severidade:");
-		lblUsurio_1_1_1.setFont(new Font("Dialog", Font.PLAIN, 12));
-		lblUsurio_1_1_1.setBounds(10, 186, 70, 14);
+		lblUsurio_1_1_1.setFont(new Font("Roboto", Font.PLAIN, 12));
+		lblUsurio_1_1_1.setBounds(110, 189, 70, 14);
 		suportePanel.add(lblUsurio_1_1_1);
 
 		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setFont(new Font("Roboto", Font.PLAIN, 12));
 
 		comboBox.addItem("Baixa");
 		comboBox.addItem("Média");
 		comboBox.addItem("Alta");
 
-		comboBox.setBounds(77, 187, 61, 14);
+		comboBox.setBounds(178, 183, 87, 23);
 		suportePanel.add(comboBox);
 		
 		
@@ -509,7 +436,7 @@ public class Configuracoes extends JFrame {
 		
 		textField = new JTextField();
 		textField.setText(dataHoje);
-		textField.setFont(new Font("Dialog", Font.PLAIN, 10));
+		textField.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textField.setEnabled(false);
 		textField.setColumns(10);
 		textField.setBounds(134, 44, 131, 20);
@@ -517,7 +444,7 @@ public class Configuracoes extends JFrame {
 		
 		textField_1 = new JTextField();
 		textField_1.setText(usuarioTela.getUsuario());
-		textField_1.setFont(new Font("Dialog", Font.PLAIN, 10));
+		textField_1.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textField_1.setEnabled(false);
 		textField_1.setColumns(10);
 		textField_1.setBounds(134, 79, 131, 20);
@@ -525,18 +452,18 @@ public class Configuracoes extends JFrame {
 		
 		
 		JTextArea textField_2 = new JTextArea();
-		textField_2.setFont(new Font("Roboto", Font.PLAIN, 13));
+		textField_2.setFont(new Font("Roboto", Font.PLAIN, 12));
 		textField_2.setLineWrap(true);
 		textField_2.setWrapStyleWord(true);
 		textField_2.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
 		textField_2.setForeground(UIManager.getColor("InternalFrame.activeTitleForeground"));
 		textField_2.setBackground(new Color(255, 255, 255));
-		textField_2.setBounds(52, 106, 213, 72);
+		textField_2.setBounds(62, 106, 203, 72);
 		suportePanel.add(textField_2);
 
 		
-		JButton btnContatar = new JButton("Criar ticket");
-		btnContatar.setFont(new Font("Roboto", Font.PLAIN, 10));
+		JButton btnContatar = new JButton("criar ticket");
+		btnContatar.setFont(new Font("Roboto", Font.PLAIN, 12));
 		btnContatar.setBounds(93, 236, 92, 23);
 		suportePanel.add(btnContatar);
 		btnContatar.addActionListener(new ActionListener() {
@@ -562,15 +489,11 @@ public class Configuracoes extends JFrame {
 			            ticket.setStatus("Ativo");
 			            ticketDAO.save(ticket);		          
 			            
-			            try {
-							Home frame = new Home(usuarioTela.getUsuario());
-							frame.setVisible(true);
-							frame.setLocationRelativeTo(null);
-							frame.setResizable(false);
-							dispose();
-						} catch (SQLException e1) {
-							e1.printStackTrace();
-						}
+						Configuracoes frame = new Configuracoes(usuarioTela);
+						frame.setVisible(true);
+						frame.setLocationRelativeTo(null);
+						frame.setResizable(false);
+						dispose();
 			            
 			            JOptionPane.showMessageDialog(null, "Ticket salvo com sucesso!");
 		            }
@@ -578,22 +501,24 @@ public class Configuracoes extends JFrame {
 		    }
 		});
 		//-------------------------------------------
-		JButton btnTickets = new JButton("Tickets");
-		btnTickets.setFont(new Font("Dialog", Font.PLAIN, 12));
+		JButton btnTickets = new JButton("tickets");
+		btnTickets.setFont(new Font("Roboto Medium", Font.PLAIN, 12));
 		btnTickets.setBackground(Color.WHITE);
-		btnTickets.setBounds(38, 285, 120, 30);
+		btnTickets.setBounds(38, 225, 120, 30);
 		contentPane.add(btnTickets);
 		JPanel ticketPanel = new JPanel();
 		ticketPanel.setBackground(new Color(255, 255, 255));
 		cardPanel.add(ticketPanel, "ticket");
 		ticketPanel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Tickets gerados");
-		lblNewLabel.setBounds(98, 11, 75, 20);
+		JLabel lblNewLabel = new JLabel("tickets gerados");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Roboto", Font.PLAIN, 12));
+		lblNewLabel.setBounds(88, 11, 99, 20);
 		ticketPanel.add(lblNewLabel);
 		
 		JButton btnNewButton_4_3_1 = new JButton("voltar");
-		btnNewButton_4_3_1.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnNewButton_4_3_1.setFont(new Font("Roboto", Font.PLAIN, 12));
 		btnNewButton_4_3_1.setBackground(Color.WHITE);
 		btnNewButton_4_3_1.setBounds(195, 234, 70, 23);
 		ticketPanel.add(btnNewButton_4_3_1);
@@ -628,29 +553,24 @@ public class Configuracoes extends JFrame {
         if (tickets != null && !tickets.isEmpty()) {        	
             int y = 40;
             for (Ticket ticket : tickets) {
-                JLabel lblProtocolo = new JLabel("Usuário: " + ticket.getUsuario() + "; Protocolo: " + String.valueOf(ticket.getProtocolo()) + "; Data: "+ ticket.getData());
-                lblProtocolo.setFont(new Font("Dialog", Font.PLAIN, 10));
+                JLabel lblProtocolo = new JLabel("Usuário: " + ticket.getUsuario() + "; Protocolo: " + String.valueOf(new DecimalFormat("######").format(ticket.getProtocolo())) + "; Data: "+ ticket.getData());
+                lblProtocolo.setFont(new Font("Roboto", Font.PLAIN, 10));
                 lblProtocolo.setBounds(10, y, 420, 30);
                 ticketPanel.add(lblProtocolo);           
                 lblProtocolo.setBorder(BorderFactory.createLineBorder(new Color(230, 230, 230)));
                 JButton btnApagar = new JButton("Apagar");
-                btnApagar.setFont(new Font("Dialog", Font.PLAIN, 7));
-                btnApagar.setBounds(210, y+20, 56, 13);
+                btnApagar.setFont(new Font("Roboto", Font.PLAIN, 7));
+                btnApagar.setBounds(210, y+20, 56, 20);
                 btnApagar.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         ticketDAO.delete(ticket);
-                        
-                        try {
-                        	Home frame = new Home(usuarioTela.getUsuario());
-        					frame.setVisible(true);
-        					frame.setLocationRelativeTo(null);
-        					frame.setResizable(false);
-        					dispose();
-        					
-        				} catch (SQLException e1) {
-        					e1.printStackTrace();
-        				}
+                   
+                        Configuracoes frame = new Configuracoes(usuarioTela);
+						frame.setVisible(true);
+						frame.setLocationRelativeTo(null);
+						frame.setResizable(false);
+						dispose();
                         
                         JOptionPane.showMessageDialog(null, "Ticket apagado com sucesso!");
                     }
