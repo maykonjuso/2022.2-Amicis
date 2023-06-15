@@ -1,11 +1,21 @@
 <h1>Amicis</h1>
 
-![UnB](https://github.com/maykonjuso/2022.1-Amicis/assets/89596623/0a192c70-9631-451b-a4ef-eadb2bb892e7)
+<p align="center">
+    <img src="http://img.shields.io/static/v1?label=STATUS&message=CONCLUDED&color=GREEN&style=for-the-badge"/>
+</p>
 
 <p><br></p>
 
-<h3><b>Disciplina:</b> Orientação Objetos</h3>
-<h3><b>Semestre:</b> 2022.02</h3>
+<p align="center">
+    <a href="https://www.unb.br/"><img src="https://github.com/maykonjuso/2022.1-Amicis/assets/89596623/0a192c70-9631-451b-a4ef-eadb2bb892e7"></a>
+</p>
+
+<p><br></p>
+
+<p align="center">
+    <h3 align="center"><b>Disciplina:</b> Orientação a Objetos</h3>
+    <h3 align="center"><b>Semestre:</b> 2022.2</h3>
+</p>
 
 <p><br></p>
 
@@ -59,9 +69,7 @@ $ cd 2022.2-Amicis
 
 ## Equipe
 
-<a href="#">
-    <img src="https://avatars.githubusercontent.com/u/89596623?v=4" width="100px;" alt="Foto Maykon"/><br>
-    <sub>
-        <b>Maykon Júnio</b>
-    </sub>
+<a style="display: flex; flex-direction: column; align-items: center;">
+    <img src="https://avatars.githubusercontent.com/u/89596623?v=4" width="100px;" alt="Foto Maykon"/>
+    <b>Maykon Júnio</b>
 </a>
